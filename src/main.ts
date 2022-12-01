@@ -1,6 +1,4 @@
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as cookieParser from 'cookie-parser';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
@@ -29,7 +27,7 @@ async function start() {
     }
   }))
   //app.useGlobalFilters(new HttpExceptionFilter())
-  app.use(cookieParser());
+  //app.use(cookieParser());
   //app.setGlobalPrefix('api')
   await app.listen(PORT, () => console.log(`NEST on ${PORT}`))
 }
