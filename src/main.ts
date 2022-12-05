@@ -2,11 +2,11 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
+import * as config from './config/root';
 //import { HttpExceptionFilter } from './infrastructure/filters/http-exeption.filter';
 
 async function start() {
   
-  const PORT = Number(process.env.PORT) || 7447
   const app = await NestFactory.create(AppModule, { cors: true })
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalPipes(new ValidationPipe({
@@ -29,7 +29,7 @@ async function start() {
   //app.useGlobalFilters(new HttpExceptionFilter())
   //app.use(cookieParser());
   //app.setGlobalPrefix('api')
-  await app.listen(PORT, () => console.log(`NEST on ${PORT}`))
+  await app.listen(config.PORT, () => console.log(`NEST on ${config.PORT}`))
 }
 
 start()
