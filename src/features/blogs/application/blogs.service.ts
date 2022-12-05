@@ -56,6 +56,10 @@ export class BlogsService {
   }
 
   async createOnePostForBlogId(id: string, newPost: CreatePostDefaultDto){
+    const blog = await this.blogsRepo.findOneBlogById(id)
+    if(!blog){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
     const date = new Date()
     const post = {
       title: newPost.title,

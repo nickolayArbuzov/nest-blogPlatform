@@ -8,10 +8,6 @@ import { UpdatePostDto } from '../dto/post.dto';
 export class PostsRepo {
   constructor(private postsMongoose: PostsMongoose) {}
 
-  /*async findCommentsByPostId(){
-    return await this.postsMongoose.findCommentsByPostId()
-  }*/
-
   async findAllPosts(query: QueryBlogDto, id = ''){
     return await this.postsMongoose.findAllPosts(query, id)
   }

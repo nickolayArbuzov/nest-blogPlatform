@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   async getHello(): Promise<string> {
-    return 'Seed completed';
+    return 'BlogPlatform on Nest.js for IT-Incubator';
   }
 }
