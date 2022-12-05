@@ -45,6 +45,10 @@ export class BlogsService {
   }
 
   async findPostsByBlogId(queryParams: QueryBlogDto, id: string){
+    const blog = await this.blogsRepo.findOneBlogById(id)
+    if(!blog){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
       pageSize: queryParams.pageSize || queryDefault.pageSize,

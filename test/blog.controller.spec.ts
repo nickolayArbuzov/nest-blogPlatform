@@ -115,6 +115,14 @@ describe('AppController', () => {
       });
     });
 
+    it('should return 404 if trying create post by blog-route for incorrect blog-id', async () => {
+      await request(server).post(`/blogs/${constants.variables.incorrectAnyEntityId}/posts`).send(constants.createPost1).expect(404);
+    });
+
+    it('should return 404 if trying get post by blog-route for incorrect blog-id', async () => {
+      await request(server).get(`/blogs/${constants.variables.incorrectAnyEntityId}/posts`).expect(404);
+    });
+
     it('should get posts by blog-route by blog-id', async () => {
       await request(server).post(`/blogs/${constants.variables.blogId}/posts`).send(constants.createPost2);
       await request(server).post(`/blogs/${constants.variables.blogId}/posts`).send(constants.createPost3);
