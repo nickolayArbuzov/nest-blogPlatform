@@ -1,6 +1,9 @@
 export class User {
     login: string
     email: string
-    password: string
+    passwordHash: string
+    passwordSalt: string
+    isActivated: boolean
+    code: string
     createdAt: string
 }

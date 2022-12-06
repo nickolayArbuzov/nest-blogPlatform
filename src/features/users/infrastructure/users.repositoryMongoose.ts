@@ -52,4 +52,70 @@ export class UsersMongoose {
   async deleteOneUserById(id: string){
     return await this.User.deleteOne({_id: id})
   }
+
+  async passwordRecovery(email: string, code: string){
+    const user = await this.User.updateOne({email: email}, {$set: {code: code}})
+    return user.matchedCount === 1
+  }
+
+  async newPassword(passwordHash: string, passwordSalt: string, recoveryCode: string){
+    await this.User.updateOne({code: recoveryCode}, {$set: {passwordHash: passwordHash, passwordSalt: passwordSalt, isActivated: true}})
+  }
+
+  async findByLoginOrEmail(loginOrEmail: string){
+    return await this.User.findOne(
+      {$or: [
+          {"login": loginOrEmail},
+          {"email": loginOrEmail}
+      ]}
+    )
+  }
+
+  async findOneForCustomDecoratorByLogin(login: string) {
+    const user = await this.User.findOne({login: login})
+    if(user) {
+      return user
+    } else {
+      return null
+    }
+  }
+
+  async findOneForCustomDecoratorByEmail(email: string) {
+    const user = await this.User.findOne({email: email})
+    if(user) {
+      return user
+    } else {
+      return null
+    }
+  }
+
+  async findOneForCustomDecoratorByCode(code: string) {
+    const user = await this.User.findOne({code: code})
+    if(user && user.isActivated !== true) {
+      return user
+    } else {
+      return null
+    }
+  }
+
+  async findOneForCustomDecoratorCheckMail(email: string) {
+    const user = await this.User.findOne({email: email})
+    if(user && user.isActivated !== true) {
+      return user
+    } else {
+      return null
+    }
+  }
+
+  async registrationConfirmation(code: string) {
+    return await this.User.updateOne({code: code}, {$set: {isActivated: true}})
+  }
+
+  async registrationEmailResending(email: string, code: string){
+    return await this.User.updateOne({email: email}, {$set: {code: code}})
+  }
+
+  async authMe(userId: string){
+    return await this.User.findOne({id: userId})
+  }
 }

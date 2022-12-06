@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import bcrypt from 'bcrypt';
 import { queryDefault } from '../../../helpers/constants/constants/constants';
 import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { CreateUserDto } from '../dto/user.dto';
@@ -22,11 +23,18 @@ export class UsersService {
     }
 
     async createOneUser(newUser: CreateUserDto){
+
+      const passwordSalt = await bcrypt.genSalt(8)
+      const passwordHash = await bcrypt.hash(newUser.password, passwordSalt)
+
       const date = new Date()
       const user = {
         login: newUser.login,
         email: newUser.email,
-        password: newUser.password,
+        passwordHash: passwordHash,
+        passwordSalt: passwordSalt,
+        isActivated: false,
+        code: '',
         createdAt: date.toISOString(),
       }
 
@@ -47,5 +55,21 @@ export class UsersService {
         } else {
           return
         }
+    }
+
+    async findOneForCustomDecoratorByLogin(login: string) {
+      return this.usersRepo.findOneForCustomDecoratorByLogin(login)
+    }
+  
+    async findOneForCustomDecoratorByEmail(email: string) {
+      return this.usersRepo.findOneForCustomDecoratorByEmail(email)
+    }
+  
+    async findOneForCustomDecoratorByCode(code: string) {
+      return this.usersRepo.findOneForCustomDecoratorByCode(code)
+    }
+  
+    async findOneForCustomDecoratorCheckMail(email: string) {
+      return this.usersRepo.findOneForCustomDecoratorCheckMail(email)
     }
 }
