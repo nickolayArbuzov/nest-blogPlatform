@@ -1,13 +1,12 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { AuthDto, NewPasswordDto, PasswordRecoveryDto, RegistrationConfirmationDto, RegistrationDto, RegistrationEmailResendingDto } from '../dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import {v4} from 'uuid';
 import { sendEmail } from '../../../adapters/mail.adapter';
 import { UsersRepo } from '../../users/infrastructure/users.repo';
-import { DevicesRepo } from 'src/features/devices/infrastructure/devices.repo';
+import { DevicesRepo } from '../../devices/infrastructure/devices.repo';
 import { Device } from '../../devices/domain/entitites/device';
-import { ReturningStatementNotSupportedError } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -35,8 +34,8 @@ export class AuthService {
     if (!auth){
       throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED);
     }
-    const candidateHash = await bcrypt.hash(dto.password, auth.passwordSalt)
-    if (auth.passwordHash === candidateHash) {
+    const candidateHash = await bcrypt.hash(dto.password, auth.passwordSalt.toString())
+    if (auth.passwordHash.toString() === candidateHash) {
 
       const deviceId = v4()
       const device: Device = {

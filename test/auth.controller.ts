@@ -49,19 +49,12 @@ describe('AppController', () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
 
-    it('should create new User', async () => {
-      const response = await request(server).post('/users').send(constants.createUser1);
-      expect(response.body).toStrictEqual({
-        id: expect.any(String),
-        login: constants.createUser1.login,
-        email: constants.createUser1.email,
-        createdAt: expect.any(String),
-      });
-      expect(response.status).toBe(201)
-      constants.variables.setUserId(response.body.id)
+    it('should create new user and login by correct-creds', async () => {
+      await request(server).post('/users').send(constants.createUser1);
+      const login = await request(server).post('/auth/login').send()
     });
 
-    it('should return errors and 400 if try create user with incorrect data', async () => {
+    /*it('should return errors and 400 if try create user with incorrect data', async () => {
       const response = await request(server).post('/users').send(constants.incorrectCreateUser);
       expect(response.body).toStrictEqual({errorsMessages: [
         {field: "login", message: "login must be longer than or equal to 3 characters"},
@@ -105,7 +98,7 @@ describe('AppController', () => {
 
     it('should return status 404 if deleting user not found', async () => {
       await request(server).delete(`/users/${constants.variables.userId}`).expect(404)
-    });
+    });*/
 
   });
 });
