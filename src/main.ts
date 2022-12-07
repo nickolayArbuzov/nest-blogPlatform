@@ -4,7 +4,6 @@ import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import * as config from './config/root';
 import { HttpExceptionFilter } from './helpers/filters/http-exeption.filter';
-//import { HttpExceptionFilter } from './infrastructure/filters/http-exeption.filter';
 
 async function start() {
   

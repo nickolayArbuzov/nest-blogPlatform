@@ -71,15 +71,6 @@ describe('AppController', () => {
       expect(response.status).toBe(400)
     });
 
-    it('should return errors and 400 if try create user with incorrect data v2', async () => {
-      const response = await request(server).post('/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send({"login":"sh","password":"length_21-weqweqweqwq","email":"someemail@gg.com"});
-      expect(response.body).toStrictEqual({errorsMessages: [
-        {field: "login", message: "login must be longer than or equal to 3 characters"},
-        {field: "password", message: "password must be shorter than or equal to 20 characters"},
-      ]});
-      expect(response.status).toBe(400)
-    });
-
     it('should return filtered array of users with pagination and sorting', async () => {
       await request(server).post('/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser2).expect(201);
       await request(server).post('/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser3).expect(201);

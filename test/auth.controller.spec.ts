@@ -49,9 +49,19 @@ describe('AppController', () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
 
-    it('should create new user and login by correct-creds', async () => {
-      await request(server).post('/users').send(constants.createUser1);
-      const login = await request(server).post('/auth/login').send()
+    it('should create new user and registration other user', async () => {
+      await request(server).post('/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
+      const login = await request(server).post('/auth/registration').send(constants.correctRegistartionUser)
+      expect(login.body).toStrictEqual({})
+
+    });
+
+    it('should try to registration if creds is exists', async () => {
+      const login = await request(server).post('/auth/registration').send(constants.incorrectRegistartionUser)
+      expect(login.body).toStrictEqual({errorsMessages: [
+        {field: "login", message: "Login already exist"},
+        {field: "email", message: "Mail already exist"},
+      ]})
     });
 
     /*it('should return errors and 400 if try create user with incorrect data', async () => {

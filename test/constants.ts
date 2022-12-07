@@ -96,6 +96,28 @@ const incorrectCreateUser = {
     email: "siteBlog.com"
 }
 
+const correctRegistartionUser = {
+    login: 'login-5',
+    password: "password-5",
+    email: "email-5@mail.com"
+}
+
+const incorrectRegistartionUser = {
+    login: 'login-1',
+    password: "password-1",
+    email: "email-1@mail.com"
+}
+
+const correctLoginUser = {
+    login: 'login-1',
+    password: "password-1",
+}
+
+const incorrectLoginUser = {
+    login: 'login-1',
+    password: "password-10",
+}
+
 const queryBlog = {
     pageNumber: '2',
     pageSize: '2', 
@@ -151,6 +173,10 @@ export {
 
     createUser1, createUser2, createUser3, createUser4,
     incorrectCreateUser,
+
+    correctRegistartionUser, incorrectRegistartionUser,
+
+    correctLoginUser, incorrectLoginUser,
 
     queryBlog, queryUser,
 
