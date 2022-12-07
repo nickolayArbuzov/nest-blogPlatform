@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import * as config from './config/root';
+import { HttpExceptionFilter } from './helpers/filters/http-exeption.filter';
 //import { HttpExceptionFilter } from './infrastructure/filters/http-exeption.filter';
 
 async function start() {
@@ -26,7 +27,7 @@ async function start() {
       throw new BadRequestException(customErrors)
     }
   }))
-  //app.useGlobalFilters(new HttpExceptionFilter())
+  app.useGlobalFilters(new HttpExceptionFilter())
   //app.use(cookieParser());
   //app.setGlobalPrefix('api')
   await app.listen(config.PORT, () => console.log(`NEST on ${config.PORT}`))
