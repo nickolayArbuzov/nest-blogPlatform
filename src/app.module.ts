@@ -7,6 +7,8 @@ import { BlogsModule } from './features/blogs/blogs.module';
 import { CommentsModule } from './features/comments/comments.module';
 import { PostsModule } from './features/posts/posts.module';
 import { UsersModule } from './features/users/users.module';
+import { AuthModule } from './features/auth/auth.module';
+import { DevicesModule } from './features/devices/devices.module';
 import { AllDataModule } from './helpers/delete-all-data/delete-all-data.module';
 
 @Module({
@@ -21,6 +23,8 @@ import { AllDataModule } from './helpers/delete-all-data/delete-all-data.module'
     PostsModule,
     CommentsModule,
     UsersModule,
+    AuthModule,
+    DevicesModule,
     AllDataModule,
   ],
 })

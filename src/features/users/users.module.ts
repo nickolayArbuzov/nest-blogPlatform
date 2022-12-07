@@ -16,6 +16,7 @@ import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
     UsersMongoose,
   ],
   exports: [
+    UsersRepo,
     usersProviders.find(v => v.provide === 'USER_MONGOOSE'),
   ]
 })

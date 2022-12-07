@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from '../../outerservices/database/database.module';
 import { DevicesController } from './api/devices.controller';
 import { DevicesService } from './application/devices.service';
@@ -8,7 +9,10 @@ import { DevicesMongoose } from './infrastructure/devices.repositoryMongo';
 
 @Module({
   controllers: [DevicesController],
-  imports: [DatabaseModule],
+  imports: [
+    DatabaseModule, 
+    JwtModule,
+  ],
   providers: [
     ...devicesProviders,
     DevicesService,
@@ -16,6 +20,7 @@ import { DevicesMongoose } from './infrastructure/devices.repositoryMongo';
     DevicesMongoose,
   ],
   exports: [
+    DevicesRepo,
     devicesProviders.find(v => v.provide === 'DEVICE_MONGOOSE'),
   ]
 })
