@@ -15,7 +15,7 @@ export class CookieGuard implements CanActivate {
     
     if (request.cookies){
       try {
-        const user = this.jwtService.verify(request.cookies.refreshToken)
+        const user = this.jwtService.verify(request.cookies.refreshToken, {secret: 'secret'})
         if (user){
           return true
         }

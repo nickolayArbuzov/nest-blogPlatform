@@ -1,6 +1,5 @@
 type User = {
-    id: string,
-    login: string
+    userId: string,
 }
 
 declare namespace Express {

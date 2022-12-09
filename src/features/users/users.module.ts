@@ -1,4 +1,5 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 import { DatabaseModule } from '../../outerservices/database/database.module';
 import { UsersController } from './api/users.controller';
 import { UsersService } from './application/users.service';
@@ -9,7 +10,7 @@ import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
 
 @Module({
   controllers: [UsersController],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CqrsModule],
   providers: [
     ...usersProviders,
     UsersService,

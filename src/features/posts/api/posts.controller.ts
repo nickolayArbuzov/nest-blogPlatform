@@ -1,8 +1,11 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards, Req} from '@nestjs/common';
+import { Request } from 'express';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { PostsService } from '../application/posts.service';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
+import { CreateCommentDto } from '../../comments/dto/comment.dto';
 import { BasicAuthGuard } from '../../../helpers/guards/auth.guard';
+import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -10,9 +13,20 @@ export class PostsController {
         private postsService: PostsService
     ) {}
 
+    @Put(':id/like-status')
+    async like(@Param('id') id: string){
+        return true
+    }
+
     @Get(':id/comments')
     async findCommentsByPostId(@Param('id') id: string, @Query() query: QueryBlogDto){
         return await this.postsService.findCommentsByPostId(id, query)
+    }
+
+    @UseGuards(JWTAuthGuard)
+    @Post(':id/comments')
+    async createOneCommentByPostId(@Param('id') id: string, @Body() commentDto: CreateCommentDto, @Req() req: Request){
+        return await this.postsService.createOneCommentByPostId(id, commentDto, req.user.userId)
     }
 
     @Get()

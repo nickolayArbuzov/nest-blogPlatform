@@ -3,11 +3,13 @@ import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { UsersService } from '../application/users.service';
 import { CreateUserDto } from '../dto/user.dto';
 import { BasicAuthGuard } from '../../../helpers/guards/auth.guard';
+import { CommandBus } from '@nestjs/cqrs';
 
 @Controller('users')
 export class UsersController {
     constructor(
-        private usersService: UsersService
+        private commandBus: CommandBus,
+        private usersService: UsersService,
     ) {}
 
     @UseGuards(BasicAuthGuard)

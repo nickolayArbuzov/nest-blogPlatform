@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { queryDefault } from '../../../helpers/constants/constants/constants';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { PostsRepo } from '../infrastructure/posts.repo';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
 import { CommentsRepo } from '../../comments/infrastructure/comments.repo';
+import { CreateCommentDto } from '../../comments/dto/comment.dto';
 
 @Injectable()
 export class PostsService {
@@ -20,6 +21,36 @@ export class PostsService {
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
     }
     return await this.commentsRepo.findCommentsByPostId(id, query)
+  }
+
+  async createOneCommentByPostId(postId: string, newComment: CreateCommentDto, userId: string){
+    const post = await this.postsRepo.findOnePostById(postId)
+    if(!post){
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
+    }
+    const date = new Date()
+    const comment = {
+      content: newComment.content,
+      userId: userId,
+      userLogin: userId,
+      postId: postId,
+      createdAt: date.toISOString(),
+    }
+   
+    const createdComment = await this.commentsRepo.createCommentFromPost(comment)
+    
+    return {
+      id: createdComment._id,
+      content: createdComment.content,
+      userId: createdComment.userId,
+      userLogin: createdComment.userLogin,
+      createdAt: createdComment.createdAt,
+      likesInfo: {
+        likesCount: 0,
+        dislikesCount: 0,
+        myStatus: "None",
+      },
+    }
   }
 
   async findAllPosts(queryParams: QueryBlogDto){

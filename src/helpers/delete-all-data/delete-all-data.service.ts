@@ -5,6 +5,7 @@ import { PostModel } from '../../features/posts/domain/entitites/post.interface'
 import { CommentModel } from '../../features/comments/domain/entitites/comments.interface';
 import { UserModel } from '../../features/users/domain/entitites/user.interface';
 import { DeviceModel } from '../../features/devices/domain/entitites/device.interface';
+import { LikeModel } from '../../features/likes/domain/entitites/like.interface';
 
 @Injectable()
 export class AllDataService {
@@ -19,6 +20,8 @@ export class AllDataService {
     private User: Model<UserModel>,
     @Inject('DEVICE_MONGOOSE')
     private Device: Model<DeviceModel>,
+    @Inject('LIKE_MONGOOSE')
+    private Like: Model<LikeModel>,
   ) {}
 
   async deleteAllData(): Promise<void> {
@@ -27,6 +30,7 @@ export class AllDataService {
     await this.Comment.deleteMany()
     await this.User.deleteMany()
     await this.Device.deleteMany()
+    await this.Like.deleteMany()
   }
   
 }

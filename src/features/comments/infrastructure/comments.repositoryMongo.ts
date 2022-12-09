@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { CommentModel } from '../domain/entitites/comments.interface';
+import { Comment } from '../domain/entitites/comments'
+import { UpdateCommentDto } from '../dto/comment.dto';
 
 @Injectable()
 export class CommentsMongoose {
@@ -46,20 +48,35 @@ export class CommentsMongoose {
     }
   }
 
-  async findOneCommentById(id: string){
-    const comment = await this.Comment.findOne({_id: id})
-    return {
-      id: comment._id,
-      content: comment.content,
-      userId: comment.userId,
-      userLogin: comment.userLogin,
-      createdAt: comment.createdAt,
-      likesInfo: {
-        likesCount: 0,
-        dislikesCount: 0,
-        myStatus: "None",
+  async updateOneCommentById(commentId: string, updateComment: UpdateCommentDto){
+    return this.Comment.updateOne({_id: commentId}, {$set: updateComment})
+  }
+
+  async deleteOneCommentById(commentId: string){
+    return this.Comment.deleteOne({_id: commentId})
+  }
+
+  async findOneCommentById(commentId: string){
+    const comment = await this.Comment.findOne({_id: commentId})
+    if(comment){
+      return {
+        id: comment._id,
+        content: comment.content,
+        userId: comment.userId,
+        userLogin: comment.userLogin,
+        createdAt: comment.createdAt,
+        likesInfo: {
+          likesCount: 0,
+          dislikesCount: 0,
+          myStatus: "None",
+        }
       }
     }
+    return comment
+  }
+
+  async createCommentFromPost(newComment: Comment){
+    return await this.Comment.create(newComment)
   }
 
 }

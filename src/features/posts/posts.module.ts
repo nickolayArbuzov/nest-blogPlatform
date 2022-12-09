@@ -1,4 +1,5 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../outerservices/database/database.module';
 import { CommentsModule } from '../comments/comments.module';
 import { PostsController } from './api/posts.controller';
@@ -15,6 +16,7 @@ import { PostsMongoose } from './infrastructure/posts.repositoryMongo';
     PostsService,
     PostsRepo,
     PostsMongoose,
+    JwtService,
   ],
   exports: [
     PostsRepo,

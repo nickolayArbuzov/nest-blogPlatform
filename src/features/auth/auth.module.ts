@@ -11,7 +11,7 @@ import { AuthService } from './application/auth.service';
     UsersModule,
     DevicesModule,
     JwtModule.register({
-      secret: process.env.PRIVATE_KEY || 'SECRET',
+      secret: process.env.PRIVATE_KEY || 'secret',
     })
   ],
   providers: [

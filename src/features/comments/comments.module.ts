@@ -5,6 +5,7 @@ import { CommentsRepo } from './infrastructure/comments.repo';
 import { commentsProviders } from './infrastructure/comments.providers';
 import { CommentsMongoose } from './infrastructure/comments.repositoryMongo';
 import { DatabaseModule } from '../../outerservices/database/database.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [CommentsController],
@@ -14,6 +15,7 @@ import { DatabaseModule } from '../../outerservices/database/database.module';
     CommentsService,
     CommentsRepo,
     CommentsMongoose,
+    JwtService,
   ],
   exports: [
     CommentsRepo,

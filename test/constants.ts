@@ -109,13 +109,30 @@ const incorrectRegistartionUser = {
 }
 
 const correctLoginUser = {
-    login: 'login-1',
+    loginOrEmail: 'login-1',
     password: "password-1",
 }
 
+const correctLoginUser2 = {
+    loginOrEmail: 'login-2',
+    password: "password-2",
+}
+
 const incorrectLoginUser = {
-    login: 'login-1',
+    loginOrEmail: 'login-1',
     password: "password-10",
+}
+
+const createComment = {
+    content: 'content-content-content'
+}
+
+const updateComment = {
+    content: 'content-content-content-update'
+}
+
+const incorrectCreateComment = {
+    content: 'content'
 }
 
 const queryBlog = {
@@ -141,8 +158,11 @@ class Variables {
     postId = ''
     commentId = ''
     userId = ''
+    accessToken = ''
+    accessToken2 = ''
 
     incorrectAnyEntityId = '638b5478fde32b4487e99999'
+    incorrectToken = '77777GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkyM2I5NTVlZTgwZDRkZGIyYzdlMjEiLCJkZXZpY2VJZCI6IjEwNzMxMjFjLTM1YWQtNGMyMi04ZTFhLWM2NTNmMzhkYmJmMyIsImlzc3VlZEF0IjoxNjcwNTI3ODkzMjg5LCJpYXQiOjE2NzA1Mjc4OTMsImV4cCI6MTY3MDUyODE5M30.53_vG0GlhTqXosc2sq2-TnzxEyItCLrDHw8ZJjWRSQc'
 
     setBlogId(blogId: string){
         this.blogId = blogId
@@ -155,6 +175,12 @@ class Variables {
     }
     setUserId(userId: string){
         this.userId = userId
+    }
+    setAccessToken(accessToken: string){
+        this.accessToken = accessToken
+    }
+    setAccessToken2(accessToken2: string){
+        this.accessToken2 = accessToken2
     }
 }
 
@@ -176,7 +202,9 @@ export {
 
     correctRegistartionUser, incorrectRegistartionUser,
 
-    correctLoginUser, incorrectLoginUser,
+    correctLoginUser, correctLoginUser2, incorrectLoginUser,
+
+    createComment, updateComment, incorrectCreateComment,
 
     queryBlog, queryUser,
 

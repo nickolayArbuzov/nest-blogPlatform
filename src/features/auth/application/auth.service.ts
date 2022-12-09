@@ -63,7 +63,7 @@ export class AuthService {
 
   async refreshTokens(refreshToken: string) {
     try{
-      const refresh: any = this.jwtService.verify(refreshToken, {secret: process.env.JWT_SECRET || 'secret'});
+      const refresh: any = this.jwtService.verify(refreshToken, {secret: 'secret'});
       const device = await this.devicesRepo.findOneDeviceByRefreshTokenData(refresh.deviceId, refresh.iat)
       if(device) {
         const issuedAt = new Date().getTime()
@@ -119,7 +119,7 @@ export class AuthService {
 
   async logout(refreshToken: string) {
     try {
-      const refresh: any = this.jwtService.verify(refreshToken, {secret: process.env.JWT_SECRET || 'secret'});
+      const refresh: any = this.jwtService.verify(refreshToken, {secret: 'secret'});
       await this.devicesRepo.logout(refresh.userId, refresh.deviceId)
     } catch(e){
       throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED)

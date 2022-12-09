@@ -44,7 +44,7 @@ describe('AppController', () => {
     app.close()
   })
 
-  describe('user-controller', () => {
+  describe('auth-controller', () => {
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
