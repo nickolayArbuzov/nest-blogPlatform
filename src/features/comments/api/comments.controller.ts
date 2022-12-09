@@ -1,5 +1,7 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Put, Req, UseGuards} from '@nestjs/common';
 import { Request } from 'express';
+import { CreateLikeDto } from '../../likes/dto/like.dto';
+import { ExtractUserFromToken } from '../../../helpers/guards/extractUserFromToken.guard';
 import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 import { CommentsService } from '../application/comments.service';
 import { UpdateCommentDto } from '../dto/comment.dto';
@@ -10,10 +12,11 @@ export class CommentsController {
         private commentsService: CommentsService
     ) {}
 
+    @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Put(':id/like-status')
-    async like(@Param('id') id: string){
-        return true
+    async like(@Param('id') id: string, @Body() likeDto: CreateLikeDto, @Req() req: Request){
+        return await this.commentsService.like(id, likeDto.status, req.user.userId)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -30,8 +33,9 @@ export class CommentsController {
         return await this.commentsService.deleteOneCommentById(id, req.user.userId)
     }
     
+    @UseGuards(ExtractUserFromToken)
     @Get(':id')
-    async findOneCommentById(@Param('id') id: string){
-        return await this.commentsService.findOneCommentById(id)
+    async findOneCommentById(@Param('id') id: string, @Req() req: Request){
+        return await this.commentsService.findOneCommentById(id, req.user.userId ? req.user.userId : '')
     }
 }

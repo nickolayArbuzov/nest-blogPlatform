@@ -27,7 +27,6 @@ export class LikesRepo {
             status: likeStatus,
         })
     }
-    
     return true
   }
 
@@ -42,7 +41,6 @@ export class LikesRepo {
 
   async getLikesInfoForPost(postId: string, userId: string) {
     const likeInfo = await this.likesMongoose.getLikesInfoForPost(postId)
-    console.log('likeInfo', likeInfo)
     return {
         dislikesCount: likeInfo.filter(li => li.postId === postId && li.status === 'Dislike').length,
         likesCount: likeInfo.filter(li => li.postId === postId && li.status === 'Like').length, 

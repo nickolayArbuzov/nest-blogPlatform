@@ -152,14 +152,28 @@ const queryUser = {
     searchEmailTerm: '3',
 }
 
+let like = {
+    likeStatus: 'Like'
+}
+let dislike = {
+    likeStatus: 'Dislike'
+}
+let none = {
+    likeStatus: 'None'
+}
+
 class Variables {
 
     blogId = ''
     postId = ''
+    postId2 = ''
     commentId = ''
+    commentId2 = ''
     userId = ''
     accessToken = ''
     accessToken2 = ''
+    cookie = ''
+    cookie2 = ''
 
     incorrectAnyEntityId = '638b5478fde32b4487e99999'
     incorrectToken = '77777GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkyM2I5NTVlZTgwZDRkZGIyYzdlMjEiLCJkZXZpY2VJZCI6IjEwNzMxMjFjLTM1YWQtNGMyMi04ZTFhLWM2NTNmMzhkYmJmMyIsImlzc3VlZEF0IjoxNjcwNTI3ODkzMjg5LCJpYXQiOjE2NzA1Mjc4OTMsImV4cCI6MTY3MDUyODE5M30.53_vG0GlhTqXosc2sq2-TnzxEyItCLrDHw8ZJjWRSQc'
@@ -170,8 +184,14 @@ class Variables {
     setPostId(postId: string){
         this.postId = postId
     }
+    setPostId2(postId2: string){
+        this.postId2 = postId2
+    }
     setCommentId(commentId: string){
         this.commentId = commentId
+    }
+    setCommentId2(commentId2: string){
+        this.commentId2 = commentId2
     }
     setUserId(userId: string){
         this.userId = userId
@@ -181,6 +201,12 @@ class Variables {
     }
     setAccessToken2(accessToken2: string){
         this.accessToken2 = accessToken2
+    }
+    setCookie(cookie: string){
+        this.cookie = cookie
+    }
+    setCookie2(cookie2: string){
+        this.cookie2 = cookie2
     }
 }
 
@@ -207,6 +233,8 @@ export {
     createComment, updateComment, incorrectCreateComment,
 
     queryBlog, queryUser,
+
+    like, dislike, none,
 
     variables,
 }

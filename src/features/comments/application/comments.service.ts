@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { LikesRepo } from '../../likes/infrastructure/like.repo';
 import { UpdateCommentDto } from '../dto/comment.dto';
 import { CommentsRepo } from '../infrastructure/comments.repo';
 
@@ -6,7 +7,16 @@ import { CommentsRepo } from '../infrastructure/comments.repo';
 export class CommentsService {
   constructor(
     private commentsRepo: CommentsRepo,
+    private likesRepo: LikesRepo,
   ) {}
+
+  async like(commentId: string, likeStatus: string, userId: string){
+    const comment = await this.commentsRepo.findOneCommentById(commentId)
+    if (comment) {
+        return await this.likesRepo.like(userId, likeStatus, null, commentId)
+    } 
+    return comment
+  }
 
   async updateOneCommentById(commentId: string, updateComment: UpdateCommentDto, userId: string){
     const candidateComment = await this.commentsRepo.findOneCommentById(commentId)
@@ -36,7 +46,12 @@ export class CommentsService {
     }
   }
 
-  async findOneCommentById(commentId: string){
-    return await this.commentsRepo.findOneCommentById(commentId)
+  async findOneCommentById(commentId: string, userId = ''){
+    const comment = await this.commentsRepo.findOneCommentById(commentId)
+    const likesInfo = await this.likesRepo.getLikesInfoForComment(commentId, userId)
+      return {
+          ...comment,
+          likesInfo: likesInfo,
+      }
   }
 }
