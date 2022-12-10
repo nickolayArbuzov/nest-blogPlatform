@@ -63,8 +63,8 @@ export class AuthService {
 
   async refreshTokens(refreshToken: string) {
     try{
-      const refresh: any = this.jwtService.verify(refreshToken, {secret: 'secret'});
-      const device = await this.devicesRepo.findOneDeviceByRefreshTokenData(refresh.deviceId, refresh.iat)
+      const refresh = this.jwtService.verify(refreshToken, {secret: 'secret'});
+      const device = await this.devicesRepo.findOneDeviceByRefreshTokenData(refresh.deviceId, refresh.issuedAt)
       if(device) {
         const issuedAt = new Date().getTime()
         const expiresAt = new Date().getTime() + 20000
@@ -82,6 +82,7 @@ export class AuthService {
       }
     }
     catch(e){
+      console.log('catch')
       throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED)
     }
   }

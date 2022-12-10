@@ -1,9 +1,11 @@
 import {Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards} from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AttemptsGuard } from '../../../helpers/guards/attempts.guard';
 import { Cookies } from '../../../helpers/customdecorators/cookie.decorator';
 import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 import {AuthService} from "../application/auth.service";
 import { PasswordRecoveryDto, AuthDto, RegistrationConfirmationDto, RegistrationDto, RegistrationEmailResendingDto, NewPasswordDto } from '../dto/auth.dto';
+import { CookieGuard } from '../../../helpers/guards/cookie.guard';
 
 
 @Controller('auth')
@@ -45,11 +47,10 @@ export class AuthController {
     }
 
     @HttpCode(200)
-    @UseGuards(JWTAuthGuard)
+    @UseGuards(CookieGuard)
     @Post('refresh-token')
-    async refreshTokens(@Cookies() cookie, @Res({ passthrough: true }) res){
-        const result = await this.authService.refreshTokens(cookie.refreshToken)
-
+    async refreshTokens(@Req() req: Request, @Res({ passthrough: true }) res: Response){
+        const result = await this.authService.refreshTokens(req.cookies.refreshToken)
         res.cookie('refreshToken', result.refreshToken, {
             httpOnly: true,
             secure: true,
@@ -80,7 +81,7 @@ export class AuthController {
     }
 
     @HttpCode(204)
-    @UseGuards(JWTAuthGuard)
+    @UseGuards(CookieGuard)
     @Post('logout')
     logout(@Cookies() cookie){
         return this.authService.logout(cookie.refreshToken)
