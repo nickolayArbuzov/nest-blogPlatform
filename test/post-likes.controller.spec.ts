@@ -125,17 +125,17 @@ describe('AppController', () => {
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-4',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-3',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-2',
                         }
                     ],
                 }
@@ -160,17 +160,17 @@ describe('AppController', () => {
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-4',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-3',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-2',
                         }
                     ],
                 }
@@ -201,17 +201,17 @@ describe('AppController', () => {
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-4',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-3',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-2',
                         }
                     ],
                 }
@@ -236,17 +236,17 @@ describe('AppController', () => {
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-4',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-3',
                         },
                         {
                             addedAt: expect.any(String),
                             userId: expect.any(String),
-                            login: expect.any(String)
+                            login: 'login-2',
                         }
                     ],
                 }
@@ -297,12 +297,12 @@ describe('AppController', () => {
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-4',
                             },
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-3',
                             },
                         ],
                     }
@@ -348,12 +348,12 @@ describe('AppController', () => {
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-4',
                             },
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-3',
                             },
                         ],
                     }
@@ -401,12 +401,12 @@ describe('AppController', () => {
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-4',
                             },
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-3',
                             },
                         ],
                     }
@@ -452,12 +452,12 @@ describe('AppController', () => {
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-4',
                             },
                             {
                                 addedAt: expect.any(String),
                                 userId: expect.any(String),
-                                login: expect.any(String)
+                                login: 'login-3',
                             },
                         ],
                     }

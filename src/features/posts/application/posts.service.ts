@@ -15,10 +15,10 @@ export class PostsService {
     private likesRepo: LikesRepo,
   ) {}
 
-  async like(postId: string, likeStatus: string, userId: string){
+  async like(postId: string, likeStatus: string, user: {userId: string, userLogin: string}){
     const post = await this.postsRepo.findOnePostById(postId)
     if (post) {
-        return await this.likesRepo.like(userId, likeStatus, postId, null)
+        return await this.likesRepo.like(user, likeStatus, postId, null)
     } else {
       throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
     }

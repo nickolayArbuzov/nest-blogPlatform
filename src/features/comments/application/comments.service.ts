@@ -10,10 +10,10 @@ export class CommentsService {
     private likesRepo: LikesRepo,
   ) {}
 
-  async like(commentId: string, likeStatus: string, userId: string){
+  async like(commentId: string, likeStatus: string, user: {userId: string, userLogin: string}){
     const comment = await this.commentsRepo.findOneCommentById(commentId)
     if (comment) {
-        return await this.likesRepo.like(userId, likeStatus, null, commentId)
+        return await this.likesRepo.like(user, likeStatus, null, commentId)
     } else {
       throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
     }

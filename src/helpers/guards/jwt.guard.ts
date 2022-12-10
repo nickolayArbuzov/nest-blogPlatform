@@ -17,7 +17,7 @@ export class JWTAuthGuard implements CanActivate {
       try {
         const user = this.jwtService.verify(request.headers?.authorization?.split(' ')[1], {secret: 'secret'})
         if (user){
-          request.user = {userId: user.userId}
+          request.user = {userId: user.userId, userLogin: user.userLogin}
           return true;
         }
       } catch {

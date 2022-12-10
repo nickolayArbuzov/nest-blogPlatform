@@ -16,7 +16,7 @@ export class CommentsController {
     @HttpCode(204)
     @Put(':id/like-status')
     async like(@Param('id') id: string, @Body() likeDto: CreateLikeDto, @Req() req: Request){
-        return await this.commentsService.like(id, likeDto.likeStatus, req.user.userId)
+        return await this.commentsService.like(id, likeDto.likeStatus, req.user)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -36,6 +36,6 @@ export class CommentsController {
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOneCommentById(@Param('id') id: string, @Req() req: Request){
-        return await this.commentsService.findOneCommentById(id, req.user.userId ? req.user.userId : '')
+        return await this.commentsService.findOneCommentById(id, req.user.userId)
     }
 }

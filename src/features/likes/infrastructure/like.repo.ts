@@ -6,21 +6,20 @@ import { LikesMongoose } from './like.repositoryMongo';
 export class LikesRepo {
   constructor(private likesMongoose: LikesMongoose) {}
 
-  async like(userId: string, likeStatus: string, postId: string | null, commentId: string | null) {
-
-    const likePosition = await this.likesMongoose.findOne(userId, postId ? postId : null, commentId ? commentId : null)
+  async like(user: {userId: string, userLogin: string}, likeStatus: string, postId: string | null, commentId: string | null) {
+    const likePosition = await this.likesMongoose.findOne(user.userId, postId ? postId : null, commentId ? commentId : null)
     if(likePosition) {
         if(likeStatus === 'None') {
-            await this.likesMongoose.deleteOne(userId, postId ? postId : null, commentId ? commentId : null)
+            await this.likesMongoose.deleteOne(user.userId, postId ? postId : null, commentId ? commentId : null)
         }
         if(likeStatus !== likePosition.status) {
-            await this.likesMongoose.updateOne(userId, postId ? postId : null, commentId ? commentId : null, likeStatus)
+            await this.likesMongoose.updateOne(user.userId, postId ? postId : null, commentId ? commentId : null, likeStatus)
         }
     } 
     if(!likePosition && likeStatus !== 'None') {
         await this.likesMongoose.insertOne({
-            userId: userId,
-            login: userId,
+            userId: user.userId,
+            login: user.userLogin,
             postId: postId,
             commentId: commentId,
             addedAt: new Date().toISOString(),
