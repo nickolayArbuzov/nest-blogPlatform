@@ -49,10 +49,14 @@ export class CommentsService {
 
   async findOneCommentById(commentId: string, userId = ''){
     const comment = await this.commentsRepo.findOneCommentById(commentId)
-    const likesInfo = await this.likesRepo.getLikesInfoForComment(commentId, userId)
-    return {
-        ...comment,
-        likesInfo: likesInfo,
+    if(comment) {
+      const likesInfo = await this.likesRepo.getLikesInfoForComment(commentId, userId)
+      return {
+          ...comment,
+          likesInfo: likesInfo,
+      }
+    } else {
+      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
     }
   }
 }
