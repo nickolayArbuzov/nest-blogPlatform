@@ -24,14 +24,19 @@ export class PostsService {
     }
   }
 
-  async findCommentsByPostId(id: string, queryParams: QueryBlogDto, userId: string){
+  async findCommentsByPostId(postId: string, queryParams: QueryBlogDto, userId: string){
+    const post = await this.postsRepo.findOnePostById(postId)
+    if(!post) {
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+      return
+    }
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
       pageSize: queryParams.pageSize || queryDefault.pageSize,
       sortBy: queryParams.sortBy || queryDefault.sortBy,
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
     }
-    const comments = await this.commentsRepo.findCommentsByPostId(id, query)
+    const comments = await this.commentsRepo.findCommentsByPostId(postId, query)
     const items = []
     for await (const c of comments.items) {
       const likesInfo = await this.likesRepo.getLikesInfoForComment(c.id.toString(), userId)
