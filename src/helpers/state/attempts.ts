@@ -3,7 +3,7 @@ class AttemptsService {
   attempts = [] 
   
   checkAttempts (ipPath: string) {
-    if(this.attempts.filter(a => a.ipPath === ipPath).length < 5) {
+    if(this.attempts.filter(a => a.ipPath === ipPath).length <= 5) {
       return true
     } else {
       return false
