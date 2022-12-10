@@ -36,6 +36,6 @@ export class CommentsController {
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOneCommentById(@Param('id') id: string, @Req() req: Request){
-        return await this.commentsService.findOneCommentById(id, req.user.userId)
+        return await this.commentsService.findOneCommentById(id, req.user?.userId)
     }
 }

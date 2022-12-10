@@ -27,7 +27,7 @@ export class BlogsController {
     @UseGuards(ExtractUserFromToken)
     @Get(':id/posts')
     async findPostsByBlogId(@Query() query: QueryBlogDto, @Param('id') id: string, @Req() req: Request){
-        return this.blogsService.findPostsByBlogId(query, id, req.user.userId)
+        return this.blogsService.findPostsByBlogId(query, id, req.user?.userId)
     }
 
     @UseGuards(BasicAuthGuard)

@@ -25,7 +25,7 @@ export class PostsController {
     @UseGuards(ExtractUserFromToken)
     @Get(':id/comments')
     async findCommentsByPostId(@Param('id') id: string, @Query() query: QueryBlogDto, @Req() req: Request){
-        return await this.postsService.findCommentsByPostId(id, query, req.user.userId)
+        return await this.postsService.findCommentsByPostId(id, query, req.user?.userId)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -37,7 +37,7 @@ export class PostsController {
     @UseGuards(ExtractUserFromToken)
     @Get()
     async findAllPosts(@Query() query: QueryBlogDto, @Req() req: Request){
-        return await this.postsService.findAllPosts(query, req.user.userId)
+        return await this.postsService.findAllPosts(query, req.user?.userId)
     }
 
     @UseGuards(BasicAuthGuard)
@@ -49,7 +49,7 @@ export class PostsController {
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOnePostById(@Param('id') id: string, @Req() req: Request){
-        return await this.postsService.findOnePostById(id, req.user.userId)
+        return await this.postsService.findOnePostById(id, req.user?.userId)
     }
 
     @UseGuards(BasicAuthGuard)
