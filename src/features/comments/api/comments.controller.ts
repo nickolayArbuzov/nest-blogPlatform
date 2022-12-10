@@ -16,7 +16,7 @@ export class CommentsController {
     @HttpCode(204)
     @Put(':id/like-status')
     async like(@Param('id') id: string, @Body() likeDto: CreateLikeDto, @Req() req: Request){
-        return await this.commentsService.like(id, likeDto.status, req.user.userId)
+        return await this.commentsService.like(id, likeDto.likeStatus, req.user.userId)
     }
 
     @UseGuards(JWTAuthGuard)

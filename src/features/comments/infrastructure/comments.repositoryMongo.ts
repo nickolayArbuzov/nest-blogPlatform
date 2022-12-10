@@ -38,11 +38,6 @@ export class CommentsMongoose {
           userId: i.userId,
           userLogin: i.userLogin,
           createdAt: i.createdAt,
-          likesInfo: {
-            likesCount: 0,
-            dislikesCount: 0,
-            myStatus: "None",
-          }
         }
       }),
     }

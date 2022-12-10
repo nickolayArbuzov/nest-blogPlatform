@@ -40,7 +40,6 @@ describe('AppController', () => {
   });
 
   afterAll(async () => {
-    console.log('app')
     app.close()
   })
 

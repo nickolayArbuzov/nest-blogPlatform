@@ -118,6 +118,16 @@ const correctLoginUser2 = {
     password: "password-2",
 }
 
+const correctLoginUser3 = {
+    loginOrEmail: 'login-3',
+    password: "password-3",
+}
+
+const correctLoginUser4 = {
+    loginOrEmail: 'login-4',
+    password: "password-4",
+}
+
 const incorrectLoginUser = {
     loginOrEmail: 'login-1',
     password: "password-10",
@@ -172,6 +182,8 @@ class Variables {
     userId = ''
     accessToken = ''
     accessToken2 = ''
+    accessToken3 = ''
+    accessToken4 = ''
     cookie = ''
     cookie2 = ''
 
@@ -202,6 +214,12 @@ class Variables {
     setAccessToken2(accessToken2: string){
         this.accessToken2 = accessToken2
     }
+    setAccessToken3(accessToken3: string){
+        this.accessToken3 = accessToken3
+    }
+    setAccessToken4(accessToken4: string){
+        this.accessToken4 = accessToken4
+    }
     setCookie(cookie: string){
         this.cookie = cookie
     }
@@ -228,7 +246,7 @@ export {
 
     correctRegistartionUser, incorrectRegistartionUser,
 
-    correctLoginUser, correctLoginUser2, incorrectLoginUser,
+    correctLoginUser, correctLoginUser2, correctLoginUser3, correctLoginUser4, incorrectLoginUser,
 
     createComment, updateComment, incorrectCreateComment,
 

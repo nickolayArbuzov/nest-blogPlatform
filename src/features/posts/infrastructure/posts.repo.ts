@@ -6,7 +6,9 @@ import { UpdatePostDto } from '../dto/post.dto';
 
 @Injectable()
 export class PostsRepo {
-  constructor(private postsMongoose: PostsMongoose) {}
+  constructor(
+    private postsMongoose: PostsMongoose,
+  ) {}
 
   async findAllPosts(query: QueryBlogDto, id = ''){
     return await this.postsMongoose.findAllPosts(query, id)

@@ -5,22 +5,46 @@ import { PostsRepo } from '../infrastructure/posts.repo';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
 import { CommentsRepo } from '../../comments/infrastructure/comments.repo';
 import { CreateCommentDto } from '../../comments/dto/comment.dto';
+import { LikesRepo } from '../../likes/infrastructure/like.repo';
 
 @Injectable()
 export class PostsService {
   constructor(
     private postsRepo: PostsRepo,
     private commentsRepo: CommentsRepo,
+    private likesRepo: LikesRepo,
   ) {}
 
-  async findCommentsByPostId(id: string, queryParams: QueryBlogDto){
+  async like(postId: string, likeStatus: string, userId: string){
+    const post = await this.postsRepo.findOnePostById(postId)
+    if (post) {
+        return await this.likesRepo.like(userId, likeStatus, postId, null)
+    } else {
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
+    }
+  }
+
+  async findCommentsByPostId(id: string, queryParams: QueryBlogDto, userId: string){
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
       pageSize: queryParams.pageSize || queryDefault.pageSize,
       sortBy: queryParams.sortBy || queryDefault.sortBy,
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
     }
-    return await this.commentsRepo.findCommentsByPostId(id, query)
+    const comments = await this.commentsRepo.findCommentsByPostId(id, query)
+    const items = []
+    for await (const c of comments.items) {
+      const likesInfo = await this.likesRepo.getLikesInfoForComment(c.id.toString(), userId)
+      items.push({
+          id: c.id,
+          content: c.content,
+          userId: c.userId,
+          userLogin: c.userLogin,
+          createdAt: c.createdAt,
+          likesInfo: likesInfo,
+      })
+    }
+    return {...comments, items: items}
   }
 
   async createOneCommentByPostId(postId: string, newComment: CreateCommentDto, userId: string){
@@ -53,14 +77,29 @@ export class PostsService {
     }
   }
 
-  async findAllPosts(queryParams: QueryBlogDto){
+  async findAllPosts(queryParams: QueryBlogDto, userId: string){
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
       pageSize: queryParams.pageSize || queryDefault.pageSize,
       sortBy: queryParams.sortBy || queryDefault.sortBy,
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
     }
-    return await this.postsRepo.findAllPosts(query)
+    const posts = await this.postsRepo.findAllPosts(query)
+    const items = []
+    for await (const p of posts.items) {
+      const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(p.id.toString(), userId)
+      items.push({
+          id: p.id,
+          title: p.title,
+          shortDescription: p.shortDescription,
+          content: p.content,
+          blogId: p.blogId,
+          blogName: p.blogName,
+          createdAt: p.createdAt,
+          extendedLikesInfo: extendedLikesInfo,
+      })
+    }
+    return {...posts, items: items}
   }
 
   async createOnePost(newPost: CreatePostDto){
@@ -92,10 +131,11 @@ export class PostsService {
     }
   }
 
-  async findOnePostById(id: string){
+  async findOnePostById(id: string, userId: string){
     const post = await this.postsRepo.findOnePostById(id)
 
     if(post){
+      const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(id, userId)
       return {
         id: post._id,
         title: post.title,
@@ -104,12 +144,7 @@ export class PostsService {
         blogId: post.blogId,
         blogName: post.blogName,
         createdAt: post.createdAt,
-        extendedLikesInfo: {
-          likesCount: 0,
-          dislikesCount: 0,
-          myStatus: "None",
-          newestLikes: [],
-        }
+        extendedLikesInfo: extendedLikesInfo
       }
     }
     else {

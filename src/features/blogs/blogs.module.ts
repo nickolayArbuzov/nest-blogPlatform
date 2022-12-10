@@ -1,7 +1,7 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../outerservices/database/database.module';
-import { PostsRepo } from '../posts/infrastructure/posts.repo';
-import { PostsMongoose } from '../posts/infrastructure/posts.repositoryMongo';
+import { LikesModule } from '../likes/likes.module';
 import { PostsModule } from '../posts/posts.module';
 import { BlogsController } from './api/blogs.controller';
 import { BlogsService } from './application/blogs.service';
@@ -12,13 +12,14 @@ import { BlogsMongoose } from './infrastructure/blogs.repositoryMongoose';
 
 @Module({
   controllers: [BlogsController],
-  imports: [DatabaseModule, PostsModule],
+  imports: [DatabaseModule, PostsModule, LikesModule],
   providers: [
     ...blogsProviders,
     BlogsService,
     BlogsRepo,
     BlogsMongoose,
     BlogIsExistRule,
+    JwtService,
   ],
   exports: [
     blogsProviders.find(v => v.provide === 'BLOG_MONGOOSE'),

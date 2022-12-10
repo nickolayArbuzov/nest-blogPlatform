@@ -1,12 +1,13 @@
-import { IsEnum } from "class-validator";
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
-export enum availableVariants {
+export enum LikeVariants {
     Like = 'Like',
     Dislike = 'Dislike',
     None = 'None',
 }
 
 export class CreateLikeDto {
-    @IsEnum(availableVariants, {each: true})
-    readonly status: availableVariants;
+    @IsNotEmpty()
+    @IsEnum(LikeVariants)
+    likeStatus: LikeVariants;
 }

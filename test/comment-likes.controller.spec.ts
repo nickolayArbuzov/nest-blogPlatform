@@ -40,11 +40,10 @@ describe('AppController', () => {
   });
 
   afterAll(async () => {
-    console.log('app')
     app.close()
   })
 
-  describe('comment-controller', () => {
+  describe('comment-like-controller', () => {
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
@@ -82,7 +81,6 @@ describe('AppController', () => {
         // create like for post and comment from first user
         await request(server).put(`/posts/${constants.variables.postId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like)
         await request(server).put(`/comments/${constants.variables.commentId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like)
-
         const commentForFirstUser = await request(server).get(`/comments/${constants.variables.commentId}`).set('Authorization', `Bearer ${constants.variables.accessToken}`)
         expect(commentForFirstUser.body).toStrictEqual({
             id: expect.any(String),
@@ -109,14 +107,12 @@ describe('AppController', () => {
                 myStatus: "None",
             }
         })
-
     })
 
     it('should return one comment after dislikes-likes from first-user for both users', async () => {
         // create dislike after like for post and comment from first user
         await request(server).put(`/posts/${constants.variables.postId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.dislike)
         await request(server).put(`/comments/${constants.variables.commentId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.dislike)
-
         const commentForFirstUser = await request(server).get(`/comments/${constants.variables.commentId}`).set('Authorization', `Bearer ${constants.variables.accessToken}`)
         expect(commentForFirstUser.body).toStrictEqual({
             id: expect.any(String),
@@ -175,7 +171,7 @@ describe('AppController', () => {
                 dislikesCount: 1,
                 myStatus: "None",
             }
-          })
+        })
     })
 
     it('should return posts with comments for both users', async () => {

@@ -5,12 +5,14 @@ import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { BlogsRepo } from '../infrastructure/blogs.repo';
 import { CreatePostDefaultDto } from '../../posts/dto/post.dto';
 import { PostsRepo } from '../../posts/infrastructure/posts.repo';
+import { LikesRepo } from '../../likes/infrastructure/like.repo';
 
 @Injectable()
 export class BlogsService {
   constructor(
     private blogsRepo: BlogsRepo,
     private postsRepo: PostsRepo,
+    private likesRepo: LikesRepo,
   ) {}
 
   async findAllBlogs(queryParams: QueryBlogDto){
@@ -44,7 +46,7 @@ export class BlogsService {
     }
   }
 
-  async findPostsByBlogId(queryParams: QueryBlogDto, id: string){
+  async findPostsByBlogId(queryParams: QueryBlogDto, id: string, userId: string){
     const blog = await this.blogsRepo.findOneBlogById(id)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
@@ -56,7 +58,23 @@ export class BlogsService {
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
       searchNameTerm: queryParams.searchNameTerm || ''
     }
-    return await this.postsRepo.findAllPosts(query, id)
+    const posts = await this.postsRepo.findAllPosts(query, id)
+    const items = []
+    for await (const p of posts.items) {
+      const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(p.id, userId)
+      items.push({
+          id: p.id,
+          title: p.title,
+          shortDescription: p.shortDescription,
+          content: p.content,
+          blogId: p.blogId,
+          blogName: p.blogName,
+          createdAt: p.createdAt,
+          extendedLikesInfo: extendedLikesInfo,
+      })
+    }
+    return {...posts, items: items}
+
   }
 
   async createOnePostForBlogId(id: string, newPost: CreatePostDefaultDto){

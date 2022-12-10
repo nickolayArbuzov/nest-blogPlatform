@@ -40,12 +40,6 @@ export class PostsMongoose {
           blogId: i.blogId,
           blogName: i.blogName,
           createdAt: i.createdAt,
-          extendedLikesInfo: {
-            likesCount: 0,
-            dislikesCount: 0,
-            myStatus: "None",
-            newestLikes: [],
-          }
         }
       }),
     }

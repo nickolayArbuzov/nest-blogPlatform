@@ -14,8 +14,9 @@ export class CommentsService {
     const comment = await this.commentsRepo.findOneCommentById(commentId)
     if (comment) {
         return await this.likesRepo.like(userId, likeStatus, null, commentId)
-    } 
-    return comment
+    } else {
+      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
+    }
   }
 
   async updateOneCommentById(commentId: string, updateComment: UpdateCommentDto, userId: string){
@@ -49,9 +50,9 @@ export class CommentsService {
   async findOneCommentById(commentId: string, userId = ''){
     const comment = await this.commentsRepo.findOneCommentById(commentId)
     const likesInfo = await this.likesRepo.getLikesInfoForComment(commentId, userId)
-      return {
-          ...comment,
-          likesInfo: likesInfo,
-      }
+    return {
+        ...comment,
+        likesInfo: likesInfo,
+    }
   }
 }
