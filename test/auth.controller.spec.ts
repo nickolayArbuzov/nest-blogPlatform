@@ -1,7 +1,7 @@
 import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
-import * as cookieParser from 'cookie-parser';
+import cookieParser = require('cookie-parser');
 import * as request from 'supertest';
 import { HttpExceptionFilter } from '../src/helpers/filters/http-exeption.filter';
 import { AppModule } from '../src/app.module'
