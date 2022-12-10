@@ -61,7 +61,7 @@ export class BlogsService {
     const posts = await this.postsRepo.findAllPosts(query, id)
     const items = []
     for await (const p of posts.items) {
-      const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(p.id, userId)
+      const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(p.id.toString(), userId)
       items.push({
           id: p.id,
           title: p.title,

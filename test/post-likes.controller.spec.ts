@@ -178,6 +178,63 @@ describe('AppController', () => {
         )
     })
 
+    it('should return posts by blogId', async () => {
+        const posts = await request(server).get(`/blogs/${constants.variables.blogId}/posts`).set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        expect(posts.body).toStrictEqual({
+            pagesCount: 1,
+            page: 1,
+            pageSize: 10,
+            totalCount: 2,
+            items: [
+                {
+                    id: expect.any(String),
+                    title: expect.any(String),
+                    shortDescription: expect.any(String),
+                    content: expect.any(String),
+                    blogId: expect.any(String),
+                    blogName: expect.any(String),
+                    createdAt: expect.any(String),
+                    extendedLikesInfo: {
+                        likesCount: 0,
+                        dislikesCount: 0,
+                        myStatus: "None",
+                        newestLikes: [],
+                    }
+                },
+                {
+                    id: expect.any(String),
+                    title: expect.any(String),
+                    shortDescription: expect.any(String),
+                    content: expect.any(String),
+                    blogId: expect.any(String),
+                    blogName: expect.any(String),
+                    createdAt: expect.any(String),
+                    extendedLikesInfo: {
+                        likesCount: 4,
+                        dislikesCount: 0,
+                        myStatus: "Like",
+                        newestLikes: [
+                            {
+                                addedAt: expect.any(String),
+                                userId: expect.any(String),
+                                login: 'login-4',
+                            },
+                            {
+                                addedAt: expect.any(String),
+                                userId: expect.any(String),
+                                login: 'login-3',
+                            },
+                            {
+                                addedAt: expect.any(String),
+                                userId: expect.any(String),
+                                login: 'login-2',
+                            },
+                        ],
+                    }
+                },
+            ]
+        })
+    })
     it('should return postsbyId after dislikes', async () => {
         // create dislike/like for post from both users
         await request(server).put(`/posts/${constants.variables.postId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.dislike)
@@ -478,5 +535,6 @@ describe('AppController', () => {
     it('should return 401 for creating like without auth', async () => {
         await request(server).put(`/posts/${constants.variables.incorrectAnyEntityId}/like-status`).send(constants.like).expect(401)
     })
-  });
+
+  })
 });
