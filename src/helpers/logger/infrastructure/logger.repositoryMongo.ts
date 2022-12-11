@@ -10,7 +10,7 @@ export class LoggerMongoose {
   ) {}
 
   async createLog(data: any){
-    return 
+    return await this.Logger.create(data)
   }
 
   async getLogs(){
