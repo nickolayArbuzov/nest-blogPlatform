@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Device } from '../domain/entitites/device';
 import { DevicesMongoose } from './devices.repositoryMongo';
 
@@ -31,7 +31,7 @@ export class DevicesRepo {
     return await this.devicesMongoose.updateDevice(deviceId, issuedAt, expiresAt)
   }
 
-  async logout(userId: string, deviceId: string){
-    return await this.devicesMongoose.logout(userId, deviceId)
+  async logout(userId: string, deviceId: string, issuedAt: number){
+    return await this.devicesMongoose.logout(userId, deviceId, issuedAt)
   }
 }

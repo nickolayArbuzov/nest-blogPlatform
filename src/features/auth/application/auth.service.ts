@@ -119,13 +119,13 @@ export class AuthService {
   }
 
   async logout(refreshToken: string) {
-    try {
-      const refresh: any = this.jwtService.verify(refreshToken, {secret: 'secret'});
-      await this.devicesRepo.logout(refresh.userId, refresh.deviceId)
-    } catch(e){
-      throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED)
+    const refresh = this.jwtService.verify(refreshToken, {secret: 'secret'});
+    const res = await this.devicesRepo.logout(refresh.userId, refresh.deviceId, refresh.issuedAt)
+    if(res.deletedCount === 0) {
+      throw new HttpException('Device not found', HttpStatus.UNAUTHORIZED)
+    } else {
+      return
     }
-
   }
 
   async authMe(userId: string) {

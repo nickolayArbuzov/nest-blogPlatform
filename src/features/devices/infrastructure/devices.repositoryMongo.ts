@@ -35,7 +35,7 @@ export class DevicesMongoose {
     return await this.Device.updateOne({deviceId: deviceId}, {$set: {issuedAt: issuedAt, expiresAt: expiresAt}})
   }
 
-  async logout(userId: string, deviceId: string){
-    return await this.Device.deleteOne({userId: userId, deviceId: deviceId})
+  async logout(userId: string, deviceId: string, issuedAt: number){
+    return await this.Device.deleteOne({userId: userId, deviceId: deviceId, issuedAt: issuedAt})
   }
 }

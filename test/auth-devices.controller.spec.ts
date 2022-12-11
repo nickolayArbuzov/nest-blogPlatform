@@ -71,9 +71,8 @@ describe('AppController', () => {
       expect(response.body).toStrictEqual({accessToken: expect.any(String)})
     });
 
-    it('should logout', async () => {
-      const response = await request(server).post('/auth/refresh-token').set('Cookie', constants.variables.cookie).expect(200);
-      expect(response.body).toStrictEqual({accessToken: expect.any(String)})
+    it('should return 401 if try logout with non-valid refresh-token', async () => {
+      await request(server).post('/auth/logout').set('Cookie', constants.variables.cookie).expect(401);
     });
 
   });
