@@ -10,6 +10,7 @@ export class LoggerMongoose {
   ) {}
 
   async createLog(data: any){
+    console.log('data', data)
     return await this.Logger.create(data)
   }
 
