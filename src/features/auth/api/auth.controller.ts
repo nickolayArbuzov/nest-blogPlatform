@@ -83,6 +83,7 @@ export class AuthController {
     @UseGuards(CookieGuard)
     @Post('logout')
     logout(@Req() req: Request){
+        console.log('logout')
         return this.authService.logout(req.cookies.refreshToken)
     }
 

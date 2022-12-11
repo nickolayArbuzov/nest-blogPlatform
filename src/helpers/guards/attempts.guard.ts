@@ -5,7 +5,6 @@ import { Attempts } from '../state/attempts';
 
 @Injectable()
 export class AttemptsGuard implements CanActivate {
-  constructor(){}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
