@@ -14,7 +14,7 @@ export class CookieGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean {
     const request: Request = context.switchToHttp().getRequest();  
-    this.loggerRepo.createLog({path: request.path, comment: '', token: request.cookies.refreshToken, date: new Date().toISOString()})
+    this.loggerRepo.createLog({path: request.path, comment: '', token: request.cookies.refreshToken || 'none', date: new Date().toISOString()})
     if (request.cookies){
       try {
         const user = this.jwtService.verify(request.cookies.refreshToken, {secret: 'secret'})

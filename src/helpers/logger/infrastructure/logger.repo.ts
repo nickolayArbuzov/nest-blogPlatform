@@ -9,4 +9,8 @@ export class LoggerRepo {
     return await this.loggerMongoose.createLog(data)
   }
 
+  async getLogs(){
+    return await this.loggerMongoose.getLogs()
+  }
+
 }

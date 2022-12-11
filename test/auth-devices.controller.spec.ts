@@ -50,6 +50,11 @@ describe('AppController', () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
 
+    it('should return logs', async () => {
+      const logs = await request(server).get('/logger')
+      expect(logs.body).toStrictEqual({})
+    })
+
     it('should create new user, registration other user and login for get tokens', async () => {
       await request(server).post('/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
       await request(server).post('/auth/registration').send(constants.correctRegistartionUser)

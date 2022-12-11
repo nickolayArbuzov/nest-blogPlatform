@@ -3,9 +3,10 @@ import { DatabaseModule } from '../../outerservices/database/database.module';
 import { LoggerProviders } from './infrastructure/logger.providers';
 import { LoggerMongoose } from './infrastructure/logger.repositoryMongo';
 import { LoggerRepo } from './infrastructure/logger.repo';
+import { LoggerController } from './api/logger.controller';
 
 @Module({
-  controllers: [],
+  controllers: [LoggerController],
   imports: [
     DatabaseModule, 
   ],
