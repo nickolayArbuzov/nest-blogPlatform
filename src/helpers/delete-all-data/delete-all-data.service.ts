@@ -6,6 +6,7 @@ import { CommentModel } from '../../features/comments/domain/entitites/comments.
 import { UserModel } from '../../features/users/domain/entitites/user.interface';
 import { DeviceModel } from '../../features/devices/domain/entitites/device.interface';
 import { LikeModel } from '../../features/likes/domain/entitites/like.interface';
+import { LoggerModel } from '../logger/domain/entitites/logger.interface';
 
 @Injectable()
 export class AllDataService {
@@ -22,6 +23,8 @@ export class AllDataService {
     private Device: Model<DeviceModel>,
     @Inject('LIKE_MONGOOSE')
     private Like: Model<LikeModel>,
+    @Inject('LOGGER_MONGOOSE')
+    private Logger: Model<LoggerModel>,
   ) {}
 
   async deleteAllData(): Promise<void> {

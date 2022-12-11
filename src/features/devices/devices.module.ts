@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { LoggerModule } from '../../helpers/logger/logger.module';
 import { JWT } from '../../helpers/helpers/jwt';
 import { DatabaseModule } from '../../outerservices/database/database.module';
 import { DevicesController } from './api/devices.controller';
@@ -11,6 +12,7 @@ import { DevicesMongoose } from './infrastructure/devices.repositoryMongo';
 @Module({
   controllers: [DevicesController],
   imports: [
+    LoggerModule,
     DatabaseModule, 
     JwtModule,
   ],

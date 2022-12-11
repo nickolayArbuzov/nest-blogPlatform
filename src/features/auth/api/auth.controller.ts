@@ -5,12 +5,16 @@ import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 import {AuthService} from "../application/auth.service";
 import { PasswordRecoveryDto, AuthDto, RegistrationConfirmationDto, RegistrationDto, RegistrationEmailResendingDto, NewPasswordDto } from '../dto/auth.dto';
 import { CookieGuard } from '../../../helpers/guards/cookie.guard';
+import { LoggerRepo } from '../../../helpers/logger/infrastructure/logger.repo';
 
 
 @Controller('auth')
 export class AuthController {
 
-    constructor(private authService: AuthService) {}
+    constructor(
+        private authService: AuthService,
+        private loggerRepo: LoggerRepo,
+    ) {}
 
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
@@ -49,11 +53,18 @@ export class AuthController {
     @UseGuards(CookieGuard)
     @Post('refresh-token')
     async refreshTokens(@Req() req: Request, @Res({ passthrough: true }) res: Response){
+        this.loggerRepo.createLog({path: req.path, date: new Date().toISOString()})
         const result = await this.authService.refreshTokens(req.cookies.refreshToken)
-        res.cookie('refreshToken', result.refreshToken, {
-            httpOnly: true,
-            secure: true,
-        });
+
+        res.cookie(
+            'refreshToken', 
+            result.refreshToken, 
+            {
+                httpOnly: true,
+                secure: true,
+                maxAge: 24*60*60*1000,
+            }
+        );
 
         return { accessToken: result.accessToken };
     }
@@ -61,36 +72,36 @@ export class AuthController {
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration-confirmation')
-    registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
+    async registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
         return this.authService.registrationConfirmation(registrationConfirmationDto)
     }
 
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration')
-    registration(@Body() registrationDto: RegistrationDto){
+    async registration(@Body() registrationDto: RegistrationDto){
         return this.authService.registration(registrationDto)
     }
 
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration-email-resending')
-    registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
+    async registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
         return this.authService.registrationEmailResending(registrationEmailResendingDto)
     }
 
     @HttpCode(204)
     @UseGuards(CookieGuard)
     @Post('logout')
-    logout(@Req() req: Request){
-        console.log('logout')
+    async logout(@Req() req: Request){
+        this.loggerRepo.createLog({path: req.path, date: new Date().toISOString()})      
         return this.authService.logout(req.cookies.refreshToken)
     }
 
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     @Get('me')
-    getAuthMe(@Req() req: Request){
+    async getAuthMe(@Req() req: Request){
         return this.authService.authMe(req.user.userId)
     }
 

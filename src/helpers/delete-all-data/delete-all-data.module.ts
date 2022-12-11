@@ -5,13 +5,13 @@ import { CommentsModule } from '../../features/comments/comments.module';
 import { PostsModule } from '../../features/posts/posts.module';
 import { UsersModule } from '../../features/users/users.module';
 import { LikesModule } from '../../features/likes/likes.module';
+import { LoggerModule } from '../logger/logger.module';
 import { AllDataController } from './delete-all-data.controller';
 import { AllDataService } from './delete-all-data.service';
 
-
 @Module({
   controllers: [AllDataController],
-  imports: [BlogsModule, PostsModule, UsersModule, CommentsModule, DevicesModule, LikesModule],
+  imports: [BlogsModule, PostsModule, UsersModule, CommentsModule, DevicesModule, LikesModule, LoggerModule],
   providers: [
     AllDataService,
   ],
