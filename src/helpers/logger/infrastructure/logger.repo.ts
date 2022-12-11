@@ -10,7 +10,15 @@ export class LoggerRepo {
   }
 
   async getLogs(){
-    return await this.loggerMongoose.getLogs()
+    const logs = await this.loggerMongoose.getLogs()
+    return logs.map(l => {
+      return {
+        path: l.path,
+        comment: l.comment,
+        token: l.token,
+        date: l.date,
+      }
+    })
   }
 
 }
