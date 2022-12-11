@@ -78,6 +78,12 @@ describe('AppController', () => {
       const res = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
       expect(res.body.length).toBe(4)
       constants.variables.setDeviceId(res.body[3].deviceId)
+      expect(res.body[0]).toStrictEqual({
+        ip: expect.any(String),
+        title: expect.any(String),
+        lastActiveDate: expect.any(String),
+        deviceId: expect.any(String),
+      })
     });
 
     it('should delete device by deviceId', async () => {

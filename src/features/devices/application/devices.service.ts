@@ -11,7 +11,15 @@ export class DevicesService {
 
   async findAllDevicesByCurrentUserId(refreshToken: string){
     const token = this.jwtService.verify(refreshToken)
-    return await this.devicesRepo.findAllDevicesByCurrentUserId(token.userId)
+    const devices = await this.devicesRepo.findAllDevicesByCurrentUserId(token.userId)
+    return devices.map(d => {
+      return {
+        ip: d.ip,
+        title: d.title,
+        lastActiveDate: new Date(+d.issuedAt).toISOString(),
+        deviceId: d.deviceId,
+      }
+    })
   }
 
   async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(refreshToken: string){
