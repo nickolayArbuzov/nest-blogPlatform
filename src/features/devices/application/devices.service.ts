@@ -11,22 +11,23 @@ export class DevicesService {
 
   async findAllDevicesByCurrentUserId(refreshToken: string){
     const token = this.jwtService.verify(refreshToken)
-    console.log('token', token)
-    return await this.devicesRepo.findAllDevicesByCurrentUserId()
+    return await this.devicesRepo.findAllDevicesByCurrentUserId(token.userId)
   }
 
   async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(refreshToken: string){
     const token = this.jwtService.verify(refreshToken)
-    console.log('token', token)
-    return await this.devicesRepo.deleteAllDeviceByCurrentUserIdExceptCurrentDevice()
+    return await this.devicesRepo.deleteAllDeviceByCurrentUserIdExceptCurrentDevice(token.deviceId, token.userId)
   }
 
-  async deleteOneDeviceById(id: string, refreshToken: string){
+  async deleteOneDeviceById(deviceId: string, refreshToken: string){
     const token = this.jwtService.verify(refreshToken)
-    console.log('token', token)
-    const post = await this.devicesRepo.deleteOneDeviceById(id)
-    if(post.deletedCount === 0){
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
+    const candidateDevice = await this.devicesRepo.findOneById(deviceId)
+    if(candidateDevice && (token.userId !== candidateDevice?.userId)) {
+      throw new HttpException('Device not your', HttpStatus.FORBIDDEN)
+    }
+    const device = await this.devicesRepo.deleteOneDeviceById(deviceId, token.userId)
+    if(device.deletedCount === 0){
+      throw new HttpException('Device not found', HttpStatus.NOT_FOUND)
     } else {
       return
     }

@@ -82,7 +82,6 @@ export class AuthService {
       }
     }
     catch(e){
-      console.log('catch')
       throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED)
     }
   }

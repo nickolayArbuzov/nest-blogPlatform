@@ -186,6 +186,7 @@ class Variables {
     accessToken4 = ''
     cookie = ''
     cookie2 = ''
+    deviceId = ''
 
     incorrectAnyEntityId = '638b5478fde32b4487e99999'
     incorrectToken = '77777GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkyM2I5NTVlZTgwZDRkZGIyYzdlMjEiLCJkZXZpY2VJZCI6IjEwNzMxMjFjLTM1YWQtNGMyMi04ZTFhLWM2NTNmMzhkYmJmMyIsImlzc3VlZEF0IjoxNjcwNTI3ODkzMjg5LCJpYXQiOjE2NzA1Mjc4OTMsImV4cCI6MTY3MDUyODE5M30.53_vG0GlhTqXosc2sq2-TnzxEyItCLrDHw8ZJjWRSQc'
@@ -225,6 +226,9 @@ class Variables {
     }
     setCookie2(cookie2: string){
         this.cookie2 = cookie2
+    }
+    setDeviceId(deviceId: string){
+        this.deviceId = deviceId
     }
 }
 

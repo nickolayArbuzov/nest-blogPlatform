@@ -10,16 +10,20 @@ export class DevicesMongoose {
     private Device: Model<DeviceModel>,
   ) {}
 
-  async findAllDevicesByCurrentUserId(){
-    return await this.Device.countDocuments();
+  async findAllDevicesByCurrentUserId(userId: string){
+    return await this.Device.find({userId: userId})
   }
 
-  async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(){
-    return await this.Device.deleteOne()
+  async findOneById(deviceId: string){
+    return await this.Device.findOne({deviceId: deviceId});
   }
 
-  async deleteOneDeviceById(id: string){
-    return await this.Device.deleteOne({_id: id})
+  async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(deviceId: string, userId: string){
+    return await this.Device.deleteMany({userId: userId, deviceId: {$ne: deviceId}})
+  }
+
+  async deleteOneDeviceById(deviceId: string, userId: string){
+    return await this.Device.deleteOne({deviceId: deviceId, userId: userId})
   }
 
   async createDevice(device: Device){

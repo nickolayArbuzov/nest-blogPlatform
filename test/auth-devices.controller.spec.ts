@@ -53,9 +53,12 @@ describe('AppController', () => {
     it('should create new user, registration other user and login for get tokens', async () => {
       await request(server).post('/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
       await request(server).post('/auth/registration').send(constants.correctRegistartionUser)
-      const login = await request(server).post('/auth/login').send(constants.correctLoginUser)
+      const login = await request(server).post('/auth/login').set('user-agent', 'Mozilla').send(constants.correctLoginUser)
       constants.variables.setAccessToken(login.body.accessToken)
       constants.variables.setCookie(login.header['set-cookie'])
+      await request(server).post('/auth/login').set('user-agent', 'AppleWebKit').send(constants.correctLoginUser)
+      await request(server).post('/auth/login').set('user-agent', 'Chrome').send(constants.correctLoginUser)
+      await request(server).post('/auth/login').set('user-agent', 'Safari').send(constants.correctLoginUser)
     });
 
     it('should try to registration if creds is exists', async () => {
@@ -70,6 +73,30 @@ describe('AppController', () => {
       const response = await request(server).post('/auth/refresh-token').set('Cookie', constants.variables.cookie).expect(200);
       expect(response.body).toStrictEqual({accessToken: expect.any(String)})
     });
+
+    it('should return devices by userId', async () => {
+      const res = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
+      expect(res.body.length).toBe(4)
+      constants.variables.setDeviceId(res.body[3].deviceId)
+    });
+
+    it('should delete device by deviceId', async () => {
+      await request(server).delete(`/security/devices/${constants.variables.deviceId}`).set('Cookie', constants.variables.cookie)
+      const devices = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
+      expect(devices.body.length).toBe(3)
+    })
+
+    it('should return 404, if trying delete incorrect device by deviceId', async () => {
+      await request(server).delete(`/security/devices/${constants.variables.deviceId}`).set('Cookie', constants.variables.cookie).expect(404)
+      const devices = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
+      expect(devices.body.length).toBe(3)
+    })
+
+    it('should delete devices exept current device current user', async () => {
+      await request(server).delete('/security/devices').set('Cookie', constants.variables.cookie)
+      const devices = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
+      expect(devices.body.length).toBe(1)
+    })
 
     it('should return 401 if try logout with non-valid refresh-token', async () => {
       await request(server).post('/auth/logout').set('Cookie', constants.variables.cookie).expect(401);

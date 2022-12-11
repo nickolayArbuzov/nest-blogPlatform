@@ -6,16 +6,20 @@ import { DevicesMongoose } from './devices.repositoryMongo';
 export class DevicesRepo {
   constructor(private devicesMongoose: DevicesMongoose) {}
 
-  async findAllDevicesByCurrentUserId(){
-    return await this.devicesMongoose.findAllDevicesByCurrentUserId()
+  async findAllDevicesByCurrentUserId(userId: string){
+    return await this.devicesMongoose.findAllDevicesByCurrentUserId(userId)
   }
 
-  async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(){
-    return await this.devicesMongoose.deleteAllDeviceByCurrentUserIdExceptCurrentDevice()
+  async findOneById(deviceId: string){
+    return await this.devicesMongoose.findOneById(deviceId)
   }
 
-  async deleteOneDeviceById(id: string){
-    return await this.devicesMongoose.deleteOneDeviceById(id)
+  async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(deviceId: string, userId: string){
+    return await this.devicesMongoose.deleteAllDeviceByCurrentUserIdExceptCurrentDevice(deviceId, userId)
+  }
+
+  async deleteOneDeviceById(deviceId: string, userId: string){
+    return await this.devicesMongoose.deleteOneDeviceById(deviceId, userId)
   }
 
   async createDevice(device: Device){
