@@ -71,41 +71,10 @@ describe('AppController', () => {
       expect(response.body).toStrictEqual({accessToken: expect.any(String)})
     });
 
-    /*it('should return filtered array of users with pagination and sorting', async () => {
-      await request(server).post('/users').send(constants.createUser2).expect(201);
-      await request(server).post('/users').send(constants.createUser3).expect(201);
-      await request(server).post('/users').send(constants.createUser4).expect(201);
-
-      const users = await request(server).get(`/users?pageNumber=${constants.queryUser.pageNumber}&pageSize=${constants.queryUser.pageSize}&sortDirection=${constants.queryUser.sortDirection}&searchEmailTerm=${constants.queryUser.searchEmailTerm}&searchLoginTerm=${constants.queryUser.searchLoginTerm}`).expect(200)
-      expect(users.body.pagesCount).toBe(1)
-      expect(users.body.page).toBe(+constants.queryUser.pageNumber)
-      expect(users.body.pageSize).toBe(+constants.queryUser.pageSize)
-      expect(users.body.totalCount).toBe(2)
-      expect(users.body.items.length).toBe(2)
-      expect(users.body.items[0].login).toBe('login-3')
+    it('should logout', async () => {
+      const response = await request(server).post('/auth/refresh-token').set('Cookie', constants.variables.cookie).expect(200);
+      expect(response.body).toStrictEqual({accessToken: expect.any(String)})
     });
-
-    it('should return full array of users with default-pagination-sorting', async () => {
-      const users = await request(server).get('/users').expect(200)
-      expect(users.body.pagesCount).toBe(1)
-      expect(users.body.page).toBe(1)
-      expect(users.body.pageSize).toBe(10)
-      expect(users.body.totalCount).toBe(4)
-      expect(users.body.items.length).toBe(4)
-      expect(users.body.items[3].login).toBe('login-1')
-    });
-
-    it('should return status 404 if finding user not found', async () => {
-      await request(server).get(`/users/${constants.variables.incorrectAnyEntityId}`).expect(404)
-    });
-
-    it('should return status 204 if deleting user', async () => {
-      await request(server).delete(`/users/${constants.variables.userId}`).expect(204)
-    });
-
-    it('should return status 404 if deleting user not found', async () => {
-      await request(server).delete(`/users/${constants.variables.userId}`).expect(404)
-    });*/
 
   });
 });

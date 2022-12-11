@@ -1,7 +1,6 @@
 import {Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AttemptsGuard } from '../../../helpers/guards/attempts.guard';
-import { Cookies } from '../../../helpers/customdecorators/cookie.decorator';
 import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 import {AuthService} from "../application/auth.service";
 import { PasswordRecoveryDto, AuthDto, RegistrationConfirmationDto, RegistrationDto, RegistrationEmailResendingDto, NewPasswordDto } from '../dto/auth.dto';
@@ -30,7 +29,7 @@ export class AuthController {
     @HttpCode(200)
     @UseGuards(AttemptsGuard)
     @Post('login')
-    async login(@Body() authDto: AuthDto, @Req() req, @Res({ passthrough: true }) res){
+    async login(@Body() authDto: AuthDto, @Req() req: Request, @Res({ passthrough: true }) res: Response){
         const result = await this.authService.login(authDto, req.ip, req.headers['user-agent'] || '')
 
         res.cookie(
@@ -62,36 +61,36 @@ export class AuthController {
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration-confirmation')
-    registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto ){
+    registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
         return this.authService.registrationConfirmation(registrationConfirmationDto)
     }
 
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration')
-    registration(@Body() registrationDto: RegistrationDto ){
+    registration(@Body() registrationDto: RegistrationDto){
         return this.authService.registration(registrationDto)
     }
 
     @HttpCode(204)
     @UseGuards(AttemptsGuard)
     @Post('registration-email-resending')
-    registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto ){
+    registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
         return this.authService.registrationEmailResending(registrationEmailResendingDto)
     }
 
     @HttpCode(204)
     @UseGuards(CookieGuard)
     @Post('logout')
-    logout(@Cookies() cookie){
-        return this.authService.logout(cookie.refreshToken)
+    logout(@Req() req: Request){
+        return this.authService.logout(req.cookies.refreshToken)
     }
 
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     @Get('me')
-    getAuthMe(@Req() req){
-        return this.authService.authMe(req.user.id)
+    getAuthMe(@Req() req: Request){
+        return this.authService.authMe(req.user.userId)
     }
 
 }
