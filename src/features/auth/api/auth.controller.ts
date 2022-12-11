@@ -45,7 +45,7 @@ export class AuthController {
                 maxAge: 24*60*60*1000,
             }
         );
-
+        this.loggerRepo.createLog({path: req.path, comment: 'login', token: result.refreshToken, date: new Date().toISOString()})    
         return { accessToken: result.accessToken };
     }
 
@@ -53,7 +53,7 @@ export class AuthController {
     @UseGuards(CookieGuard)
     @Post('refresh-token')
     async refreshTokens(@Req() req: Request, @Res({ passthrough: true }) res: Response){
-        this.loggerRepo.createLog({path: req.path, token: req.cookies.refreshToken, date: new Date().toISOString()})
+        this.loggerRepo.createLog({path: req.path, comment: 'pre-refresh', token: req.cookies.refreshToken, date: new Date().toISOString()})
         const result = await this.authService.refreshTokens(req.cookies.refreshToken)
 
         res.cookie(
@@ -65,7 +65,7 @@ export class AuthController {
                 maxAge: 24*60*60*1000,
             }
         );
-
+        this.loggerRepo.createLog({path: req.path, comment: 'after-refresh', token: result.refreshToken, date: new Date().toISOString()})
         return { accessToken: result.accessToken };
     }
 
@@ -94,7 +94,7 @@ export class AuthController {
     @UseGuards(CookieGuard)
     @Post('logout')
     async logout(@Req() req: Request){
-        this.loggerRepo.createLog({path: req.path, token: req.cookies.refreshToken, date: new Date().toISOString()})      
+        this.loggerRepo.createLog({path: req.path, comment: 'logout', token: req.cookies.refreshToken, date: new Date().toISOString()})  
         return this.authService.logout(req.cookies.refreshToken)
     }
 
