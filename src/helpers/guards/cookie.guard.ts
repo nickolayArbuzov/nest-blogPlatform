@@ -7,13 +7,14 @@ import { LoggerRepo } from '../logger/infrastructure/logger.repo';
 export class CookieGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
-    private loggerRepo: LoggerRepo,
     // add authService with jwtService(verify)
+    private loggerRepo: LoggerRepo,
   ){}
   canActivate(
     context: ExecutionContext,
   ): boolean {
     const request: Request = context.switchToHttp().getRequest();  
+    this.loggerRepo.createLog({path: request.path, comment: '', token: request.cookies.refreshToken, date: new Date().toISOString()})
     if (request.cookies){
       try {
         const user = this.jwtService.verify(request.cookies.refreshToken, {secret: 'secret'})
