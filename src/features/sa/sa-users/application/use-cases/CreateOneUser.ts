@@ -29,6 +29,11 @@ export class CreateOneUserUseCase {
         isActivated: false,
         code: '',
         createdAt: date.toISOString(),
+        banInfo: {
+          isBanned: false,
+          banDate: null,
+          banReason: null,
+        },
       }
 
       const createdUser = await this.usersRepo.createOneUser(user)

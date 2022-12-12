@@ -6,6 +6,7 @@ import { BlogsService } from '../application/blogs.service';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
 import { BasicAuthGuard } from '../../../../helpers/guards/auth.guard';
 import { ExtractUserFromToken } from '../../../../helpers/guards/extractUserFromToken.guard';
+import { JWTAuthGuard } from '../../../../helpers/guards/jwt.guard';
 
 @Controller('blogger/blogs')
 export class BlogsController {
@@ -13,46 +14,48 @@ export class BlogsController {
         private blogsService: BlogsService
     ) {}
 
-    @Get()
-    async findAllBlogs(@Query() query: QueryBlogDto){
-        return await this.blogsService.findAllBlogs(query)
+    @UseGuards(JWTAuthGuard)
+    @HttpCode(204)
+    @Delete(':id')
+    async deleteOneBlogById(@Param('id') id: string){
+        return this.blogsService.deleteOneBlogById(id)
     }
 
-    @UseGuards(BasicAuthGuard)
-    @Post()
-    async createOneBlog(@Body() blogDto: CreateBlogDto){
-        return this.blogsService.createOneBlog(blogDto);
-    }
-
-    @UseGuards(ExtractUserFromToken)
-    @Get(':id/posts')
-    async findPostsByBlogId(@Query() query: QueryBlogDto, @Param('id') id: string, @Req() req: Request){
-        return this.blogsService.findPostsByBlogId(query, id, req.user?.userId)
-    }
-
-    @UseGuards(BasicAuthGuard)
-    @Post(':id/posts')
-    async createOnePostForBlogId(@Param('id') id: string, @Body() postDto: CreatePostDefaultDto){
-        return this.blogsService.createOnePostForBlogId(id, postDto)
-    }
-
-    @Get(':id')
-    async findOneBlogById(@Param('id') id: string){
-        return this.blogsService.findOneBlogById(id)
-    }
-
-    @UseGuards(BasicAuthGuard)
+    @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Put(':id')
     async updateOneBlogById(@Param('id') id: string, @Body() blogDto: UpdateBlogDto){
         return this.blogsService.updateOneBlogById(id, blogDto)
     }
 
-    @UseGuards(BasicAuthGuard)
-    @HttpCode(204)
-    @Delete(':id')
-    async deleteOneBlogById(@Param('id') id: string){
-        return this.blogsService.deleteOneBlogById(id)
+    @UseGuards(JWTAuthGuard)
+    @Post(':id/posts')
+    async createOnePostForBlogId(@Param('id') id: string, @Body() postDto: CreatePostDefaultDto){
+        return this.blogsService.createOnePostForBlogId(id, postDto)
     }
-    
+
+    @UseGuards(JWTAuthGuard)
+    @Put(':blogId/posts/:postId')
+    async updateOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Body() postDto: CreatePostDefaultDto){
+        return this.blogsService.createOnePostForBlogId(blogId, postDto)
+    }
+
+    @UseGuards(JWTAuthGuard)
+    @Delete(':blogId/posts/:postId')
+    async deleteOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Body() postDto: CreatePostDefaultDto){
+        return this.blogsService.createOnePostForBlogId(blogId, postDto)
+    }
+
+    @UseGuards(JWTAuthGuard)
+    @Post()
+    async createOneBlog(@Body() blogDto: CreateBlogDto){
+        return this.blogsService.createOneBlog(blogDto);
+    }
+
+    @UseGuards(JWTAuthGuard)
+    @Get()
+    async findAllBlogs(@Query() query: QueryBlogDto){
+        return await this.blogsService.findAllBlogs(query)
+    }
+
 }

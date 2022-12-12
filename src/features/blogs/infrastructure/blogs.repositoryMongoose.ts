@@ -38,19 +38,8 @@ export class BlogsMongoose {
     }
   }
 
-  async createOneBlog(newBlog: Blog){
-    return await this.Blog.create(newBlog)
-  }
-
   async findOneBlogById(id: string){
     return await this.Blog.findOne({_id: id})
   }
 
-  async updateOneBlogById(id: string, updateBlog: UpdateBlogDto){
-    return await this.Blog.updateOne({_id: id}, {$set: updateBlog})
-  }
-
-  async deleteOneBlogById(id: string){
-    return await this.Blog.deleteOne({_id: id})
-  }
 }
