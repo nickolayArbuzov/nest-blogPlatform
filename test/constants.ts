@@ -184,8 +184,13 @@ class Variables {
     accessToken2 = ''
     accessToken3 = ''
     accessToken4 = ''
+    // cookies for different users
     cookie = ''
     cookie2 = ''
+    // cookies for one user in refresh-tokens case
+    cookiePrev = ''
+    cookieAfter = ''
+
     deviceId = ''
 
     incorrectAnyEntityId = '638b5478fde32b4487e99999'
@@ -229,6 +234,12 @@ class Variables {
     }
     setDeviceId(deviceId: string){
         this.deviceId = deviceId
+    }
+    setCookiePrev(cookiePrev: string){
+        this.cookiePrev = cookiePrev
+    }
+    setCookieAfter(cookieAfter: string){
+        this.cookieAfter = cookieAfter
     }
 }
 

@@ -50,20 +50,26 @@ describe('AppController', () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
 
-    it('should return logs', async () => {
-      const logs = await request(server).get('/logger')
-      expect(logs.body).toStrictEqual({})
-    })
-
     it('should create new user, registration other user and login for get tokens', async () => {
       await request(server).post('/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
       await request(server).post('/auth/registration').send(constants.correctRegistartionUser)
+
       const login = await request(server).post('/auth/login').set('user-agent', 'Mozilla').send(constants.correctLoginUser)
       constants.variables.setAccessToken(login.body.accessToken)
       constants.variables.setCookie(login.header['set-cookie'])
       await request(server).post('/auth/login').set('user-agent', 'AppleWebKit').send(constants.correctLoginUser)
       await request(server).post('/auth/login').set('user-agent', 'Chrome').send(constants.correctLoginUser)
       await request(server).post('/auth/login').set('user-agent', 'Safari').send(constants.correctLoginUser)
+    });
+
+    it('should realize case with refresh-token flow', async () => {
+      const login = await request(server).post('/auth/login').set('user-agent', 'Safari-2').send(constants.correctLoginUser)
+      constants.variables.setCookiePrev(login.header['set-cookie'])
+      const response = await request(server).post('/auth/refresh-token').set('Cookie', constants.variables.cookiePrev).expect(200)
+      constants.variables.setCookieAfter(response.header['set-cookie'])
+      await request(server).post('/auth/refresh-token').set('Cookie', constants.variables.cookiePrev).expect(401)
+      await request(server).post('/auth/logout').set('Cookie', constants.variables.cookiePrev).expect(401);
+      await request(server).post('/auth/logout').set('Cookie', constants.variables.cookieAfter).expect(204);
     });
 
     it('should try to registration if creds is exists', async () => {

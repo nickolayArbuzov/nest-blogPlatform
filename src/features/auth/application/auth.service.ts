@@ -48,7 +48,7 @@ export class AuthService {
         expiresAt: new Date().getTime() + 20000,
         userId: auth.id!.toString(),
       }
-      const payloadAccess = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt/1000}
+      const payloadAccess = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
       const payloadRefresh = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
       const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
       const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
@@ -70,8 +70,8 @@ export class AuthService {
       if(device) {
         const issuedAt = new Date().getTime()
         const expiresAt = new Date().getTime() + 20000
-        const payloadAccess = {userId: device.userId, deviceId: device.deviceId, issuedAt: device.issuedAt}
-        const payloadRefresh = {userId: device.userId, deviceId: device.deviceId, issuedAt:  device.issuedAt}
+        const payloadAccess = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
+        const payloadRefresh = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
         const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
         const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
         await this.devicesRepo.updateDevice(device.deviceId.toString(), issuedAt, expiresAt)
