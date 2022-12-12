@@ -17,21 +17,18 @@ export class AuthController {
     ) {}
 
     @HttpCode(204)
-    @UseGuards(AttemptsGuard)
     @Post('password-recovery')
     async passwordRecovery(passwordRecoveryDto: PasswordRecoveryDto){
         return this.authService.passwordRecovery(passwordRecoveryDto)
     }
 
     @HttpCode(204)
-    @UseGuards(AttemptsGuard)
     @Post('new-password')
     async newPassword(newPasswordDto: NewPasswordDto){
         return this.authService.newPassword(newPasswordDto)
     }
 
     @HttpCode(200)
-    @UseGuards(AttemptsGuard)
     @Post('login')
     async login(@Body() authDto: AuthDto, @Req() req: Request, @Res({ passthrough: true }) res: Response){
         const result = await this.authService.login(authDto, req.ip, req.headers['user-agent'] || '')
@@ -69,21 +66,18 @@ export class AuthController {
     }
 
     @HttpCode(204)
-    @UseGuards(AttemptsGuard)
     @Post('registration-confirmation')
     async registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
         return this.authService.registrationConfirmation(registrationConfirmationDto)
     }
 
     @HttpCode(204)
-    @UseGuards(AttemptsGuard)
     @Post('registration')
     async registration(@Body() registrationDto: RegistrationDto){
         return this.authService.registration(registrationDto)
     }
 
     @HttpCode(204)
-    @UseGuards(AttemptsGuard)
     @Post('registration-email-resending')
     async registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
         return this.authService.registrationEmailResending(registrationEmailResendingDto)
