@@ -50,8 +50,8 @@ export class UsersService {
         createdAt: date.toISOString(),
         banInfo: {
           isBanned: false,
-          banDate: date.toISOString(),
-          banReason: "",
+          banDate: null,
+          banReason: null,
         },
       }
 

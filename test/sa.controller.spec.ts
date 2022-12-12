@@ -56,8 +56,8 @@ describe('AppController', () => {
         createdAt: expect.any(String),
         banInfo: {
           isBanned: false,
-          banDate: expect.any(String),
-          banReason: "",
+          banDate: null,
+          banReason: null,
         },
       });
       expect(response.status).toBe(201)
