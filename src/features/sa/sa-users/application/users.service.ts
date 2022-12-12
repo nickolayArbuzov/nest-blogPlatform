@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { queryDefault } from '../../../helpers/constants/constants/constants';
-import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
+import { queryDefault } from '../../../../helpers/constants/constants/constants';
+import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { CreateUserDto } from '../dto/user.dto';
 import { UsersRepo } from '../infrastructure/users.repo';
 

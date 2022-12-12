@@ -4,7 +4,7 @@ import { AuthDto, NewPasswordDto, PasswordRecoveryDto, RegistrationConfirmationD
 import { JwtService } from '@nestjs/jwt';
 import {v4} from 'uuid';
 import { sendEmail } from '../../../adapters/mail.adapter';
-import { UsersRepo } from '../../users/infrastructure/users.repo';
+import { UsersRepo } from '../../sa/sa-users/infrastructure/users.repo';
 import { DevicesRepo } from '../../devices/infrastructure/devices.repo';
 import { Device } from '../../devices/domain/entitites/device';
 import { LoggerRepo } from '../../../helpers/logger/infrastructure/logger.repo';
@@ -45,13 +45,13 @@ export class AuthService {
         title: deviceName, 
         deviceId: deviceId,
         issuedAt: new Date().getTime(),
-        expiresAt: new Date().getTime() + 20000,
+        expiresAt: new Date().getTime() + 600000,
         userId: auth.id!.toString(),
       }
       const payloadAccess = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
       const payloadRefresh = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
-      const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
-      const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
+      const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '5m'})
+      const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '10m'})
       await this.devicesRepo.createDevice(device)
       return {
         accessToken,
@@ -69,11 +69,11 @@ export class AuthService {
       const device = await this.devicesRepo.findOneDeviceByRefreshTokenData(refresh.deviceId, refresh.issuedAt)
       if(device) {
         const issuedAt = new Date().getTime()
-        const expiresAt = new Date().getTime() + 20000
+        const expiresAt = new Date().getTime() + 600000
         const payloadAccess = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
         const payloadRefresh = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
-        const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
-        const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
+        const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '5m'})
+        const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '10m'})
         await this.devicesRepo.updateDevice(device.deviceId.toString(), issuedAt, expiresAt)
         return {
           accessToken,

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
+import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { User } from '../domain/entitites/user';
 import { UserModel } from '../domain/entitites/user.interface';
 

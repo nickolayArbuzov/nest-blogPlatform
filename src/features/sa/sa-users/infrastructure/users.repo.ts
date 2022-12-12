@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
+import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { User } from '../domain/entitites/user';
 import { UsersMongoose } from './users.repositoryMongoose';
 

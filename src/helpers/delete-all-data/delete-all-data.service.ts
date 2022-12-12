@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { BlogModel } from '../../features/blogs/domain/entitites/blog.interface';
 import { PostModel } from '../../features/posts/domain/entitites/post.interface';
 import { CommentModel } from '../../features/comments/domain/entitites/comments.interface';
-import { UserModel } from '../../features/users/domain/entitites/user.interface';
+import { UserModel } from '../../features/sa/sa-users/domain/entitites/user.interface';
 import { DeviceModel } from '../../features/devices/domain/entitites/device.interface';
 import { LikeModel } from '../../features/likes/domain/entitites/like.interface';
 import { LoggerModel } from '../logger/domain/entitites/logger.interface';

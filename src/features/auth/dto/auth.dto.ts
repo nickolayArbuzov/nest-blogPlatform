@@ -1,5 +1,5 @@
 import { IsString, Length, Matches, Validate } from "class-validator";
-import { UserCodeIsConfirmedRule, UserLoginIsExistRule, UserMailCheckRule, UserMailIsExistRule } from "../../users/custom-validators/customValidateUser";
+import { UserCodeIsConfirmedRule, UserLoginIsExistRule, UserMailCheckRule, UserMailIsExistRule } from "../../sa/sa-users/custom-validators/customValidateUser";
 
 export class PasswordRecoveryDto {
     @IsString()

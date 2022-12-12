@@ -1,11 +1,11 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
-import { QueryUserDto } from '../../../helpers/constants/commonDTO/query.dto';
+import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { UsersService } from '../application/users.service';
 import { CreateUserDto } from '../dto/user.dto';
-import { BasicAuthGuard } from '../../../helpers/guards/auth.guard';
+import { BasicAuthGuard } from '../../../../helpers/guards/auth.guard';
 import { CommandBus } from '@nestjs/cqrs';
 
-@Controller('users')
+@Controller('sa/users')
 export class UsersController {
     constructor(
         private commandBus: CommandBus,

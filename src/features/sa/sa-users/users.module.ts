@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { DatabaseModule } from '../../outerservices/database/database.module';
+import { DatabaseModule } from '../../../outerservices/database/database.module';
 import { UsersController } from './api/users.controller';
 import { UsersService } from './application/users.service';
 import { UserCodeIsConfirmedRule, UserLoginIsExistRule, UserMailCheckRule, UserMailIsExistRule } from './custom-validators/customValidateUser';

@@ -1,5 +1,5 @@
-import { queryDefault } from '../../../../helpers/constants/constants/constants';
-import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
+import { queryDefault } from '../../../../../helpers/constants/constants/constants';
+import { QueryUserDto } from '../../../../../helpers/constants/commonDTO/query.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
 import { CommandHandler } from '@nestjs/cqrs';
 
