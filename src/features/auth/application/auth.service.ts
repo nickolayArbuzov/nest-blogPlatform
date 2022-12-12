@@ -106,6 +106,11 @@ export class AuthService {
         isActivated: false,
         code: code,
         createdAt: date.toISOString(),
+        banInfo: {
+          isBanned: false,
+          banDate: date.toISOString(),
+          banReason: "",
+        },
       }
 
       await this.usersRepo.createOneUser(user)

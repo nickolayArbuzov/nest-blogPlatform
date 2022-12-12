@@ -8,4 +8,9 @@ export const UserSchema = new mongoose.Schema({
     isActivated: Boolean,
     code: String,
     createdAt: String,
+    banInfo: {
+        isBanned: Boolean,
+        banDate: String,
+        banReason: String,
+    },
 });

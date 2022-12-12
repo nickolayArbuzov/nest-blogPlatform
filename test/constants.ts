@@ -172,6 +172,15 @@ let none = {
     likeStatus: 'None'
 }
 
+let ban = {
+    isBanned: true,
+    banReason: "stringstringstringst"
+}
+let unban = {
+    isBanned: false,
+    banReason: "stringstringstringst"
+}
+
 class Variables {
 
     blogId = ''
@@ -268,6 +277,8 @@ export {
     queryBlog, queryUser,
 
     like, dislike, none,
+
+    ban, unban,
 
     variables,
 }

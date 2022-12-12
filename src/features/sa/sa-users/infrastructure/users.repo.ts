@@ -1,14 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { User } from '../domain/entitites/user';
+import { BanInfo, User } from '../domain/entitites/user';
 import { UsersMongoose } from './users.repositoryMongoose';
 
 @Injectable()
 export class UsersRepo {
   constructor(private usersMongoose: UsersMongoose) {}
 
+  async banOneUserById(id: string, banInfo: BanInfo){
+    return await this.usersMongoose.banOneUserById(id, banInfo)
+  }
+
   async findAllUsers(query: QueryUserDto){
-    return this.usersMongoose.findAllUsers(query)
+    return await this.usersMongoose.findAllUsers(query)
   }
 
   async createOneUser(newUser: User){
@@ -32,27 +36,27 @@ export class UsersRepo {
   }
 
   async findOneForCustomDecoratorByLogin(login: string) {
-    return this.usersMongoose.findOneForCustomDecoratorByLogin(login)
+    return await this.usersMongoose.findOneForCustomDecoratorByLogin(login)
   }
 
   async findOneForCustomDecoratorByEmail(email: string) {
-    return this.usersMongoose.findOneForCustomDecoratorByEmail(email)
+    return await this.usersMongoose.findOneForCustomDecoratorByEmail(email)
   }
 
   async findOneForCustomDecoratorByCode(code: string) {
-    return this.usersMongoose.findOneForCustomDecoratorByCode(code)
+    return await this.usersMongoose.findOneForCustomDecoratorByCode(code)
   }
 
   async findOneForCustomDecoratorCheckMail(email: string) {
-    return this.usersMongoose.findOneForCustomDecoratorCheckMail(email)
+    return await this.usersMongoose.findOneForCustomDecoratorCheckMail(email)
   }
 
   async registrationConfirmation(code: string){
-    return this.usersMongoose.registrationConfirmation(code)
+    return await this.usersMongoose.registrationConfirmation(code)
   }
 
   async registrationEmailResending(email: string, code: string){
-    return this.usersMongoose.registrationEmailResending(email, code)
+    return await this.usersMongoose.registrationEmailResending(email, code)
   }
 
   async authMe(userId: string){

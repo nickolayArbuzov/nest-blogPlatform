@@ -2,12 +2,24 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { queryDefault } from '../../../../helpers/constants/constants/constants';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { CreateUserDto } from '../dto/user.dto';
+import { BanDto, CreateUserDto } from '../dto/user.dto';
 import { UsersRepo } from '../infrastructure/users.repo';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepo: UsersRepo) {}
+  constructor(
+    private usersRepo: UsersRepo
+  ) {}
+
+    async banOneUserById(id: string, banDto: BanDto){
+      const date = new Date()
+      const banInfo = {
+        isBanned: banDto.isBanned,
+        banDate: date.toISOString(),
+        banReason: banDto.banReason,
+      }
+      return await this.usersRepo.banOneUserById(id, banInfo)
+    }
 
     async findAllUsers(queryParams: QueryUserDto){
       const query = {
@@ -36,6 +48,11 @@ export class UsersService {
         isActivated: false,
         code: '',
         createdAt: date.toISOString(),
+        banInfo: {
+          isBanned: false,
+          banDate: date.toISOString(),
+          banReason: "",
+        },
       }
 
       const createdUser = await this.usersRepo.createOneUser(user)
@@ -45,6 +62,7 @@ export class UsersService {
         login: createdUser.login,
         email: createdUser.email,
         createdAt: createdUser.createdAt,
+        banInfo: createdUser.banInfo,
       }
     }
 

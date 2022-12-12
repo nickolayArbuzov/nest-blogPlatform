@@ -6,4 +6,11 @@ export class User {
     isActivated: boolean
     code: string
     createdAt: string
+    banInfo: BanInfo
+}
+
+export class BanInfo {
+    isBanned: boolean
+    banDate: string
+    banReason: string
 }

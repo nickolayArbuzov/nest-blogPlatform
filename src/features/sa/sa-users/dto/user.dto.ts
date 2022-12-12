@@ -1,5 +1,4 @@
-import { Transform, TransformFnParams } from "class-transformer";
-import { IsString, Length, Matches } from "class-validator";
+import { IsBoolean, IsString, Length, Matches } from "class-validator";
 
 export class CreateUserDto {
     @IsString()
@@ -13,4 +12,13 @@ export class CreateUserDto {
     @IsString()
     @Matches(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4}$)/)
     readonly email: string;
+}
+
+export class BanDto {
+    @IsBoolean()
+    readonly isBanned: boolean;
+
+    @IsString()
+    @Length(20)
+    readonly banReason: string;
 }

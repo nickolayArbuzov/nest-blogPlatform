@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { UsersService } from '../application/users.service';
-import { CreateUserDto } from '../dto/user.dto';
+import { BanDto, CreateUserDto } from '../dto/user.dto';
 import { BasicAuthGuard } from '../../../../helpers/guards/auth.guard';
 import { CommandBus } from '@nestjs/cqrs';
 
@@ -11,6 +11,13 @@ export class UsersController {
         private commandBus: CommandBus,
         private usersService: UsersService,
     ) {}
+
+    @HttpCode(204)
+    @UseGuards(BasicAuthGuard)
+    @Put(':id/ban')
+    async banOneUserById(@Param('id') id: string, @Body() banDto: BanDto){
+        return await this.usersService.banOneUserById(id, banDto)
+    }
 
     @UseGuards(BasicAuthGuard)
     @Get()

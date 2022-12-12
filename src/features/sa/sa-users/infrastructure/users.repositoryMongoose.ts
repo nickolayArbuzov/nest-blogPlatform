@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { User } from '../domain/entitites/user';
+import { BanInfo, User } from '../domain/entitites/user';
 import { UserModel } from '../domain/entitites/user.interface';
 
 @Injectable()
@@ -10,6 +10,10 @@ export class UsersMongoose {
     @Inject('USER_MONGOOSE')
     private User: Model<UserModel>,
   ) {}
+
+  async banOneUserById(id: string, banInfo: BanInfo){
+    return await this.User.updateOne({_id: id}, {$set: {banInfo: banInfo}})
+  }
 
   async findAllUsers(query: QueryUserDto){
     const users = await this.User.find(
@@ -40,6 +44,7 @@ export class UsersMongoose {
               login: i.login, 
               email: i.email,
               createdAt: i.createdAt,
+              banInfo: i.banInfo,
             }
         }),
     }
