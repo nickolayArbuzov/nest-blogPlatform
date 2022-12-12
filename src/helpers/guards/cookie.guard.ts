@@ -19,15 +19,12 @@ export class CookieGuard implements CanActivate {
       try {
         const user = this.jwtService.verify(request.cookies.refreshToken, {secret: 'secret'})
         if (user){
-          this.loggerRepo.createLog({path: request.path, comment: 'user-found-pass', token: request.cookies.refreshToken || 'none', date: new Date().toISOString()})
           return true
         }
       } catch {
-        this.loggerRepo.createLog({path: request.path, comment: 'jwt-catch-401', token: request.cookies.refreshToken || 'none', date: new Date().toISOString()})
         throw new UnauthorizedException()
       }
     }
-    this.loggerRepo.createLog({path: request.path, comment: 'none-cookie-401', token: request.cookies.refreshToken || 'none', date: new Date().toISOString()})
     throw new UnauthorizedException()
   }
 }
