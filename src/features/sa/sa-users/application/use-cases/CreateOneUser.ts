@@ -1,4 +1,4 @@
-import { CommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../../dto/user.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
@@ -16,7 +16,7 @@ export class CreateOneUserUseCase {
   ) {}
 
     async execute(command: CreateOneUserCommand){
-      command.message
+
       const passwordSalt = await bcrypt.genSalt(8)
       const passwordHash = await bcrypt.hash(command.message.password, passwordSalt)
 

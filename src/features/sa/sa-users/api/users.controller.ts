@@ -3,12 +3,16 @@ import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto'
 import { UsersService } from '../application/users.service';
 import { BanDto, CreateUserDto } from '../dto/user.dto';
 import { BasicAuthGuard } from '../../../../helpers/guards/auth.guard';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateOneUserCommand } from '../application/use-cases/CreateOneUser';
+import { DeleteOneUserByIdCommand } from '../application/use-cases/DeleteOneUserById';
+import { FindAllUsersQuery } from '../application/use-cases/FindAllUsers';
 
 @Controller('sa/users')
 export class UsersController {
     constructor(
         private commandBus: CommandBus,
+        private queryBus: QueryBus,
         private usersService: UsersService,
     ) {}
 
@@ -19,22 +23,41 @@ export class UsersController {
         return await this.usersService.banOneUserById(id, banDto)
     }
 
-    @UseGuards(BasicAuthGuard)
+    /*@UseGuards(BasicAuthGuard)
     @Get()
     async findAllUsers(@Query() query: QueryUserDto){
         return await this.usersService.findAllUsers(query)
+    }*/
+
+    @UseGuards(BasicAuthGuard)
+    @Get()
+    async findAllUsers(@Query() query: QueryUserDto){
+        return await this.queryBus.execute(new FindAllUsersQuery(query))
     }
+
+    /*@UseGuards(BasicAuthGuard)
+    @Post()
+    async createOneUser(@Body() userDto: CreateUserDto){
+        return await this.usersService.createOneUser(userDto)
+    }*/
 
     @UseGuards(BasicAuthGuard)
     @Post()
     async createOneUser(@Body() userDto: CreateUserDto){
-        return await this.usersService.createOneUser(userDto)
+        return await this.commandBus.execute(new CreateOneUserCommand(userDto))
     }
+
+    /*@UseGuards(BasicAuthGuard)
+    @HttpCode(204)
+    @Delete(':id')
+    async deleteOneUserById(@Param('id') id: string){
+        return await this.usersService.deleteOneUserById(id)
+    }*/
 
     @UseGuards(BasicAuthGuard)
     @HttpCode(204)
     @Delete(':id')
     async deleteOneUserById(@Param('id') id: string){
-        return await this.usersService.deleteOneUserById(id)
+        return await this.commandBus.execute(new DeleteOneUserByIdCommand(id))
     }
 }

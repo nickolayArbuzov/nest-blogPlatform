@@ -1,31 +1,31 @@
 import { queryDefault } from '../../../../../helpers/constants/constants/constants';
 import { QueryUserDto } from '../../../../../helpers/constants/commonDTO/query.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
-import { CommandHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 
-export class FindAllUsersCommand {
+export class FindAllUsersQuery {
   constructor(
     public message: QueryUserDto
   ) {}
 }
 
-@CommandHandler(FindAllUsersCommand)
+@QueryHandler(FindAllUsersQuery)
 export class FindAllUsersUseCase {
   constructor(
     private usersRepo: UsersRepo,
   ) {}
 
-    async execute(command: FindAllUsersCommand){
-      const query = {
-        pageNumber: command.message.pageNumber || queryDefault.pageNumber,
-        pageSize: command.message.pageSize || queryDefault.pageSize,
-        sortBy: command.message.sortBy || queryDefault.sortBy,
-        sortDirection: command.message.sortDirection === 'asc' ? command.message.sortDirection : queryDefault.sortDirection,
-        searchEmailTerm: command.message.searchEmailTerm || '',
-        searchLoginTerm: command.message.searchLoginTerm || '',
+    async execute(query: FindAllUsersQuery){
+      const queryParams = {
+        pageNumber: query.message.pageNumber || queryDefault.pageNumber,
+        pageSize: query.message.pageSize || queryDefault.pageSize,
+        sortBy: query.message.sortBy || queryDefault.sortBy,
+        sortDirection: query.message.sortDirection === 'asc' ? query.message.sortDirection : queryDefault.sortDirection,
+        searchEmailTerm: query.message.searchEmailTerm || '',
+        searchLoginTerm: query.message.searchLoginTerm || '',
       }
 
-      return this.usersRepo.findAllUsers(query)
+      return this.usersRepo.findAllUsers(queryParams)
     }
 
 }
