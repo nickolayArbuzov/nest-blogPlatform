@@ -2,11 +2,14 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
 import { BloggerRepo } from '../../infrastructure/blogger.repo';
 import { PostsRepo } from '../../../../posts/infrastructure/posts.repo';
-import { LikesRepo } from '../../../../likes/infrastructure/like.repo';
+import { UpdatePostDefaultDto } from '../../../../posts/dto/post.dto';
 
 export class UpdateOnePostOverBlogCommand {
   constructor(
     public blogId: string,
+    public postId: string,
+    public postDto: UpdatePostDefaultDto,
+    public userId: string,
   ) {}
 }
 
@@ -15,10 +18,25 @@ export class UpdateOnePostOverBlogUseCase {
   constructor(
     private bloggerRepo: BloggerRepo,
     private postsRepo: PostsRepo,
-    private likesRepo: LikesRepo,
   ) {}
 
   async execute(command: UpdateOnePostOverBlogCommand){
-    return 
+    const candidateBlog = await this.bloggerRepo.findOneBlogById(command.blogId)
+    if(!candidateBlog){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
+    if(candidateBlog.blogOwnerInfo.userId !== command.userId){
+      throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
+    }
+    const candidatePost = await this.postsRepo.findOnePostById(command.postId)
+    if(candidatePost.blogId !== command.blogId){
+      throw new HttpException('Post not your', HttpStatus.FORBIDDEN)
+    }
+    const updatedPost = await this.postsRepo.updateOnePostById(command.postId, command.postDto)
+    if(updatedPost.matchedCount === 0){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    } else {
+      return
+    }
   }
 }

@@ -1,9 +1,8 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, UseGuards} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Request } from 'express';
-import { CreatePostDefaultDto } from '../../../posts/dto/post.dto';
+import { CreatePostDefaultDto, UpdatePostDefaultDto } from '../../../posts/dto/post.dto';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { BloggerService } from '../application/blogger.service';
 import { CreateBlogDto, UpdateBlogDto } from '../dto/blogger.dto';
 import { JWTAuthGuard } from '../../../../helpers/guards/jwt.guard';
 import { DeleteOneBlogByIdCommand } from '../application/use-cases/DeleteOneBlogById';
@@ -17,7 +16,6 @@ import { CreateOneBlogCommand } from '../application/use-cases/CreateOneBlog';
 @Controller('blogger/blogs')
 export class BloggerController {
     constructor(
-        private bloggerService: BloggerService,
         private commandBus: CommandBus,
         private queryBus: QueryBus,
     ) {}
@@ -25,52 +23,47 @@ export class BloggerController {
     @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Delete(':id')
-    async deleteOneBlogById(@Param('id') id: string){
-        return await this.commandBus.execute(new DeleteOneBlogByIdCommand(id))
-        return this.bloggerService.deleteOneBlogById(id)
+    async deleteOneBlogById(@Param('id') id: string, @Req() req: Request){
+        return await this.commandBus.execute(new DeleteOneBlogByIdCommand(id, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Put(':id')
-    async updateOneBlogById(@Param('id') id: string, @Body() blogDto: UpdateBlogDto){
-        return await this.commandBus.execute(new UpdateOneBlogByIdCommand(id, blogDto))
-        return this.bloggerService.updateOneBlogById(id, blogDto)
+    async updateOneBlogById(@Param('id') id: string, @Body() blogDto: UpdateBlogDto, @Req() req: Request){
+        return await this.commandBus.execute(new UpdateOneBlogByIdCommand(id, blogDto, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
     @Post(':id/posts')
-    async createOnePostForBlogId(@Param('id') id: string, @Body() postDto: CreatePostDefaultDto){
-        return await this.commandBus.execute(new CreateOnePostForBlogIdCommand(id, postDto))
-        return this.bloggerService.createOnePostForBlogId(id, postDto)
+    async createOnePostForBlogId(@Param('id') id: string, @Body() postDto: CreatePostDefaultDto, @Req() req: Request){
+        return await this.commandBus.execute(new CreateOnePostForBlogIdCommand(id, postDto, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
+    @HttpCode(204)
     @Put(':blogId/posts/:postId')
-    async updateOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Body() postDto: CreatePostDefaultDto){
-        return await this.commandBus.execute(new UpdateOnePostOverBlogCommand(blogId))
-        return this.bloggerService.createOnePostForBlogId(blogId, postDto)
+    async updateOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Body() postDto: UpdatePostDefaultDto, @Req() req: Request){
+        return await this.commandBus.execute(new UpdateOnePostOverBlogCommand(blogId, postId, postDto, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
+    @HttpCode(204)
     @Delete(':blogId/posts/:postId')
-    async deleteOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Body() postDto: CreatePostDefaultDto){
-        return await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId))
-        return this.bloggerService.createOnePostForBlogId(blogId, postDto)
+    async deleteOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Req() req: Request){
+        return await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId, postId, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
     @Post()
-    async createOneBlog(@Body() blogDto: CreateBlogDto){
-        return await this.commandBus.execute(new CreateOneBlogCommand(blogDto))
-        return this.bloggerService.createOneBlog(blogDto);
+    async createOneBlog(@Body() blogDto: CreateBlogDto, @Req() req: Request){
+        return await this.commandBus.execute(new CreateOneBlogCommand(blogDto, req.user))
     }
 
     @UseGuards(JWTAuthGuard)
     @Get()
-    async findAllBlogs(@Query() query: QueryBlogDto){
-        return await this.queryBus.execute(new FindAllBlogsQuery(query))
-        return await this.bloggerService.findAllBlogs(query)
+    async findAllBlogs(@Query() query: QueryBlogDto, @Req() req: Request){
+        return await this.queryBus.execute(new FindAllBlogsQuery(query, req.user.userId))
     }
 
 }

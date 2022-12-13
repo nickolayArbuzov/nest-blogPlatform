@@ -16,12 +16,12 @@ export class UpdateOnePostByIdUseCase {
     private postsRepo: PostsRepo,
   ) {}
 
-    async execute(command: UpdateOnePostByIdCommand){
-      const post = await this.postsRepo.updateOnePostById(command.id, command.updatePost)
-      if(post.matchedCount === 0){
-        throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-      } else {
-        return
-      }
+  async execute(command: UpdateOnePostByIdCommand){
+    const post = await this.postsRepo.updateOnePostById(command.id, command.updatePost)
+    if(post.matchedCount === 0){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    } else {
+      return
     }
+  }
 }

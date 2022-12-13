@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { PostsMongoose } from './posts.repositoryMongo';
 import { Post } from '../domain/entitites/post';
-import { UpdatePostDto } from '../dto/post.dto';
+import { UpdatePostDefaultDto } from '../dto/post.dto';
 
 @Injectable()
 export class PostsRepo {
@@ -22,7 +22,7 @@ export class PostsRepo {
     return await this.postsMongoose.findOnePostById(id)
   }
 
-  async updateOnePostById(id: string, updatePost: UpdatePostDto){
+  async updateOnePostById(id: string, updatePost: UpdatePostDefaultDto){
     return await this.postsMongoose.updateOnePostById(id, updatePost)
   }
 

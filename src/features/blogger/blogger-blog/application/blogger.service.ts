@@ -15,37 +15,6 @@ export class BloggerService {
     private likesRepo: LikesRepo,
   ) {}
 
-  async findAllBlogs(queryParams: QueryBlogDto){
-    const query = {
-      pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
-      pageSize: queryParams.pageSize || queryDefault.pageSize,
-      sortBy: queryParams.sortBy || queryDefault.sortBy,
-      sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
-      searchNameTerm: queryParams.searchNameTerm || ''
-    }
-    return await this.bloggerRepo.findAllBlogs(query)
-  }
-
-  async createOneBlog(newBlog: CreateBlogDto){
-    const date = new Date()
-    const blog = {
-      name: newBlog.name,
-      description: newBlog.description,
-      websiteUrl: newBlog.websiteUrl,
-      createdAt: date.toISOString(),
-    }
-
-    const createdBlog = await this.bloggerRepo.createOneBlog(blog)
-
-    return {
-      id: createdBlog._id,
-      name: createdBlog.name,
-      description: createdBlog.description,
-      websiteUrl: createdBlog.websiteUrl,
-      createdAt: createdBlog.createdAt,
-    }
-  }
-
   async findPostsByBlogId(queryParams: QueryBlogDto, id: string, userId: string){
     const blog = await this.bloggerRepo.findOneBlogById(id)
     if(!blog){
@@ -124,24 +93,6 @@ export class BloggerService {
     }
     else {
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-    }
-  }
-
-  async updateOneBlogById(id: string, updateBlog: UpdateBlogDto){
-    const blog = await this.bloggerRepo.updateOneBlogById(id, updateBlog)
-    if(blog.matchedCount === 0){
-      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-    } else {
-      return
-    }
-  }
-
-  async deleteOneBlogById(id: string){
-    const blog = await this.bloggerRepo.deleteOneBlogById(id)
-    if(blog.deletedCount === 0){
-      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-    } else {
-      return
     }
   }
 }

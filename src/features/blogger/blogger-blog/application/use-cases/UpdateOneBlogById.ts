@@ -7,8 +7,9 @@ import { UpdateBlogDto } from '../../dto/blogger.dto';
 
 export class UpdateOneBlogByIdCommand {
   constructor(
-    public id: string,
+    public blogId: string,
     public updateBlog: UpdateBlogDto,
+    public userId: string,
   ) {}
 }
 
@@ -19,8 +20,12 @@ export class UpdateOneBlogByIdUseCase {
   ) {}
 
   async execute(command: UpdateOneBlogByIdCommand){
-    const blog = await this.bloggerRepo.updateOneBlogById(command.id, command.updateBlog)
-    if(blog.matchedCount === 0){
+    const candidateBlog = await this.bloggerRepo.findOneBlogById(command.blogId)
+    if(candidateBlog.blogOwnerInfo.userId !== command.userId){
+      throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
+    }
+    const updatedBlog = await this.bloggerRepo.updateOneBlogById(command.blogId, command.updateBlog)
+    if(updatedBlog.matchedCount === 0){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     } else {
       return

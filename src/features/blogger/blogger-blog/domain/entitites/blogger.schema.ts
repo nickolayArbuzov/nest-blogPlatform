@@ -5,4 +5,5 @@ export const BlogSchema = new mongoose.Schema({
     description: String,
     websiteUrl: String,
     createdAt: String,
+    blogOwnerInfo: {userId: String, userLogin: String},
 });

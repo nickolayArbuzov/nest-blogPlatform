@@ -8,8 +8,8 @@ import { BloggerMongoose } from './blogger.repositoryMongoose';
 export class BloggerRepo {
   constructor(private bloggerMongoose: BloggerMongoose) {}
 
-  async findAllBlogs(query: QueryBlogDto){
-    return await this.bloggerMongoose.findAllBlogs(query)
+  async findAllBlogs(query: QueryBlogDto, userId: string){
+    return await this.bloggerMongoose.findAllBlogs(query, userId)
   }
 
   async createOneBlog(newBlog: Blog){

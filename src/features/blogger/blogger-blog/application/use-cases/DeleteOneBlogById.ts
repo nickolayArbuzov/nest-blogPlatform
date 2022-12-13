@@ -6,7 +6,8 @@ import { LikesRepo } from '../../../../likes/infrastructure/like.repo';
 
 export class DeleteOneBlogByIdCommand {
   constructor(
-    public id: string,
+    public blogId: string,
+    public userId: string,
   ) {}
 }
 
@@ -17,8 +18,12 @@ export class DeleteOneBlogByIdUseCase {
   ) {}
 
   async execute(command: DeleteOneBlogByIdCommand){
-    const blog = await this.bloggerRepo.deleteOneBlogById(command.id)
-    if(blog.deletedCount === 0){
+    const candidateBlog = await this.bloggerRepo.findOneBlogById(command.blogId)
+    if(candidateBlog.blogOwnerInfo.userId !== command.userId){
+      throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
+    }
+    const deletedBlog = await this.bloggerRepo.deleteOneBlogById(command.blogId)
+    if(deletedBlog.deletedCount === 0){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     } else {
       return

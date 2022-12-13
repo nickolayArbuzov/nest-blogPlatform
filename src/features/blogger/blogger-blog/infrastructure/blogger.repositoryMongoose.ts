@@ -12,14 +12,14 @@ export class BloggerMongoose {
     private Blog: Model<BlogModel>,
   ) {}
 
-  async findAllBlogs(query: QueryBlogDto){
+  async findAllBlogs(query: QueryBlogDto, userId: string){
     const blogs = await this.Blog
-      .find({"name": {$regex: query.searchNameTerm, $options : 'i'}})
+      .find({"name": {$regex: query.searchNameTerm, $options : 'i'}, "blogOwnerInfo.userId": userId})
       .skip((+query.pageNumber - 1) * +query.pageSize)
       .limit(+query.pageSize)
       .sort({[query.sortBy] : query.sortDirection})
     
-    const totalCount = await this.Blog.countDocuments({"name": {$regex: query.searchNameTerm, $options : 'i'}});
+    const totalCount = await this.Blog.countDocuments({"name": {$regex: query.searchNameTerm, $options : 'i'}, "blogOwnerInfo.userId": userId});
 
     return {
       pagesCount: Math.ceil(totalCount/+query.pageSize),

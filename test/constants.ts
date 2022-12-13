@@ -184,6 +184,7 @@ let unban = {
 class Variables {
 
     blogId = ''
+    blogId2 = ''
     postId = ''
     postId2 = ''
     commentId = ''
@@ -207,6 +208,9 @@ class Variables {
 
     setBlogId(blogId: string){
         this.blogId = blogId
+    }
+    setBlogId2(blogId2: string){
+        this.blogId2 = blogId2
     }
     setPostId(postId: string){
         this.postId = postId

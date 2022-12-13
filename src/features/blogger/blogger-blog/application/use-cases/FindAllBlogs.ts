@@ -6,6 +6,7 @@ import { queryDefault } from '../../../../../helpers/constants/constants/constan
 export class FindAllBlogsQuery {
   constructor(
     public queryParams: QueryBlogDto,
+    public userId: string,
   ) {}
 }
 
@@ -23,6 +24,6 @@ export class FindAllBlogsUseCase {
       sortDirection: query.queryParams.sortDirection === 'asc' ? query.queryParams.sortDirection : queryDefault.sortDirection,
       searchNameTerm: query.queryParams.searchNameTerm || ''
     }
-    return await this.bloggerRepo.findAllBlogs(queryParams)
+    return await this.bloggerRepo.findAllBlogs(queryParams, query.userId)
   }
 }

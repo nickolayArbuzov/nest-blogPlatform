@@ -5,6 +5,7 @@ import { CreateBlogDto } from '../../dto/blogger.dto';
 export class CreateOneBlogCommand {
   constructor(
     public newBlog: CreateBlogDto,
+    public user: {userId: string, userLogin: string},
   ) {}
 }
 
@@ -21,6 +22,10 @@ export class CreateOneBlogUseCase {
       description: command.newBlog.description,
       websiteUrl: command.newBlog.websiteUrl,
       createdAt: date.toISOString(),
+      blogOwnerInfo: {
+        userId: command.user.userId,
+        userLogin: command.user.userLogin,
+      },
     }
 
     const createdBlog = await this.bloggerRepo.createOneBlog(blog)

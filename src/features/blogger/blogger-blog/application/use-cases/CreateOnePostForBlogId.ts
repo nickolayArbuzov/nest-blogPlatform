@@ -8,6 +8,7 @@ export class CreateOnePostForBlogIdCommand {
   constructor(
     public id: string,
     public newPost: CreatePostDefaultDto,
+    public userId: string,
   ) {}
 }
 
@@ -22,6 +23,9 @@ export class CreateOnePostForBlogIdUseCase {
     const blog = await this.bloggerRepo.findOneBlogById(command.id)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
+    if(blog.blogOwnerInfo.userId !== command.userId){
+      throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
     }
     const date = new Date()
     const post = {

@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { Post } from '../domain/entitites/post';
 import { PostModel } from '../domain/entitites/post.interface';
-import { UpdatePostDto } from '../dto/post.dto';
+import { UpdatePostDefaultDto } from '../dto/post.dto';
 
 @Injectable()
 export class PostsMongoose {
@@ -53,7 +53,7 @@ export class PostsMongoose {
     return await this.Post.findOne({_id: id})
   }
 
-  async updateOnePostById(id: string, updatePost: UpdatePostDto){
+  async updateOnePostById(id: string, updatePost: UpdatePostDefaultDto){
     return await this.Post.updateOne({_id: id}, {$set: updatePost})
   }
 
