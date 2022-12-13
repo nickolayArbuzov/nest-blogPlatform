@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
-import { BlogsService } from '../application/blogs.service';
+import { BloggerService } from '../application/blogger.service';
 
 export function BlogIsExist(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
@@ -16,11 +16,11 @@ export function BlogIsExist(validationOptions?: ValidationOptions) {
 @ValidatorConstraint({ name: 'BlogIsExist', async: false })
 @Injectable()
 export class BlogIsExistRule implements ValidatorConstraintInterface {
-  constructor(private blogService: BlogsService) {}
+  constructor(private bloggerService: BloggerService) {}
 
   async validate(value: string) {
     try {
-      const blog = await this.blogService.findOneBlogById(value)
+      const blog = await this.bloggerService.findOneBlogById(value)
       if(blog) {
         return true
       } else return false

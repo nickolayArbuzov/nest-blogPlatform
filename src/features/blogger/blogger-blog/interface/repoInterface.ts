@@ -1,5 +1,5 @@
 import { QueryBlogDto } from "../../../../helpers/constants/commonDTO/query.dto"
-import { CreateBlogDto } from "../dto/blog.dto"
+import { CreateBlogDto } from "../dto/blogger.dto"
 
 export interface IBlogRepoInterface {
     findAllCommentsByPostId(id: string, query: QueryBlogDto): any

@@ -1,16 +1,16 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { queryDefault } from '../../../../helpers/constants/constants/constants';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
-import { BlogsRepo } from '../infrastructure/blogs.repo';
+import { CreateBlogDto, UpdateBlogDto } from '../dto/blogger.dto';
+import { BloggerRepo } from '../infrastructure/blogger.repo';
 import { CreatePostDefaultDto } from '../../../posts/dto/post.dto';
 import { PostsRepo } from '../../../posts/infrastructure/posts.repo';
 import { LikesRepo } from '../../../likes/infrastructure/like.repo';
 
 @Injectable()
-export class BlogsService {
+export class BloggerService {
   constructor(
-    private blogsRepo: BlogsRepo,
+    private bloggerRepo: BloggerRepo,
     private postsRepo: PostsRepo,
     private likesRepo: LikesRepo,
   ) {}
@@ -23,7 +23,7 @@ export class BlogsService {
       sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
       searchNameTerm: queryParams.searchNameTerm || ''
     }
-    return await this.blogsRepo.findAllBlogs(query)
+    return await this.bloggerRepo.findAllBlogs(query)
   }
 
   async createOneBlog(newBlog: CreateBlogDto){
@@ -35,7 +35,7 @@ export class BlogsService {
       createdAt: date.toISOString(),
     }
 
-    const createdBlog = await this.blogsRepo.createOneBlog(blog)
+    const createdBlog = await this.bloggerRepo.createOneBlog(blog)
 
     return {
       id: createdBlog._id,
@@ -47,7 +47,7 @@ export class BlogsService {
   }
 
   async findPostsByBlogId(queryParams: QueryBlogDto, id: string, userId: string){
-    const blog = await this.blogsRepo.findOneBlogById(id)
+    const blog = await this.bloggerRepo.findOneBlogById(id)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     }
@@ -78,7 +78,7 @@ export class BlogsService {
   }
 
   async createOnePostForBlogId(id: string, newPost: CreatePostDefaultDto){
-    const blog = await this.blogsRepo.findOneBlogById(id)
+    const blog = await this.bloggerRepo.findOneBlogById(id)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     }
@@ -112,7 +112,7 @@ export class BlogsService {
   }
 
   async findOneBlogById(id: string){
-    const blog = await this.blogsRepo.findOneBlogById(id)
+    const blog = await this.bloggerRepo.findOneBlogById(id)
     if(blog){
       return {
         id: blog._id,
@@ -128,7 +128,7 @@ export class BlogsService {
   }
 
   async updateOneBlogById(id: string, updateBlog: UpdateBlogDto){
-    const blog = await this.blogsRepo.updateOneBlogById(id, updateBlog)
+    const blog = await this.bloggerRepo.updateOneBlogById(id, updateBlog)
     if(blog.matchedCount === 0){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     } else {
@@ -137,7 +137,7 @@ export class BlogsService {
   }
 
   async deleteOneBlogById(id: string){
-    const blog = await this.blogsRepo.deleteOneBlogById(id)
+    const blog = await this.bloggerRepo.deleteOneBlogById(id)
     if(blog.deletedCount === 0){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
     } else {

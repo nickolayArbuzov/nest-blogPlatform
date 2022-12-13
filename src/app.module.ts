@@ -11,6 +11,7 @@ import { UsersModule } from './features/sa/sa-users/users.module';
 import { AuthModule } from './features/auth/auth.module';
 import { DevicesModule } from './features/devices/devices.module';
 import { LikesModule } from './features/likes/likes.module';
+import { BloggerModule } from './features/blogger/blogger-blog/blogger.module';
 
 @Module({
   controllers: [AppController],
@@ -21,6 +22,7 @@ import { LikesModule } from './features/likes/likes.module';
     ConfigModule.forRoot(),
     DatabaseModule,
     BlogsModule,
+    BloggerModule,
     PostsModule,
     CommentsModule,
     UsersModule,

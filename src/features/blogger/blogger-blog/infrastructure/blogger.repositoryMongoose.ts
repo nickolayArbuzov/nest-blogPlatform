@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { Blog } from '../domain/entitites/blog';
-import { BlogModel } from '../domain/entitites/blog.interface';
-import { UpdateBlogDto } from '../dto/blog.dto';
+import { Blog } from '../domain/entitites/blogger';
+import { BlogModel } from '../domain/entitites/blogger.interface';
+import { UpdateBlogDto } from '../dto/blogger.dto';
 
 @Injectable()
-export class BlogsMongoose {
+export class BloggerMongoose {
   constructor(
     @Inject('BLOG_MONGOOSE')
     private Blog: Model<BlogModel>,

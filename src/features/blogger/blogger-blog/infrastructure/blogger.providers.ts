@@ -1,7 +1,7 @@
 import { Connection } from 'mongoose';
-import { BlogSchema } from '../domain/entitites/blog.schema';
+import { BlogSchema } from '../domain/entitites/blogger.schema';
 
-export const blogsProviders = [
+export const bloggerProviders = [
   {
     provide: 'BLOG_MONGOOSE',
     useFactory: (connection: Connection) => connection.model('Blogs', BlogSchema),
