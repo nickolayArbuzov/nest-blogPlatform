@@ -5,7 +5,7 @@ import { QueryHandler } from '@nestjs/cqrs';
 
 export class FindAllUsersQuery {
   constructor(
-    public message: QueryUserDto
+    public query: QueryUserDto
   ) {}
 }
 
@@ -17,12 +17,12 @@ export class FindAllUsersUseCase {
 
     async execute(query: FindAllUsersQuery){
       const queryParams = {
-        pageNumber: query.message.pageNumber || queryDefault.pageNumber,
-        pageSize: query.message.pageSize || queryDefault.pageSize,
-        sortBy: query.message.sortBy || queryDefault.sortBy,
-        sortDirection: query.message.sortDirection === 'asc' ? query.message.sortDirection : queryDefault.sortDirection,
-        searchEmailTerm: query.message.searchEmailTerm || '',
-        searchLoginTerm: query.message.searchLoginTerm || '',
+        pageNumber: query.query.pageNumber || queryDefault.pageNumber,
+        pageSize: query.query.pageSize || queryDefault.pageSize,
+        sortBy: query.query.sortBy || queryDefault.sortBy,
+        sortDirection: query.query.sortDirection === 'asc' ? query.query.sortDirection : queryDefault.sortDirection,
+        searchEmailTerm: query.query.searchEmailTerm || '',
+        searchLoginTerm: query.query.searchLoginTerm || '',
       }
 
       return this.usersRepo.findAllUsers(queryParams)

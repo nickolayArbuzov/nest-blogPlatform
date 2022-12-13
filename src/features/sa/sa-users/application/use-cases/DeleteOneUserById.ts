@@ -4,7 +4,7 @@ import { UsersRepo } from '../../infrastructure/users.repo';
 
 export class DeleteOneUserByIdCommand {
   constructor(
-    public message: string
+    public id: string
   ) {}
 }
 
@@ -15,7 +15,7 @@ export class DeleteOneUserByIdUseCase {
   ) {}
 
     async execute(command: DeleteOneUserByIdCommand){
-        const user = await this.usersRepo.deleteOneUserById(command.message)
+        const user = await this.usersRepo.deleteOneUserById(command.id)
         if(user.deletedCount === 0){
           throw new HttpException('User not found', HttpStatus.NOT_FOUND)
         } else {

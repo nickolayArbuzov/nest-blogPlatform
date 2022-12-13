@@ -1,11 +1,11 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../../dto/user.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
 
 export class CreateOneUserCommand {
   constructor(
-    public message: CreateUserDto
+    public userDto: CreateUserDto
   ) {}
 }
 
@@ -18,12 +18,12 @@ export class CreateOneUserUseCase {
     async execute(command: CreateOneUserCommand){
 
       const passwordSalt = await bcrypt.genSalt(8)
-      const passwordHash = await bcrypt.hash(command.message.password, passwordSalt)
+      const passwordHash = await bcrypt.hash(command.userDto.password, passwordSalt)
 
       const date = new Date()
       const user = {
-        login: command.message.login,
-        email: command.message.email,
+        login: command.userDto.login,
+        email: command.userDto.email,
         passwordHash: passwordHash,
         passwordSalt: passwordSalt,
         isActivated: false,
@@ -43,6 +43,7 @@ export class CreateOneUserUseCase {
         login: createdUser.login,
         email: createdUser.email,
         createdAt: createdUser.createdAt,
+        banInfo: createdUser.banInfo,
       }
     }
 }
