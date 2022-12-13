@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { DatabaseModule } from '../../../outerservices/database/database.module';
 import { UsersController } from './api/users.controller';
+import { BanOneUserByIdUseCase } from './application/use-cases/BanOneUserById';
 import { CreateOneUserUseCase } from './application/use-cases/CreateOneUser';
 import { DeleteOneUserByIdUseCase } from './application/use-cases/DeleteOneUserById';
 import { FindAllUsersUseCase } from './application/use-cases/FindAllUsers';
@@ -11,7 +12,7 @@ import { usersProviders } from './infrastructure/users.providers';
 import { UsersRepo } from './infrastructure/users.repo';
 import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
 
-const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase]
+const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase, BanOneUserByIdUseCase]
 const queries = [FindAllUsersUseCase]
 
 @Module({

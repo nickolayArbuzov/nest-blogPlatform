@@ -28,7 +28,6 @@ export class PostsService {
     const post = await this.postsRepo.findOnePostById(postId)
     if(!post) {
       throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-      return
     }
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,

@@ -1,31 +1,36 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, UseGuards} from '@nestjs/common';
+import { Controller, Get, Param, Query, Req, UseGuards} from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 import { Request } from 'express';
-import { CreatePostDefaultDto } from '../../posts/dto/post.dto';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { BlogsService } from '../application/blogs.service';
-import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
-import { BasicAuthGuard } from '../../../helpers/guards/auth.guard';
 import { ExtractUserFromToken } from '../../../helpers/guards/extractUserFromToken.guard';
+import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
+import { FindPostsByBlogIdQuery } from '../application/use-cases/FindPostsByBlogId';
+import { FindOneBlogByIdQuery } from '../application/use-cases/FindOneBlogById';
 
 @Controller('blogs')
 export class BlogsController {
     constructor(
-        private blogsService: BlogsService
+        private blogsService: BlogsService,
+        private queryBus: QueryBus,
     ) {}
 
     @Get()
     async findAllBlogs(@Query() query: QueryBlogDto){
+        return await this.queryBus.execute(new FindAllBlogsQuery(query))
         return await this.blogsService.findAllBlogs(query)
     }
 
     @UseGuards(ExtractUserFromToken)
     @Get(':id/posts')
     async findPostsByBlogId(@Query() query: QueryBlogDto, @Param('id') id: string, @Req() req: Request){
+        return await this.queryBus.execute(new FindPostsByBlogIdQuery(query, id, req.user?.userId))
         return this.blogsService.findPostsByBlogId(query, id, req.user?.userId)
     }
 
     @Get(':id')
     async findOneBlogById(@Param('id') id: string){
+        return await this.queryBus.execute(new FindOneBlogByIdQuery(id))
         return this.blogsService.findOneBlogById(id)
     }
     

@@ -8,20 +8,25 @@ import { DevicesService } from './application/devices.service';
 import { devicesProviders } from './infrastructure/devices.providers';
 import { DevicesRepo } from './infrastructure/devices.repo';
 import { DevicesMongoose } from './infrastructure/devices.repositoryMongo';
+import { FindAllDevicesByCurrentUserIdUseCase } from './application/use-cases/FindAllDevicesByCurrentUserId';
+import { DeleteOneDeviceByIdUseCase } from './application/use-cases/DeleteOneDeviceById';
+import { DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase } from './application/use-cases/DeleteAllDeviceByCurrentUserIdExceptCurrentDevice';
+import { CqrsModule } from '@nestjs/cqrs';
+
+const commands = [DeleteOneDeviceByIdUseCase, DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase]
+const queries = [FindAllDevicesByCurrentUserIdUseCase]
 
 @Module({
   controllers: [DevicesController],
-  imports: [
-    LoggerModule,
-    DatabaseModule, 
-    JwtModule,
-  ],
+  imports: [LoggerModule, DatabaseModule, JwtModule, CqrsModule],
   providers: [
     ...devicesProviders,
     DevicesService,
     DevicesRepo,
     DevicesMongoose,
     JWT,
+    ...commands,
+    ...queries,
   ],
   exports: [
     DevicesRepo,
