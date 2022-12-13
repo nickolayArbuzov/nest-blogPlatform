@@ -26,7 +26,7 @@ export class LoginUseCase {
 
     async execute(command: LoginCommand){
       const auth = await this.usersRepo.findByLoginOrEmail(command.dto.loginOrEmail)
-      if (!auth){
+      if (!auth || auth.banInfo.isBanned === true){
         throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED);
       }
       const candidateHash = await bcrypt.hash(command.dto.password, auth.passwordSalt.toString())
