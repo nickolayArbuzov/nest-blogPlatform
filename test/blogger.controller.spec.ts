@@ -153,6 +153,17 @@ describe('AppController', () => {
         .expect(403)
     });
 
+    it('should return 404 if post of blog to delete or update is not exist', async () => {
+      await request(server).put(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyEntityId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send(constants.updatePost)
+        .expect(404);
+
+      await request(server).delete(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyEntityId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .expect(404);
+    });
+
     it('should update and delete post of own blog', async () => {
       await request(server).put(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.postId}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)

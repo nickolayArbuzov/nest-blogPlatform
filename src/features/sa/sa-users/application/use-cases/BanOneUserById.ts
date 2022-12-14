@@ -16,13 +16,13 @@ export class BanOneUserByIdUseCase {
     private usersRepo: UsersRepo,
   ) {}
 
-    async execute(command: BanOneUserByIdCommand){
-        const date = new Date()
-        const banInfo = {
-            isBanned: command.banDto.isBanned,
-            banDate: command.banDto.isBanned ? date.toISOString() : null,
-            banReason: command.banDto.isBanned ? command.banDto.banReason : null,
-        }
-        return await this.usersRepo.banOneUserById(command.id, banInfo)
+  async execute(command: BanOneUserByIdCommand){
+    const date = new Date()
+    const banInfo = {
+      isBanned: command.banDto.isBanned,
+      banDate: command.banDto.isBanned ? date.toISOString() : null,
+      banReason: command.banDto.isBanned ? command.banDto.banReason : null,
     }
+    return await this.usersRepo.banOneUserById(command.id, banInfo)
+  }
 }

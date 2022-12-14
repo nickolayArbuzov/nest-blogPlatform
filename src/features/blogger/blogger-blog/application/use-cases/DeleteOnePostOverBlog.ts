@@ -27,14 +27,12 @@ export class DeleteOnePostOverBlogUseCase {
       throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
     }
     const candidatePost = await this.postsRepo.findOnePostById(command.postId)
+    if(!candidatePost){
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
+    }
     if(candidatePost.blogId !== command.blogId){
       throw new HttpException('Post not your', HttpStatus.FORBIDDEN)
     }
-    const deletedpost = await this.postsRepo.deleteOnePostById(command.postId)
-    if(deletedpost.deletedCount === 0){
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
-    } else {
-      return
-    }
+    return this.postsRepo.deleteOnePostById(command.postId)
   }
 }

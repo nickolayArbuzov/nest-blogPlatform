@@ -174,11 +174,11 @@ let none = {
 
 let ban = {
     isBanned: true,
-    banReason: "stringstringstringst"
+    banReason: "stringstringstringst",
 }
 let unban = {
     isBanned: false,
-    banReason: "stringstringstringst"
+    banReason: "stringstringstringst",
 }
 
 class Variables {

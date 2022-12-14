@@ -29,14 +29,12 @@ export class UpdateOnePostOverBlogUseCase {
       throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
     }
     const candidatePost = await this.postsRepo.findOnePostById(command.postId)
+    if(!candidatePost){
+      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
+    }
     if(candidatePost.blogId !== command.blogId){
       throw new HttpException('Post not your', HttpStatus.FORBIDDEN)
     }
-    const updatedPost = await this.postsRepo.updateOnePostById(command.postId, command.postDto)
-    if(updatedPost.matchedCount === 0){
-      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-    } else {
-      return
-    }
+    return await this.postsRepo.updateOnePostById(command.postId, command.postDto)
   }
 }

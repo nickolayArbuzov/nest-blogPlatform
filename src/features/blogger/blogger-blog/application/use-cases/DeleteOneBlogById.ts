@@ -19,14 +19,12 @@ export class DeleteOneBlogByIdUseCase {
 
   async execute(command: DeleteOneBlogByIdCommand){
     const candidateBlog = await this.bloggerRepo.findOneBlogById(command.blogId)
+    if(!candidateBlog){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
     if(candidateBlog.blogOwnerInfo.userId !== command.userId){
       throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
     }
-    const deletedBlog = await this.bloggerRepo.deleteOneBlogById(command.blogId)
-    if(deletedBlog.deletedCount === 0){
-      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
-    } else {
-      return
-    }
+    return await this.bloggerRepo.deleteOneBlogById(command.blogId)
   }
 }

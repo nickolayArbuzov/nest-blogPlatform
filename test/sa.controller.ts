@@ -52,7 +52,7 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send(constants.createUser1)
         .expect(201);
-      
+
       expect(response.body).toStrictEqual({
         id: expect.any(String),
         login: constants.createUser1.login,
@@ -102,8 +102,8 @@ describe('AppController', () => {
         login: expect.any(String),
         banInfo: {
           isBanned: constants.unban.isBanned,
-          banDate: expect.any(String),
-          banReason: constants.unban.banReason,
+          banDate: null,
+          banReason: null,
         },
       })
     });
