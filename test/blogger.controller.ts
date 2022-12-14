@@ -186,6 +186,17 @@ describe('AppController', () => {
       });
     });
 
+    it('should return 404 if blog to delete or update is not exist', async () => {
+      await request(server).put(`/blogger/blogs/${constants.variables.incorrectAnyEntityId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send(constants.updateBlog)
+        .expect(404);
+
+      await request(server).delete(`/blogger/blogs/${constants.variables.incorrectAnyEntityId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .expect(404);
+    });
+
     it('should return 403 if trying update and delete foreign blog, foreign blog stay without changes', async () => {
       await request(server).put(`/blogger/blogs/${constants.variables.blogId2}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)

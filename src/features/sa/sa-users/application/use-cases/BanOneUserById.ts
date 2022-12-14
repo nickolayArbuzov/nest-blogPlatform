@@ -20,8 +20,8 @@ export class BanOneUserByIdUseCase {
         const date = new Date()
         const banInfo = {
             isBanned: command.banDto.isBanned,
-            banDate: date.toISOString(),
-            banReason: command.banDto.banReason,
+            banDate: command.banDto.isBanned ? date.toISOString() : null,
+            banReason: command.banDto.isBanned ? command.banDto.banReason : null,
         }
         return await this.usersRepo.banOneUserById(command.id, banInfo)
     }

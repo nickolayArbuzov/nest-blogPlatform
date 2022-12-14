@@ -52,7 +52,7 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send(constants.createUser1)
         .expect(201);
-
+      
       expect(response.body).toStrictEqual({
         id: expect.any(String),
         login: constants.createUser1.login,
