@@ -35,6 +35,10 @@ export class UsersRepo {
     return await this.usersMongoose.findByLoginOrEmail(loginOrEmail)
   }
 
+  async findOneUserById(userId: string){
+    return await this.usersMongoose.findOneUserById(userId)
+  }
+
   async findOneForCustomDecoratorByLogin(login: string) {
     return await this.usersMongoose.findOneForCustomDecoratorByLogin(login)
   }

@@ -76,6 +76,10 @@ export class UsersMongoose {
     )
   }
 
+  async findOneUserById(userId: string){
+    return await this.User.findOne({_id: userId})
+  }
+
   async findOneForCustomDecoratorByLogin(login: string) {
     const user = await this.User.findOne({login: login})
     if(user) {

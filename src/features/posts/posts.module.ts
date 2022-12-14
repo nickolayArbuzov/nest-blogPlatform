@@ -7,18 +7,15 @@ import { LikesModule } from '../likes/likes.module';
 import { PostsController } from './api/posts.controller';
 import { PostsService } from './application/posts.service';
 import { CreateOneCommentByPostIdUseCase } from './application/use-cases/CreateOneCommentByPostId';
-import { CreateOnePostUseCase } from './application/use-cases/CreateOnePost';
-import { DeleteOnePostByIdCommand } from './application/use-cases/DeleteOnePostById';
 import { FindAllPostsUseCase } from './application/use-cases/FindAllPosts';
 import { FindCommentsByPostIdCase } from './application/use-cases/FindCommentsByPostId';
 import { FindOnePostByIdUseCase } from './application/use-cases/FindOnePostById';
 import { LikeUseCase } from './application/use-cases/Like';
-import { UpdateOnePostByIdUseCase } from './application/use-cases/UpdateOnePostById';
 import { postsProviders } from './infrastructure/posts.providers';
 import { PostsRepo } from './infrastructure/posts.repo';
 import { PostsMongoose } from './infrastructure/posts.repositoryMongo';
 
-const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase, CreateOnePostUseCase, UpdateOnePostByIdUseCase, DeleteOnePostByIdCommand]
+const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase]
 const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdUseCase]
 
 @Module({

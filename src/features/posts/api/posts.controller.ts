@@ -14,9 +14,6 @@ import { FindCommentsByPostIdQuery } from '../application/use-cases/FindComments
 import { CreateOneCommentByPostIdCommand } from '../application/use-cases/CreateOneCommentByPostId';
 import { FindAllPostsQuery } from '../application/use-cases/FindAllPosts';
 import { FindOnePostByIdQuery } from '../application/use-cases/FindOnePostById';
-import { CreateOnePostCommand } from '../application/use-cases/CreateOnePost';
-import { UpdateOnePostByIdCommand } from '../application/use-cases/UpdateOnePostById';
-import { DeleteOnePostByIdCommand } from '../application/use-cases/DeleteOnePostById';
 
 @Controller('posts')
 export class PostsController {
@@ -55,13 +52,6 @@ export class PostsController {
         return await this.postsService.findAllPosts(query, req.user?.userId)
     }
 
-    @UseGuards(BasicAuthGuard)
-    @Post()
-    async createOnePost(@Body() postDto: CreatePostDto){
-        return await this.commandBus.execute(new CreateOnePostCommand(postDto))
-        return await this.postsService.createOnePost(postDto)
-    }
-
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOnePostById(@Param('id') id: string, @Req() req: Request){
@@ -69,19 +59,4 @@ export class PostsController {
         return await this.postsService.findOnePostById(id, req.user?.userId)
     }
 
-    @UseGuards(BasicAuthGuard)
-    @HttpCode(204)
-    @Put(':id')
-    async updateOnePostById(@Param('id') id: string, @Body() postDto: UpdatePostDto){
-        return await this.commandBus.execute(new UpdateOnePostByIdCommand(id, postDto))
-        return await this.postsService.updateOnePostById(id, postDto)
-    }
-
-    @UseGuards(BasicAuthGuard)
-    @HttpCode(204)
-    @Delete(':id')
-    async deleteOnePostById(@Param('id') id: string){
-        return await this.commandBus.execute(new DeleteOnePostByIdCommand(id))
-        return await this.postsService.deleteOnePostById(id)
-    }
 }
