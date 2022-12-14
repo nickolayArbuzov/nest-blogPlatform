@@ -11,13 +11,14 @@ import { UserCodeIsConfirmedRule, UserLoginIsExistRule, UserMailCheckRule, UserM
 import { usersProviders } from './infrastructure/users.providers';
 import { UsersRepo } from './infrastructure/users.repo';
 import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
+import { LikesModule } from '../../likes/likes.module';
 
 const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase, BanOneUserByIdUseCase]
 const queries = [FindAllUsersUseCase]
 
 @Module({
   controllers: [UsersController],
-  imports: [DatabaseModule, CqrsModule],
+  imports: [DatabaseModule, CqrsModule, LikesModule],
   providers: [
     ...usersProviders,
     UsersService,

@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
+import { LikesRepo } from '../../../../likes/infrastructure/like.repo';
 import { BanDto } from '../../dto/user.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
 
 export class BanOneUserByIdCommand {
   constructor(
-    public id: string,
+    public userId: string,
     public banDto: BanDto,
   ) {}
 }
@@ -14,6 +15,7 @@ export class BanOneUserByIdCommand {
 export class BanOneUserByIdUseCase {
   constructor(
     private usersRepo: UsersRepo,
+    private likesRepo: LikesRepo,
   ) {}
 
   async execute(command: BanOneUserByIdCommand){
@@ -23,6 +25,7 @@ export class BanOneUserByIdUseCase {
       banDate: command.banDto.isBanned ? date.toISOString() : null,
       banReason: command.banDto.isBanned ? command.banDto.banReason : null,
     }
-    return await this.usersRepo.banOneUserById(command.id, banInfo)
+    await this.likesRepo.updateBannedStatusInLikes(command.userId, command.banDto.isBanned)
+    return await this.usersRepo.banOneUserById(command.userId, banInfo)
   }
 }

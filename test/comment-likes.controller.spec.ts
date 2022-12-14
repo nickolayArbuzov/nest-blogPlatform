@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from '../src/helpers/filters/http-exeption.filter
 import { AppModule } from '../src/app.module'
 import * as constants from './constants';
 
-
+jest.setTimeout(60000)
 describe('AppController', () => {
   let app: INestApplication
   let server: any
@@ -49,9 +49,10 @@ describe('AppController', () => {
     })
 
     it('should seed start data', async () => {
-        // create two registration
-        await request(server).post('/auth/registration').send(constants.createUser1)
-        await request(server).post('/auth/registration').send(constants.createUser2)
+        // create two users and get userId
+        const user = await request(server).post('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser1)
+        constants.variables.setUserId(user.body.id)
+        await request(server).post('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser2)
 
         // create two login and get some access-tokens and cookies
         const auth1 = await request(server).post('/auth/login').send(constants.correctLoginUser)
@@ -61,19 +62,31 @@ describe('AppController', () => {
         constants.variables.setAccessToken2(auth2.body.accessToken)
         constants.variables.setCookie2(auth2.header['set-cookie'])
         // create one blog
-        const blog = await request(server).post('/blogs').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createBlog1)
+        const blog = await request(server).post('/blogger/blogs')
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+            .send(constants.createBlog1)
         constants.variables.setBlogId(blog.body.id)
-
+       
         // create two posts for this blog and get postId's
-        const post1 = await request(server).post(`/blogs/${constants.variables.blogId}/posts`).set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createPost1)
+        const post1 = await request(server).post(`/blogger/blogs/${constants.variables.blogId}/posts`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+            .send(constants.createPost1)
         constants.variables.setPostId(post1.body.id)
-        const post2 = await request(server).post(`/blogs/${constants.variables.blogId}/posts`).set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createPost2)
+
+        const post2 = await request(server).post(`/blogger/blogs/${constants.variables.blogId}/posts`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+            .send(constants.createPost2)
         constants.variables.setPostId2(post2.body.id)
 
         // create two comments for one of the post and get commentId's
-        const comment1 = await request(server).post(`/posts/${constants.variables.postId}/comments`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createComment)
+        const comment1 = await request(server).post(`/posts/${constants.variables.postId}/comments`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+            .send(constants.createComment)
         constants.variables.setCommentId(comment1.body.id)
-        const comment2 = await request(server).post(`/posts/${constants.variables.postId}/comments`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createComment)
+
+        const comment2 = await request(server).post(`/posts/${constants.variables.postId}/comments`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+            .send(constants.createComment)
         constants.variables.setCommentId2(comment2.body.id)
     })
 
@@ -96,6 +109,77 @@ describe('AppController', () => {
         })
         const commentForSecondUser = await request(server).get(`/comments/${constants.variables.commentId}`).set('Authorization', `Bearer ${constants.variables.accessToken2}`)
         expect(commentForSecondUser.body).toStrictEqual({
+            id: expect.any(String),
+            content: expect.any(String),
+            userId: expect.any(String),
+            userLogin: expect.any(String),
+            createdAt: expect.any(String),
+            likesInfo: {
+                likesCount: 1,
+                dislikesCount: 0,
+                myStatus: "None",
+            }
+        })
+    })
+
+    it('should return one comment after ban ad unban user - quantity of likes must be changed', async () => {
+        // baned and unbaned user, and get changed quantity of likes
+        await request(server).put(`/sa/users/${constants.variables.userId}/ban`)
+            .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+            .send(constants.ban);
+
+        const commentForFirstUserAfterBan = await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        expect(commentForFirstUserAfterBan.body).toStrictEqual({
+            id: expect.any(String),
+            content: expect.any(String),
+            userId: expect.any(String),
+            userLogin: expect.any(String),
+            createdAt: expect.any(String),
+            likesInfo: {
+                likesCount: 0,
+                dislikesCount: 0,
+                myStatus: "None",
+            }
+        })
+
+        const commentForSecondUserAfterBan = await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken2}`)
+        expect(commentForSecondUserAfterBan.body).toStrictEqual({
+            id: expect.any(String),
+            content: expect.any(String),
+            userId: expect.any(String),
+            userLogin: expect.any(String),
+            createdAt: expect.any(String),
+            likesInfo: {
+                likesCount: 0,
+                dislikesCount: 0,
+                myStatus: "None",
+            }
+        })
+
+        await request(server).put(`/sa/users/${constants.variables.userId}/ban`)
+            .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+            .send(constants.unban);
+        
+        const commentForFirstUserAfterUnban = await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        expect(commentForFirstUserAfterUnban.body).toStrictEqual({
+            id: expect.any(String),
+            content: expect.any(String),
+            userId: expect.any(String),
+            userLogin: expect.any(String),
+            createdAt: expect.any(String),
+            likesInfo: {
+                likesCount: 1,
+                dislikesCount: 0,
+                myStatus: "Like",
+            }
+        })
+
+        const commentForSecondUserAfterUnban = await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken2}`)
+        expect(commentForSecondUserAfterUnban.body).toStrictEqual({
             id: expect.any(String),
             content: expect.any(String),
             userId: expect.any(String),

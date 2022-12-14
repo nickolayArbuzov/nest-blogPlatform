@@ -19,6 +19,7 @@ export class LikesRepo {
     if(!likePosition && likeStatus !== 'None') {
         await this.likesMongoose.insertOne({
             userId: user.userId,
+            banned: false,
             login: user.userLogin,
             postId: postId,
             commentId: commentId,
@@ -27,6 +28,10 @@ export class LikesRepo {
         })
     }
     return true
+  }
+
+  async updateBannedStatusInLikes(userId: string, banned: boolean){
+    return this.likesMongoose.updateBannedStatusInLikes(userId, banned)
   }
 
   async getLikesInfoForComment(commentId: string, userId: string) {
