@@ -24,7 +24,9 @@ export class BloggerController {
     @HttpCode(204)
     @Delete(':id')
     async deleteOneBlogById(@Param('id') id: string, @Req() req: Request){
-        return await this.commandBus.execute(new DeleteOneBlogByIdCommand(id, req.user.userId))
+        const result = await this.commandBus.execute(new DeleteOneBlogByIdCommand(id, req.user.userId))
+        console.log('result-blog', result)
+        return result
     }
 
     @UseGuards(JWTAuthGuard)
@@ -51,7 +53,9 @@ export class BloggerController {
     @HttpCode(204)
     @Delete(':blogId/posts/:postId')
     async deleteOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Req() req: Request){
-        return await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId, postId, req.user.userId))
+        const result = await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId, postId, req.user.userId))
+        console.log('result-post', result)
+        return result
     }
 
     @UseGuards(JWTAuthGuard)
