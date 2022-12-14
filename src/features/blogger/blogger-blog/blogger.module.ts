@@ -14,7 +14,7 @@ import { FindAllBlogsUseCase } from './application/use-cases/FindAllBlogs';
 import { UpdateOneBlogByIdUseCase } from './application/use-cases/UpdateOneBlogById';
 import { UpdateOnePostOverBlogUseCase } from './application/use-cases/UpdateOnePostOverBlog';
 import { BlogIsExistRule } from './custom-validators/customValidateBlog';
-import { bloggerProviders } from './infrastructure/blogger.providers';
+import { blogsProviders } from '../../../shared/collections/Blog/blog.providers';
 import { BloggerRepo } from './infrastructure/blogger.repo';
 import { BloggerMongoose } from './infrastructure/blogger.repositoryMongoose';
 
@@ -28,7 +28,7 @@ const queries = [FindAllBlogsUseCase]
   controllers: [BloggerController],
   imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
   providers: [
-    ...bloggerProviders,
+    ...blogsProviders,
     BloggerService,
     BloggerRepo,
     BloggerMongoose,
@@ -38,7 +38,7 @@ const queries = [FindAllBlogsUseCase]
     ...queries,
   ],
   exports: [
-    bloggerProviders.find(v => v.provide === 'BLOG_MONGOOSE'),
+    blogsProviders.find(v => v.provide === 'BLOG_MONGOOSE'),
   ]
 
 })

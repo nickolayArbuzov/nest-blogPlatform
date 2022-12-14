@@ -10,7 +10,7 @@ import { FindAllBlogsUseCase } from './application/use-cases/FindAllBlogs';
 import { FindOneBlogByIdUseCase } from './application/use-cases/FindOneBlogById';
 import { FindPostsByBlogIdUseCase } from './application/use-cases/FindPostsByBlogId';
 import { BlogIsExistRule } from './custom-validators/customValidateBlog';
-import { blogsProviders } from './infrastructure/blog.providers';
+import { blogsProviders } from '../../shared/collections/Blog/blog.providers';
 import { BlogsRepo } from './infrastructure/blogs.repo';
 import { BlogsMongoose } from './infrastructure/blogs.repositoryMongoose';
 

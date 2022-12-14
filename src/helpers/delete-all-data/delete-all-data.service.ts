@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { BlogModel } from '../../features/blogger/blogger-blog/domain/entitites/blogger.interface';
+import { BlogModel } from '../../shared/collections/Blog/blogger.interface';
 import { PostModel } from '../../features/posts/domain/entitites/post.interface';
 import { CommentModel } from '../../features/comments/domain/entitites/comments.interface';
 import { UserModel } from '../../features/sa/sa-users/domain/entitites/user.interface';

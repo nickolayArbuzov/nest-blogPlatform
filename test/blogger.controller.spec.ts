@@ -135,6 +135,23 @@ describe('AppController', () => {
       constants.variables.setPostId(post.body.id)
     });
 
+    it('should return blogs for admin', async () => {
+      const blogs = await request(server).get(`/sa/blogs`)
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+
+      expect(blogs.body.items[0]).toStrictEqual({
+        blogOwnerInfo: {
+          userId: expect.any(String),
+          userLogin: expect.any(String),
+        },
+        createdAt: expect.any(String),
+        description: expect.any(String),
+        id: expect.any(String),
+        name: expect.any(String),
+        websiteUrl: expect.any(String),
+      })
+    });
+
     it('should return 403 if trying create post for foreign blog', async () => {
       await request(server).post(`/blogger/blogs/${constants.variables.blogId2}/posts`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)

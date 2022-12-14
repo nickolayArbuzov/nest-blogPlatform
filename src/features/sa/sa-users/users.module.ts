@@ -35,4 +35,4 @@ const queries = [FindAllUsersUseCase]
     usersProviders.find(v => v.provide === 'USER_MONGOOSE'),
   ]
 })
-export class UsersModule {}
+export class SAUsersModule {}

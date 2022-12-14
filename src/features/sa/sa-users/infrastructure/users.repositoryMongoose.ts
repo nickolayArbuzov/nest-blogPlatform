@@ -16,21 +16,36 @@ export class UsersMongoose {
   }
 
   async findAllUsers(query: QueryUserDto){
+    const banCondition = query.banStatus === 'all' ? [true, false] : query.banStatus === 'banned' ? [true] : [false]
     const users = await this.User.find(
-        {$or: [
-            {"login": {$regex: query.searchLoginTerm, $options: 'i'}}, 
-            {"email": {$regex: query.searchEmailTerm, $options: 'i'}}
-        ]}
+      {$and: 
+        [
+          {"banInfo.isBanned": {$in: banCondition}}, 
+          {$or: 
+            [
+              {"login": {$regex: query.searchLoginTerm, $options: 'i'}}, 
+              {"email": {$regex: query.searchEmailTerm, $options: 'i'}}
+            ]
+          }
+        ]
+      }
     )
     .skip((+query.pageNumber - 1) * +query.pageSize)
     .limit(+query.pageSize)
     .sort({[query.sortBy] : query.sortDirection})
    
     const totalCount = await this.User.countDocuments(
-        {$or: [
-            {"login": {$regex: query.searchLoginTerm, $options: 'i'}}, 
-            {"email": {$regex: query.searchEmailTerm, $options: 'i'}}
-        ]}
+      {$and: 
+        [
+          {"banInfo.isBanned": {$in: banCondition}}, 
+          {$or: 
+            [
+              {"login": {$regex: query.searchLoginTerm, $options: 'i'}}, 
+              {"email": {$regex: query.searchEmailTerm, $options: 'i'}}
+            ]
+          }
+        ]
+      }
     )
 
     return {    

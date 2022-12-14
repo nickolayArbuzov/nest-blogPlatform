@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { Blog } from '../domain/entitites/blogger';
+import { Blog } from '../../../../shared/collections/Blog/blogger';
 import { UpdateBlogDto } from '../dto/blogger.dto';
 import { BloggerMongoose } from './blogger.repositoryMongoose';
 

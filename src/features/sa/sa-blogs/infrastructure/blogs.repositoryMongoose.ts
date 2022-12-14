@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { Blog } from '../domain/entitites/blog';
-import { BlogModel } from '../domain/entitites/blog.interface';
+import { Blog } from '../../../../shared/collections/Blog/blogger';
+import { BlogModel } from '../../../../shared/collections/Blog/blogger.interface';
 import { UpdateBlogDto } from '../dto/blog.dto';
 
 @Injectable()
@@ -33,6 +33,7 @@ export class BlogsMongoose {
           description: i.description,
           websiteUrl: i.websiteUrl,
           createdAt: i.createdAt,
+          blogOwnerInfo: i.blogOwnerInfo,
         }
       }),
     }

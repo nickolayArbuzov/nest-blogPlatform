@@ -12,14 +12,14 @@ import { UpdateOneCommentByIdUseCase } from './application/use-cases/UpdateOneCo
 import { DeleteOneCommentByIdUseCase } from './application/use-cases/DeleteOneCommentById';
 import { FindOneCommentByIdUseCase } from './application/use-cases/FindOneCommentById';
 import { CqrsModule } from '@nestjs/cqrs';
-import { UsersModule } from '../sa/sa-users/users.module';
+import { SAUsersModule } from '../sa/sa-users/users.module';
 
 const commands = [LikeUseCase, UpdateOneCommentByIdUseCase, DeleteOneCommentByIdUseCase]
 const queries = [FindOneCommentByIdUseCase]
 
 @Module({
   controllers: [CommentsController],
-  imports: [DatabaseModule, LikesModule, CqrsModule, UsersModule],
+  imports: [DatabaseModule, LikesModule, CqrsModule, SAUsersModule],
   providers: [
     ...commentsProviders,
     CommentsService,

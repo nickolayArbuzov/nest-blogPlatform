@@ -1,9 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
-import { Blog } from '../../blogger/blogger-blog/domain/entitites/blogger';
-import { BlogModel } from '../../blogger/blogger-blog/domain/entitites/blogger.interface';
-import { UpdateBlogDto } from '../dto/blog.dto';
+import { BlogModel } from '../../../shared/collections/Blog/blogger.interface';
 
 @Injectable()
 export class BlogsMongoose {

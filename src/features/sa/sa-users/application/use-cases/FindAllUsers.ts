@@ -17,6 +17,7 @@ export class FindAllUsersUseCase {
 
     async execute(query: FindAllUsersQuery){
       const queryParams = {
+        banStatus: query.query.banStatus || 'all',
         pageNumber: query.query.pageNumber || queryDefault.pageNumber,
         pageSize: query.query.pageSize || queryDefault.pageSize,
         sortBy: query.query.sortBy || queryDefault.sortBy,

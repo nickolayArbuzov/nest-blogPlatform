@@ -7,6 +7,7 @@ export class QueryBlogDto {
 }
 
 export class QueryUserDto {
+    readonly banStatus: "all" | "banned" | "notBanned";
     readonly pageNumber: string;
     readonly pageSize: string;
     readonly sortBy: string;

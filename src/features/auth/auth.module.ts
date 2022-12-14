@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { JwtModule } from '@nestjs/jwt';
 import { LoggerModule } from '../../helpers/logger/logger.module';
 import { DevicesModule } from '../devices/devices.module';
-import { UsersModule } from '../sa/sa-users/users.module';
+import { SAUsersModule } from '../sa/sa-users/users.module';
 import { AuthController } from './api/auth.controller';
 import { AuthService } from './application/auth.service';
 import { GetAuthMeUseCase } from './application/use-cases/GetAuthMe';
@@ -26,7 +26,7 @@ const queries = [GetAuthMeUseCase]
   controllers: [AuthController],
   imports: [
     LoggerModule,
-    UsersModule,
+    SAUsersModule,
     DevicesModule,
     JwtModule.register({
       secret: process.env.PRIVATE_KEY || 'secret',
