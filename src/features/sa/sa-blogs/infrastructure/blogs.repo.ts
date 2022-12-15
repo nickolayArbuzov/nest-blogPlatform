@@ -1,12 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { Blog } from '../../../../shared/collections/Blog/blogger';
+import { BanBlogInfo, Blog } from '../../../../shared/collections/Blog/blogger';
 import { UpdateBlogDto } from '../dto/blog.dto';
 import { BlogsMongoose } from './blogs.repositoryMongoose';
 
 @Injectable()
 export class BlogsRepo {
   constructor(private blogsMongoose: BlogsMongoose) {}
+
+  async banOneBlogById(blogId: string, banInfo: BanBlogInfo){
+    return await this.blogsMongoose.banOneBlogById(blogId, banInfo)
+  }
 
   async findAllBlogs(query: QueryBlogDto){
     return await this.blogsMongoose.findAllBlogs(query)

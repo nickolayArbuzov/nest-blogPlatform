@@ -122,7 +122,7 @@ describe('AppController', () => {
         })
     })
 
-    it('should return one comment after ban ad unban user - quantity of likes must be changed', async () => {
+    /*it('should return one comment after ban ad unban user - quantity of likes must be changed', async () => {
         // baned and unbaned user, and get changed quantity of likes
         await request(server).put(`/sa/users/${constants.variables.userId}/ban`)
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
@@ -191,7 +191,7 @@ describe('AppController', () => {
                 myStatus: "None",
             }
         })
-    })
+    })*/
 
     it('should return one comment after dislikes-likes from first-user for both users', async () => {
         // create dislike after like for post and comment from first user

@@ -38,6 +38,7 @@ export class BlogsMongoose {
           websiteUrl: i.websiteUrl,
           createdAt: i.createdAt,
           blogOwnerInfo: i.blogOwnerInfo,
+          banInfo: i.banInfo,
         }
       }),
     }

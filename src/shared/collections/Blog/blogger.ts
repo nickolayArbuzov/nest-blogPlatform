@@ -4,7 +4,7 @@ export class Blog {
     websiteUrl: string
     createdAt: string
     blogOwnerInfo: BlogOwnerInfo
-    banInfo: BanInfo
+    banInfo: BanBlogInfo
 }
 
 export class BlogOwnerInfo {
@@ -12,7 +12,7 @@ export class BlogOwnerInfo {
     userLogin: string
 }
 
-export class BanInfo {
+export class BanBlogInfo {
     isBanned: boolean
     banDate: string
 }

@@ -1,8 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { queryDefault } from '../../../../helpers/constants/constants/constants';
-import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { BanDto, CreateUserDto } from '../dto/user.dto';
+import { Injectable } from '@nestjs/common';
 import { UsersRepo } from '../infrastructure/users.repo';
 
 @Injectable()
