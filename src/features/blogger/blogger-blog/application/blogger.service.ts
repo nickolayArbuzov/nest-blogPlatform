@@ -1,7 +1,6 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { queryDefault } from '../../../../helpers/constants/constants/constants';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { CreateBlogDto, UpdateBlogDto } from '../dto/blogger.dto';
 import { BloggerRepo } from '../infrastructure/blogger.repo';
 import { CreatePostDefaultDto } from '../../../posts/dto/post.dto';
 import { PostsRepo } from '../../../posts/infrastructure/posts.repo';

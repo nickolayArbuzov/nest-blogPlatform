@@ -26,6 +26,10 @@ export class CreateOneBlogUseCase {
         userId: command.user.userId,
         userLogin: command.user.userLogin,
       },
+      banInfo: {
+        isBanned: false,
+        banDate: null,
+      }
     }
 
     const createdBlog = await this.bloggerRepo.createOneBlog(blog)

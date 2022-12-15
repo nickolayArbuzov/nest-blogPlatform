@@ -12,6 +12,7 @@ import { UpdateOnePostOverBlogCommand } from '../application/use-cases/UpdateOne
 import { DeleteOnePostOverBlogCommand } from '../application/use-cases/DeleteOnePostOverBlog';
 import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
 import { CreateOneBlogCommand } from '../application/use-cases/CreateOneBlog';
+import { FindAllCommentsForUsersBlogsQuery } from '../application/use-cases/FindAllCommentsForUsersBlogs';
 
 @Controller('blogger/blogs')
 export class BloggerController {
@@ -21,11 +22,16 @@ export class BloggerController {
     ) {}
 
     @UseGuards(JWTAuthGuard)
+    @Get('comments')
+    async findAllCommentsForUsersBlogs(@Req() req: Request){
+        return await this.commandBus.execute(new FindAllCommentsForUsersBlogsQuery(req.user.userId))
+    }
+
+    @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Delete(':id')
     async deleteOneBlogById(@Param('id') id: string, @Req() req: Request){
-        const result = await this.commandBus.execute(new DeleteOneBlogByIdCommand(id, req.user.userId))
-        return result
+        return await this.commandBus.execute(new DeleteOneBlogByIdCommand(id, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
@@ -52,8 +58,7 @@ export class BloggerController {
     @HttpCode(204)
     @Delete(':blogId/posts/:postId')
     async deleteOnePostOverBlog(@Param('blogId') blogId: string, @Param('postId') postId: string, @Req() req: Request){
-        const result = await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId, postId, req.user.userId))
-        return result
+        return await this.commandBus.execute(new DeleteOnePostOverBlogCommand(blogId, postId, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)

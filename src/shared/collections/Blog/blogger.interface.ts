@@ -6,4 +6,5 @@ export interface BlogModel extends Document {
     readonly websiteUrl: String,
     readonly createdAt: String,
     readonly blogOwnerInfo: {userId: String, userLogin: String},
+    readonly banInfo: {isBanned: Boolean, banDate: String},
 }

@@ -12,7 +12,7 @@ import { UpdateOneCommentByIdUseCase } from './application/use-cases/UpdateOneCo
 import { DeleteOneCommentByIdUseCase } from './application/use-cases/DeleteOneCommentById';
 import { FindOneCommentByIdUseCase } from './application/use-cases/FindOneCommentById';
 import { CqrsModule } from '@nestjs/cqrs';
-import { SAUsersModule } from '../sa/sa-users/users.module';
+import { SAUsersModule } from '../sa/sa-users/sa-users.module';
 
 const commands = [LikeUseCase, UpdateOneCommentByIdUseCase, DeleteOneCommentByIdUseCase]
 const queries = [FindOneCommentByIdUseCase]

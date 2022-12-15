@@ -1,13 +1,12 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
+import { BanUserDto } from '../../../../../shared/dto/ban.dto';
 import { LikesRepo } from '../../../../likes/infrastructure/like.repo';
-import { BanDto } from '../../dto/user.dto';
 import { UsersRepo } from '../../infrastructure/users.repo';
 
 export class BanOneUserByIdCommand {
   constructor(
     public userId: string,
-    public banDto: BanDto,
+    public banUserDto: BanUserDto,
   ) {}
 }
 
@@ -21,11 +20,11 @@ export class BanOneUserByIdUseCase {
   async execute(command: BanOneUserByIdCommand){
     const date = new Date()
     const banInfo = {
-      isBanned: command.banDto.isBanned,
-      banDate: command.banDto.isBanned ? date.toISOString() : null,
-      banReason: command.banDto.isBanned ? command.banDto.banReason : null,
+      isBanned: command.banUserDto.isBanned,
+      banDate: command.banUserDto.isBanned ? date.toISOString() : null,
+      banReason: command.banUserDto.isBanned ? command.banUserDto.banReason : null,
     }
-    await this.likesRepo.updateBannedStatusInLikes(command.userId, command.banDto.isBanned)
+    await this.likesRepo.updateBannedStatusInLikes(command.userId, command.banUserDto.isBanned)
     return await this.usersRepo.banOneUserById(command.userId, banInfo)
   }
 }

@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from "class-transformer";
-import { IsBoolean, IsString, Length, Matches } from "class-validator";
+import { IsString, Length, Matches } from "class-validator";
 
 export class CreateBlogDto {
     @Transform(({ value }: TransformFnParams) => value?.trim())
