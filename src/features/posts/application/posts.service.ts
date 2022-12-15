@@ -51,36 +51,6 @@ export class PostsService {
     return {...comments, items: items}
   }
 
-  async createOneCommentByPostId(postId: string, newComment: CreateCommentDto, userId: string){
-    const post = await this.postsRepo.findOnePostById(postId)
-    if(!post){
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
-    }
-    const date = new Date()
-    const comment = {
-      content: newComment.content,
-      userId: userId,
-      userLogin: userId,
-      postId: postId,
-      createdAt: date.toISOString(),
-    }
-   
-    const createdComment = await this.commentsRepo.createCommentFromPost(comment)
-    
-    return {
-      id: createdComment._id,
-      content: createdComment.content,
-      userId: createdComment.userId,
-      userLogin: createdComment.userLogin,
-      createdAt: createdComment.createdAt,
-      likesInfo: {
-        likesCount: 0,
-        dislikesCount: 0,
-        myStatus: "None",
-      },
-    }
-  }
-
   async findAllPosts(queryParams: QueryBlogDto, userId: string){
     const query = {
       pageNumber: queryParams.pageNumber || queryDefault.pageNumber,

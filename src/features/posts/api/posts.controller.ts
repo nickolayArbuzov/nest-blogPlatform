@@ -40,9 +40,8 @@ export class PostsController {
 
     @UseGuards(JWTAuthGuard)
     @Post(':id/comments')
-    async createOneCommentByPostId(@Param('id') id: string, @Body() commentDto: CreateCommentDto, @Req() req: Request){
-        return await this.commandBus.execute(new CreateOneCommentByPostIdCommand(id, commentDto, req.user.userId))
-        return await this.postsService.createOneCommentByPostId(id, commentDto, req.user.userId)
+    async createOneCommentByPostId(@Param('id') postId: string, @Body() commentDto: CreateCommentDto, @Req() req: Request){
+        return await this.commandBus.execute(new CreateOneCommentByPostIdCommand(postId, commentDto, req.user))
     }
 
     @UseGuards(ExtractUserFromToken)

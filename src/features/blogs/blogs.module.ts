@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../outerservices/database/database.module';
@@ -31,6 +31,7 @@ const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdU
     ...queries,
   ],
   exports: [
+    BlogsRepo,
     blogsProviders.find(v => v.provide === 'BLOG_MONGOOSE'),
   ]
 

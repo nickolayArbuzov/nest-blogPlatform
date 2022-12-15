@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
+import { BlogsRepo } from '../../../blogs/infrastructure/blogs.repo';
 import { CreateCommentDto } from '../../../comments/dto/comment.dto';
 import { CommentsRepo } from '../../../comments/infrastructure/comments.repo';
 import { PostsRepo } from '../../infrastructure/posts.repo';
@@ -8,7 +9,7 @@ export class CreateOneCommentByPostIdCommand {
   constructor(
     public postId: string, 
     public newComment: CreateCommentDto, 
-    public userId: string,
+    public user: {userId: string, userLogin: string},
   ) {}
 }
 
@@ -17,6 +18,7 @@ export class CreateOneCommentByPostIdUseCase {
   constructor(
     private postsRepo: PostsRepo,
     private commentsRepo: CommentsRepo,
+    private blogsRepo: BlogsRepo,
   ) {}
 
     async execute(command: CreateOneCommentByPostIdCommand){
@@ -24,13 +26,23 @@ export class CreateOneCommentByPostIdUseCase {
       if(!post){
         throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
       }
+      const blog = await this.blogsRepo.findOneBlogWithUserId(post.blogId.toString())
+
       const date = new Date()
       const comment = {
+        blogOwnerUserId: blog.blogOwnerInfo.userId.toString(),
         content: command.newComment.content,
-        userId: command.userId,
-        userLogin: command.userId,
-        postId: command.postId,
         createdAt: date.toISOString(),
+        commentatorInfo: {
+          userId: command.user.userId,
+          userLogin: command.user.userLogin,
+        },
+        postInfo: {
+          id: post._id,
+          title: post.title.toString(),
+          blogId: post.blogId.toString(),
+          blogName: post.blogName.toString(),
+        },
       }
     
       const createdComment = await this.commentsRepo.createCommentFromPost(comment)
@@ -38,8 +50,8 @@ export class CreateOneCommentByPostIdUseCase {
       return {
         id: createdComment._id,
         content: createdComment.content,
-        userId: createdComment.userId,
-        userLogin: createdComment.userLogin,
+        userId: createdComment.commentatorInfo.userId,
+        userLogin: createdComment.commentatorInfo.userLogin,
         createdAt: createdComment.createdAt,
         likesInfo: {
           likesCount: 0,

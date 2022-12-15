@@ -35,8 +35,8 @@ export class CommentsMongoose {
         return {
           id: i._id,
           content: i.content,
-          userId: i.userId,
-          userLogin: i.userLogin,
+          userId: i.commentatorInfo.userId,
+          userLogin: i.commentatorInfo.userLogin,
           createdAt: i.createdAt,
         }
       }),
@@ -57,8 +57,8 @@ export class CommentsMongoose {
       return {
         id: comment._id,
         content: comment.content,
-        userId: comment.userId,
-        userLogin: comment.userLogin,
+        userId: comment.commentatorInfo.userId,
+        userLogin: comment.commentatorInfo.userLogin,
         createdAt: comment.createdAt,
         likesInfo: {
           likesCount: 0,
@@ -67,7 +67,7 @@ export class CommentsMongoose {
         }
       }
     }
-    return comment
+    return null
   }
 
   async createCommentFromPost(newComment: Comment){
