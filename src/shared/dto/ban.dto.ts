@@ -10,3 +10,8 @@ export class BanUserDto extends BanBlogDto {
     @Length(20)
     readonly banReason: string;
 }
+
+export class BanUserBlogDto extends BanUserDto {
+    @IsString()
+    readonly blogId: string;
+}

@@ -4,31 +4,31 @@ import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../../outerservices/database/database.module';
 import { LikesModule } from '../../likes/likes.module';
 import { PostsModule } from '../../posts/posts.module';
-import { BloggerController } from './api/blogger.controller';
-import { BanUserByIdByIdUseCase } from './application/use-cases/BanUserByIdById';
-import { FindAllBannedUsersUseCase } from './application/use-cases/FindAllBannedUsers';
+import { BloggerUserController } from './api/blogger-user.controller';
+import { BanUserByIdUseCase } from './application/use-cases/BanUserById';
+import { FindAllBannedUsersByBlogIdUseCase } from './application/use-cases/FindAllBannedUsersByBlogId';
 import { BlogIsExistRule } from './custom-validators/customValidateBlog';
-import { blogsProviders } from '../../../shared/collections/Blog/blog.providers';
-import { BloggerRepo } from './infrastructure/blogger.repo';
-import { BloggerMongoose } from './infrastructure/blogger.repositoryMongoose';
+import { bloggerUserProviders } from './infrastructure/blogger-user.providers';
+import { BloggerUserRepo } from './infrastructure/blogger-user.repo';
+import { BloggerUserMongoose } from './infrastructure/blogger-user.repositoryMongoose';
 
-const commands = [BanUserByIdByIdUseCase]
-const queries = [FindAllBannedUsersUseCase]
+const commands = [BanUserByIdUseCase]
+const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
-  controllers: [BloggerController],
+  controllers: [BloggerUserController],
   imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
   providers: [
-    ...blogsProviders,
-    BloggerRepo,
-    BloggerMongoose,
+    ...bloggerUserProviders,
+    BloggerUserRepo,
+    BloggerUserMongoose,
     BlogIsExistRule,
     JwtService,
     ...commands,
     ...queries,
   ],
   exports: [
-    blogsProviders.find(v => v.provide === 'BLOG_MONGOOSE'),
+    bloggerUserProviders.find(v => v.provide === 'BLOGGER-USER_MONGOOSE'),
   ]
 
 })
