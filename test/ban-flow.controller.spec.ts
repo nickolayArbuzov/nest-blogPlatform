@@ -191,5 +191,12 @@ describe('AppController', () => {
         .expect(404)
     })
 
+    it('should realize specific case with request comments by blogger', async () => {
+      const comment3 = await request(server).post(`/posts/${constants.variables.postId}/comments`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send(constants.createComment).expect(201)
+      constants.variables.setCommentId3(comment3.body.id)
+    })
+
   });
 });

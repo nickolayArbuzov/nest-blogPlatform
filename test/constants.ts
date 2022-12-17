@@ -189,6 +189,7 @@ class Variables {
     postId2 = ''
     commentId = ''
     commentId2 = ''
+    commentId3 = ''
     userId = ''
     userId2 = ''
     accessToken = ''
@@ -224,6 +225,9 @@ class Variables {
     }
     setCommentId2(commentId2: string){
         this.commentId2 = commentId2
+    }
+    setCommentId3(commentId3: string){
+        this.commentId3 = commentId3
     }
     setUserId(userId: string){
         this.userId = userId
