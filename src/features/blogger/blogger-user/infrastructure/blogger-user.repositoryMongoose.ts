@@ -20,7 +20,8 @@ export class BloggerUserMongoose {
       if(position){
         return true
       } else {
-        return await this.BloggerUser.create({blogId: banUserBlogDto.blogId, bannedUserId: userId})
+        const date = new Date()
+        return await this.BloggerUser.create({blogId: banUserBlogDto.blogId, bannedUserId: userId, banInfo: {banDate: date.toISOString(), banReason: banUserBlogDto.banReason, isBanned: true}})
       }
     } else {
       return await this.BloggerUser.deleteOne({blogId: banUserBlogDto.blogId, bannedUserId: userId})
@@ -29,6 +30,7 @@ export class BloggerUserMongoose {
 
   async findAllBannedUsersByBlogId(query: QueryUserDto, blogId: string){
     const bannedUsers = await this.BloggerUser.find({blogId: blogId})
+
     const users = await this.User.find(
       {$and: 
         [
@@ -69,10 +71,10 @@ export class BloggerUserMongoose {
           return {
             id: i._id, 
             login: i.login, 
-            banInfo: i.banInfo,
+            banInfo: {...bannedUsers.find(bu => i._id.toString() === bu.bannedUserId).banInfo, isBanned: true},
           }
       }),
-  }
+    }
   }
 
 }
