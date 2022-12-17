@@ -1,7 +1,9 @@
 import { QueryHandler } from '@nestjs/cqrs';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { BloggerUserRepo } from '../../infrastructure/blogger-user.repo';
 import { QueryUserDto } from '../../../../../helpers/constants/commonDTO/query.dto';
 import { queryDefault } from '../../../../../helpers/constants/constants/constants';
+import { BloggerRepo } from '../../../../blogger/blogger-blog/infrastructure/blogger.repo';
 
 export class FindAllBannedUsersByBlogIdQuery {
   constructor(
@@ -14,9 +16,14 @@ export class FindAllBannedUsersByBlogIdQuery {
 export class FindAllBannedUsersByBlogIdUseCase {
   constructor(
     private bloggerUserRepo: BloggerUserRepo,
+    private bloggerRepo: BloggerRepo,
   ) {}
 
   async execute(query: FindAllBannedUsersByBlogIdQuery){
+    const blog = await this.bloggerRepo.findOneBlogById(query.blogId)
+    if(!blog){
+      throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
     const queryParams = {
       banStatus: query.query.banStatus || 'all',
       pageNumber: query.query.pageNumber || queryDefault.pageNumber,

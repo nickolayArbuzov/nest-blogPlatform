@@ -183,5 +183,13 @@ describe('AppController', () => {
         .expect(404)
     })
 
+    it('should return 404 if blog for display banned users not found', async () => {
+      await request(server)
+        .get(`/blogger/users/blog/${constants.variables.incorrectAnyEntityId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.blogId})
+        .expect(404)
+    })
+
   });
 });
