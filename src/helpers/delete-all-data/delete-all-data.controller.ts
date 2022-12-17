@@ -1,7 +1,8 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Controller, Delete, HttpCode, UseGuards} from '@nestjs/common';
+import { Logger } from '../guards/logger.guard';
 import {AllDataService} from "./delete-all-data.service";
 
-
+@UseGuards(Logger)
 @Controller('testing')
 export class AllDataController {
 
