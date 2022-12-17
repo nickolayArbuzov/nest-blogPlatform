@@ -25,8 +25,8 @@ export class BloggerUserController {
 
     @UseGuards(JWTAuthGuard)
     @Get('blog/:id')
-    async findAllBannedUsersByBlogId(@Query() query: QueryUserDto, @Param('id') blogId: string){
-        return await this.queryBus.execute(new FindAllBannedUsersByBlogIdQuery(query, blogId))
+    async findAllBannedUsersByBlogId(@Query() query: QueryUserDto, @Param('id') blogId: string, @Req() req: Request){
+        return await this.queryBus.execute(new FindAllBannedUsersByBlogIdQuery(query, blogId, req.user.userId))
     }
 
 }

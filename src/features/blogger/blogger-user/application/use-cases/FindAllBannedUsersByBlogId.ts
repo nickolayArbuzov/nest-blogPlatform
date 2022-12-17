@@ -9,6 +9,7 @@ export class FindAllBannedUsersByBlogIdQuery {
   constructor(
     public query: QueryUserDto,
     public blogId: string,
+    public ownerId: string,
   ) {}
 }
 
@@ -23,6 +24,9 @@ export class FindAllBannedUsersByBlogIdUseCase {
     const blog = await this.bloggerRepo.findOneBlogById(query.blogId)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
+    }
+    if(blog.blogOwnerInfo.userId !== query.ownerId){
+      throw new HttpException('Blog not your', HttpStatus.FORBIDDEN)
     }
     const queryParams = {
       banStatus: query.query.banStatus || 'all',
