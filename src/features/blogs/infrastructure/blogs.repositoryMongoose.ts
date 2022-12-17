@@ -12,13 +12,13 @@ export class BlogsMongoose {
 
   async findAllBlogs(query: QueryBlogDto){
     const blogs = await this.Blog
-      .find({"name": {$regex: query.searchNameTerm, $options : 'i'}})
+      .find({$and: [{"name": {$regex: query.searchNameTerm, $options : 'i'}}, {'banInfo.isBanned': false}]})
       .skip((+query.pageNumber - 1) * +query.pageSize)
       .limit(+query.pageSize)
       .sort({[query.sortBy] : query.sortDirection})
     
     const totalCount = await this.Blog.countDocuments({"name": {$regex: query.searchNameTerm, $options : 'i'}});
-
+    console.log('blogs', blogs)
     return {
       pagesCount: Math.ceil(totalCount/+query.pageSize),
       page: +query.pageNumber,
@@ -39,5 +39,6 @@ export class BlogsMongoose {
   async findOneBlogById(id: string){
     return await this.Blog.findOne({_id: id})
   }
+
 
 }

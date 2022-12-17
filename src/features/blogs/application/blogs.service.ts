@@ -15,17 +15,6 @@ export class BlogsService {
     private likesRepo: LikesRepo,
   ) {}
 
-  async findAllBlogs(queryParams: QueryBlogDto){
-    const query = {
-      pageNumber: queryParams.pageNumber || queryDefault.pageNumber,
-      pageSize: queryParams.pageSize || queryDefault.pageSize,
-      sortBy: queryParams.sortBy || queryDefault.sortBy,
-      sortDirection: queryParams.sortDirection === 'asc' ? queryParams.sortDirection : queryDefault.sortDirection,
-      searchNameTerm: queryParams.searchNameTerm || ''
-    }
-    return await this.blogsRepo.findAllBlogs(query)
-  }
-
   async findPostsByBlogId(queryParams: QueryBlogDto, id: string, userId: string){
     const blog = await this.blogsRepo.findOneBlogById(id)
     if(!blog){

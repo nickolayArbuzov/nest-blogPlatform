@@ -18,7 +18,6 @@ export class BlogsController {
     @Get()
     async findAllBlogs(@Query() query: QueryBlogDto){
         return await this.queryBus.execute(new FindAllBlogsQuery(query))
-        return await this.blogsService.findAllBlogs(query)
     }
 
     @UseGuards(ExtractUserFromToken)

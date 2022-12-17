@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { QueryBlogDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { BasicAuthGuard } from '../../../../helpers/guards/auth.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -14,7 +14,9 @@ export class BlogsController {
         private queryBus: QueryBus,
     ) {}
 
+    
     @UseGuards(BasicAuthGuard)
+    @HttpCode(204)
     @Put(':id/ban')
     async banOneBlogById(@Param('id') id: string, @Body() banBlogDto: BanBlogDto){
         return await this.commandBus.execute(new BanOneBlogByIdCommand(id, banBlogDto))
