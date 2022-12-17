@@ -1,11 +1,12 @@
 import { QueryHandler } from '@nestjs/cqrs';
 import { BloggerUserRepo } from '../../infrastructure/blogger-user.repo';
-import { QueryBlogDto } from '../../../../../helpers/constants/commonDTO/query.dto';
+import { QueryUserDto } from '../../../../../helpers/constants/commonDTO/query.dto';
 import { queryDefault } from '../../../../../helpers/constants/constants/constants';
 
 export class FindAllBannedUsersByBlogIdQuery {
   constructor(
-    public blogId: string
+    public query: QueryUserDto,
+    public blogId: string,
   ) {}
 }
 
@@ -15,7 +16,16 @@ export class FindAllBannedUsersByBlogIdUseCase {
     private bloggerUserRepo: BloggerUserRepo,
   ) {}
 
-  async execute(command: FindAllBannedUsersByBlogIdQuery){
-    return await this.bloggerUserRepo.findAllBannedUsersByBlogId(command.blogId)
+  async execute(query: FindAllBannedUsersByBlogIdQuery){
+    const queryParams = {
+      banStatus: query.query.banStatus || 'all',
+      pageNumber: query.query.pageNumber || queryDefault.pageNumber,
+      pageSize: query.query.pageSize || queryDefault.pageSize,
+      sortBy: query.query.sortBy || queryDefault.sortBy,
+      sortDirection: query.query.sortDirection === 'asc' ? query.query.sortDirection : queryDefault.sortDirection,
+      searchEmailTerm: query.query.searchEmailTerm || '',
+      searchLoginTerm: query.query.searchLoginTerm || '',
+    }
+    return await this.bloggerUserRepo.findAllBannedUsersByBlogId(queryParams, query.blogId)
   }
 }

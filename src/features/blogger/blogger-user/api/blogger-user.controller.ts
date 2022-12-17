@@ -6,6 +6,7 @@ import { JWTAuthGuard } from '../../../../helpers/guards/jwt.guard';
 import { BanUserByIdCommand } from '../application/use-cases/BanUserById';
 import { FindAllBannedUsersByBlogIdQuery } from '../application/use-cases/FindAllBannedUsersByBlogId';
 import { Logger } from '../../../../helpers/guards/logger.guard';
+import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 
 @UseGuards(Logger)
 @Controller('blogger/users')
@@ -24,8 +25,8 @@ export class BloggerUserController {
 
     @UseGuards(JWTAuthGuard)
     @Get('blog/:id')
-    async findAllBannedUsersByBlogId(@Param('id') blogId: string, @Req() req: Request){
-        return await this.queryBus.execute(new FindAllBannedUsersByBlogIdQuery(blogId))
+    async findAllBannedUsersByBlogId(@Query() query: QueryUserDto, @Param('id') blogId: string, @Req() req: Request){
+        return await this.queryBus.execute(new FindAllBannedUsersByBlogIdQuery(query, blogId))
     }
 
 }

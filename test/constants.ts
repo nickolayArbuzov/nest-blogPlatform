@@ -190,6 +190,7 @@ class Variables {
     commentId = ''
     commentId2 = ''
     userId = ''
+    userId2 = ''
     accessToken = ''
     accessToken2 = ''
     accessToken3 = ''
@@ -226,6 +227,9 @@ class Variables {
     }
     setUserId(userId: string){
         this.userId = userId
+    }
+    setUserId2(userId2: string){
+        this.userId2 = userId2
     }
     setAccessToken(accessToken: string){
         this.accessToken = accessToken

@@ -21,10 +21,8 @@ export class FindOnePostByIdUseCase {
 
     async execute(query: FindOnePostByIdQuery){
       const post = await this.postsRepo.findOnePostById(query.id)
-      console.log('post', post)
       if(post){
         const blog = await this.blogsRepo.findOneBlogById(post.blogId.toString())
-        console.log('blog', blog)
         if(blog && !blog.banInfo.isBanned) {
           const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(query.id, query.userId)
           return {

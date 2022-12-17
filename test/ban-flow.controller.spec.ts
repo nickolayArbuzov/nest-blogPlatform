@@ -52,7 +52,8 @@ describe('AppController', () => {
         // create two users and get userId
         const user = await request(server).post('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser1)
         constants.variables.setUserId(user.body.id)
-        await request(server).post('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser2)
+        const user2 = await request(server).post('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createUser2)
+        constants.variables.setUserId2(user2.body.id)
 
         // create two login and get some access-tokens and cookies
         const auth1 = await request(server).post('/auth/login').send(constants.correctLoginUser)
@@ -108,7 +109,7 @@ describe('AppController', () => {
       expect(blogs.body.items[1].banInfo.isBanned).toBeFalsy()
     })
 
-    it('should return blogs by public-api with ban and unban', async () => {
+    it('should check blogs by public-api with ban and unban', async () => {
       let blogs = await request(server).get('/blogs')
       expect(blogs.body.items.length).toBe(2)
       await request(server).put(`/sa/blogs/${constants.variables.blogId}/ban`)
@@ -123,7 +124,7 @@ describe('AppController', () => {
       expect(blogs.body.items.length).toBe(2)
     })
 
-    it('should return 200 or 404 if request post by id in public-api with ban and unban blog', async () => {
+    it('should check 200 or 404 if request post by id in public-api with ban and unban blog', async () => {
       await request(server).get(`/posts/${constants.variables.postId}`).expect(200)
       await request(server).put(`/sa/blogs/${constants.variables.blogId}/ban`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
@@ -133,6 +134,39 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send({isBanned: false}).expect(204)
       await request(server).get(`/posts/${constants.variables.postId}`).expect(200)
+    })
+
+    it('should check list of users banned for blog', async () => {
+      let bannedlist = await request(server)
+        .get(`/blogger/users/blog/${constants.variables.blogId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+      expect(bannedlist.body).toStrictEqual({
+        pagesCount: 0,
+        page: 1,
+        pageSize: 10,
+        totalCount: 0,
+        items: []
+      })
+
+      await request(server)
+        .put(`/blogger/users/${constants.variables.userId2}/ban`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.blogId})
+        .expect(204)
+      bannedlist = await request(server)
+        .get(`/blogger/users/blog/${constants.variables.blogId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+      expect(bannedlist.body.items.length).toBe(1)
+
+      await request(server)
+        .put(`/blogger/users/${constants.variables.userId2}/ban`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send({isBanned: false, banReason: "stringstringstringst", blogId: constants.variables.blogId})
+        .expect(204)
+      bannedlist = await request(server)
+        .get(`/blogger/users/blog/${constants.variables.blogId}`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+      expect(bannedlist.body.items.length).toBe(0)
     })
 
   });
