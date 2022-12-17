@@ -59,7 +59,7 @@ export class BloggerUserMongoose {
         ]
       }
     )
-    
+
     return {    
       pagesCount: Math.ceil(totalCount/+query.pageSize),
       page: +query.pageNumber,
@@ -69,8 +69,6 @@ export class BloggerUserMongoose {
           return {
             id: i._id, 
             login: i.login, 
-            email: i.email,
-            createdAt: i.createdAt,
             banInfo: i.banInfo,
           }
       }),
