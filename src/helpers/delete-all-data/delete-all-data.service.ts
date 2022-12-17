@@ -7,6 +7,7 @@ import { UserModel } from '../../features/sa/sa-users/domain/entitites/user.inte
 import { DeviceModel } from '../../features/devices/domain/entitites/device.interface';
 import { LikeModel } from '../../features/likes/domain/entitites/like.interface';
 import { LoggerModel } from '../logger/domain/entitites/logger.interface';
+import { BloggerUserModel } from '../../features/blogger/blogger-user/domain/entitites/blogger-user.interface';
 
 @Injectable()
 export class AllDataService {
@@ -25,6 +26,8 @@ export class AllDataService {
     private Like: Model<LikeModel>,
     @Inject('LOGGER_MONGOOSE')
     private Logger: Model<LoggerModel>,
+    @Inject('BLOGGER-USER_MONGOOSE')
+    private BloggerUser: Model<BloggerUserModel>,
   ) {}
 
   async deleteAllData(): Promise<void> {
@@ -34,6 +37,7 @@ export class AllDataService {
     await this.User.deleteMany()
     await this.Device.deleteMany()
     await this.Like.deleteMany()
+    await this.BloggerUser.deleteMany()
   }
   
 }

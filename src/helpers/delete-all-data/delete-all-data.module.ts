@@ -8,10 +8,11 @@ import { LikesModule } from '../../features/likes/likes.module';
 import { LoggerModule } from '../logger/logger.module';
 import { AllDataController } from './delete-all-data.controller';
 import { AllDataService } from './delete-all-data.service';
+import { BloggerUserModule } from '../../features/blogger/blogger-user/blogger-user.module';
 
 @Module({
   controllers: [AllDataController],
-  imports: [BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, LoggerModule],
+  imports: [BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, LoggerModule, BloggerUserModule],
   providers: [
     AllDataService,
   ],

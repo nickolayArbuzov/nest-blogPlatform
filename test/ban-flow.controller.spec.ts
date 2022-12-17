@@ -123,5 +123,20 @@ describe('AppController', () => {
       expect(blogs.body.items.length).toBe(2)
     })
 
+    it('should return posts by public-api with ban and unban', async () => {
+      let posts = await request(server).get('/posts')
+      expect(posts.body).toBe(2)
+      await request(server).put(`/sa/blogs/${constants.variables.blogId}/ban`)
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send({isBanned: true}).expect(204)
+      posts = await request(server).get('/posts')
+      expect(posts.body).toBe(1)
+      await request(server).put(`/sa/blogs/${constants.variables.blogId}/ban`)
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send({isBanned: false}).expect(204)
+      posts = await request(server).get('/posts')
+      expect(posts.body).toBe(2)
+    })
+
   });
 });
