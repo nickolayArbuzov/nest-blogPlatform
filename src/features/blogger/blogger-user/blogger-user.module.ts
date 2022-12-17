@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../../outerservices/database/database.module';
@@ -20,7 +20,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
   controllers: [BloggerUserController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule, SAUsersModule, BloggerBlogModule],
+  imports: [DatabaseModule, forwardRef(() => PostsModule), LikesModule, CqrsModule, LoggerModule, SAUsersModule, BloggerBlogModule],
   providers: [
     ...bloggerUserProviders,
     BloggerUserRepo,
@@ -31,6 +31,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
     ...queries,
   ],
   exports: [
+    BloggerUserRepo,
     bloggerUserProviders.find(v => v.provide === 'BLOGGER-USER_MONGOOSE'),
   ]
 

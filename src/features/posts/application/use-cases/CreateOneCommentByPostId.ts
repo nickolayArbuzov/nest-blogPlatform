@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CommandHandler } from '@nestjs/cqrs';
+import { BloggerUserRepo } from '../../../blogger/blogger-user/infrastructure/blogger-user.repo';
 import { BlogsRepo } from '../../../blogs/infrastructure/blogs.repo';
 import { CreateCommentDto } from '../../../comments/dto/comment.dto';
 import { CommentsRepo } from '../../../comments/infrastructure/comments.repo';
@@ -19,6 +20,7 @@ export class CreateOneCommentByPostIdUseCase {
     private postsRepo: PostsRepo,
     private commentsRepo: CommentsRepo,
     private blogsRepo: BlogsRepo,
+    private bloggerUserRepo: BloggerUserRepo,
   ) {}
 
     async execute(command: CreateOneCommentByPostIdCommand){
@@ -27,7 +29,10 @@ export class CreateOneCommentByPostIdUseCase {
         throw new HttpException('Post not found', HttpStatus.NOT_FOUND)
       }
       const blog = await this.blogsRepo.findOneBlogWithUserId(post.blogId.toString())
-
+      const bannedPosition = await this.bloggerUserRepo.findBannedPosition(blog.blogId, command.user.userId)
+      if(bannedPosition){
+        throw new HttpException('You are banned', HttpStatus.FORBIDDEN)
+      }
       const date = new Date()
       const comment = {
         blogOwnerUserId: blog.blogOwnerInfo.userId.toString(),

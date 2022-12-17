@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseModule } from '../../../outerservices/database/database.module';
@@ -28,7 +28,7 @@ const queries = [FindAllBlogsUseCase, FindAllCommentsForUsersBlogsUseCase]
 
 @Module({
   controllers: [BloggerController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule],
+  imports: [DatabaseModule, forwardRef(() => PostsModule), LikesModule, CqrsModule, LoggerModule],
   providers: [
     ...blogsProviders,
     BloggerService,

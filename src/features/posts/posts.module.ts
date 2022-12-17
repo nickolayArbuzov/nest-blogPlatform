@@ -16,13 +16,14 @@ import { postsProviders } from './infrastructure/posts.providers';
 import { PostsRepo } from './infrastructure/posts.repo';
 import { PostsMongoose } from './infrastructure/posts.repositoryMongo';
 import { LoggerModule } from '../../helpers/logger/logger.module';
+import { BloggerUserModule } from '../blogger/blogger-user/blogger-user.module';
 
 const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase]
 const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdUseCase]
 
 @Module({
   controllers: [PostsController],
-  imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), LoggerModule],
+  imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), LoggerModule, BloggerUserModule],
   providers: [
     ...postsProviders,
     PostsService,

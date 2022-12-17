@@ -17,4 +17,8 @@ export class BloggerUserRepo {
   async findAllBannedUsersByBlogId(query: QueryUserDto, blogId: string){
     return await this.bloggerUserMongoose.findAllBannedUsersByBlogId(query, blogId)
   }
+
+  async findBannedPosition(blogId: string, userId: string){
+    return await this.bloggerUserMongoose.findBannedPosition(blogId, userId)
+  }
 }

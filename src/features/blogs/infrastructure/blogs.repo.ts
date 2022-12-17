@@ -18,9 +18,10 @@ export class BlogsRepo {
 
   async findOneBlogWithUserId(id: string){
     const blog = await this.blogsMongoose.findOneBlogById(id)
-    blog.blogOwnerInfo
+    
     return {
-      blogOwnerInfo: blog.blogOwnerInfo
+      blogId: blog._id,
+      blogOwnerInfo: blog.blogOwnerInfo,
     }
   }
 

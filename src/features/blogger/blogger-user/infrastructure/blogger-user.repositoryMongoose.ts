@@ -77,4 +77,8 @@ export class BloggerUserMongoose {
     }
   }
 
+  async findBannedPosition(blogId: string, userId: string){
+    return this.BloggerUser.find({blogId: blogId, userId: userId})
+  }
+
 }
