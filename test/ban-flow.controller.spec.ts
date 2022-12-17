@@ -169,5 +169,19 @@ describe('AppController', () => {
       expect(bannedlist.body.items.length).toBe(0)
     })
 
+    it('should check 404 or 403 if ban or unban directed to not exists user or foreign blog', async () => {
+      await request(server)
+        .put(`/blogger/users/${constants.variables.incorrectAnyEntityId}/ban`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.blogId})
+        .expect(404)
+
+      await request(server)
+        .put(`/blogger/users/${constants.variables.userId2}/ban`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.incorrectAnyEntityId})
+        .expect(404)
+    })
+
   });
 });

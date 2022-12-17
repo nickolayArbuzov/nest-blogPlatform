@@ -13,13 +13,14 @@ import { BloggerUserRepo } from './infrastructure/blogger-user.repo';
 import { BloggerUserMongoose } from './infrastructure/blogger-user.repositoryMongoose';
 import { LoggerModule } from '../../../helpers/logger/logger.module';
 import { SAUsersModule } from '../../sa/sa-users/sa-users.module';
+import { BloggerBlogModule } from '../blogger-blog/blogger-blog.module';
 
 const commands = [BanUserByIdUseCase]
 const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
   controllers: [BloggerUserController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule, SAUsersModule],
+  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule, SAUsersModule, BloggerBlogModule],
   providers: [
     ...bloggerUserProviders,
     BloggerUserRepo,

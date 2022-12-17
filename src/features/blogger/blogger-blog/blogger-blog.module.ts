@@ -40,6 +40,7 @@ const queries = [FindAllBlogsUseCase, FindAllCommentsForUsersBlogsUseCase]
     ...queries,
   ],
   exports: [
+    BloggerRepo,
     blogsProviders.find(v => v.provide === 'BLOG_MONGOOSE'),
   ]
 

@@ -19,13 +19,13 @@ export class BloggerUserController {
     @UseGuards(JWTAuthGuard)
     @HttpCode(204)
     @Put(':id/ban')
-    async banUserById(@Param('id') userId: string, @Body() banUserBlogDto: BanUserBlogDto){
-        return await this.commandBus.execute(new BanUserByIdCommand(userId, banUserBlogDto))
+    async banUserById(@Param('id') userId: string, @Body() banUserBlogDto: BanUserBlogDto, @Req() req: Request){
+        return await this.commandBus.execute(new BanUserByIdCommand(userId, banUserBlogDto, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)
     @Get('blog/:id')
-    async findAllBannedUsersByBlogId(@Query() query: QueryUserDto, @Param('id') blogId: string, @Req() req: Request){
+    async findAllBannedUsersByBlogId(@Query() query: QueryUserDto, @Param('id') blogId: string){
         return await this.queryBus.execute(new FindAllBannedUsersByBlogIdQuery(query, blogId))
     }
 
