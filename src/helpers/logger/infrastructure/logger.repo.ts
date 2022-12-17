@@ -15,7 +15,6 @@ export class LoggerRepo {
       return {
         path: l.path,
         comment: l.comment,
-        token: l.token,
         date: l.date,
       }
     })

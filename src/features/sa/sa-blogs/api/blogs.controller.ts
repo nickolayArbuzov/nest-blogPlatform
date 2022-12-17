@@ -6,7 +6,10 @@ import { BanOneBlogByIdCommand } from '../application/use-cases/BanOneBlogById';
 import { BindBlogWithUserCommand } from '../application/use-cases/BindBlogWithUser';
 import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
 import { BanBlogDto } from '../../../../shared/dto/ban.dto';
+import { Logger } from '../../../../helpers/guards/logger.guard';
 
+
+@UseGuards(BasicAuthGuard, Logger)
 @Controller('sa/blogs')
 export class BlogsController {
     constructor(
@@ -14,21 +17,17 @@ export class BlogsController {
         private queryBus: QueryBus,
     ) {}
 
-    
-    @UseGuards(BasicAuthGuard)
     @HttpCode(204)
     @Put(':id/ban')
     async banOneBlogById(@Param('id') id: string, @Body() banBlogDto: BanBlogDto){
         return await this.commandBus.execute(new BanOneBlogByIdCommand(id, banBlogDto))
     }
 
-    @UseGuards(BasicAuthGuard)
     @Put(':id/bind-with-user/:userId')
     async bindBlogWithUser(@Param('id') id: string, @Param('userId') userId: string){
         return await this.commandBus.execute(new BindBlogWithUserCommand(id, userId))
     }
 
-    @UseGuards(BasicAuthGuard)
     @Get()
     async findAllBlogs(@Query() query: QueryBlogDto){
         return await this.queryBus.execute(new FindAllBlogsQuery(query))

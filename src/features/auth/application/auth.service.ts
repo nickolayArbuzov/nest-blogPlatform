@@ -7,7 +7,6 @@ import { sendEmail } from '../../../adapters/mail.adapter';
 import { UsersRepo } from '../../sa/sa-users/infrastructure/users.repo';
 import { DevicesRepo } from '../../devices/infrastructure/devices.repo';
 import { Device } from '../../devices/domain/entitites/device';
-import { LoggerRepo } from '../../../helpers/logger/infrastructure/logger.repo';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +14,6 @@ export class AuthService {
     private usersRepo: UsersRepo,
     private devicesRepo: DevicesRepo,
     private readonly jwtService: JwtService,
-    private loggerRepo: LoggerRepo,
   ) {}
 
   async passwordRecovery(passwordRecoveryDto: PasswordRecoveryDto){
@@ -128,7 +126,6 @@ export class AuthService {
     const refresh = this.jwtService.verify(refreshToken, {secret: 'secret'});
     const res = await this.devicesRepo.logout(refresh.userId, refresh.deviceId, refresh.issuedAt)
     if(res.deletedCount === 0) {
-      this.loggerRepo.createLog({path: 'logout', comment: 'in-service', token: refreshToken || 'none', date: new Date().toISOString()})
       throw new HttpException('Device not found', HttpStatus.UNAUTHORIZED)
     } else {
       return

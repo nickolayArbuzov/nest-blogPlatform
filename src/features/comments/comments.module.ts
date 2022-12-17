@@ -13,6 +13,7 @@ import { DeleteOneCommentByIdUseCase } from './application/use-cases/DeleteOneCo
 import { FindOneCommentByIdUseCase } from './application/use-cases/FindOneCommentById';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SAUsersModule } from '../sa/sa-users/sa-users.module';
+import { LoggerModule } from '../../helpers/logger/logger.module';
 
 const commands = [LikeUseCase, UpdateOneCommentByIdUseCase, DeleteOneCommentByIdUseCase]
 const queries = [FindOneCommentByIdUseCase]
@@ -21,6 +22,7 @@ const queries = [FindOneCommentByIdUseCase]
   controllers: [CommentsController],
   imports: [DatabaseModule, LikesModule, CqrsModule, SAUsersModule],
   providers: [
+    LoggerModule,
     ...commentsProviders,
     CommentsService,
     CommentsRepo,

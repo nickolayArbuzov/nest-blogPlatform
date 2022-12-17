@@ -12,6 +12,7 @@ import { usersProviders } from './infrastructure/users.providers';
 import { UsersRepo } from './infrastructure/users.repo';
 import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
 import { LikesModule } from '../../likes/likes.module';
+import { LoggerModule } from '../../../helpers/logger/logger.module';
 
 const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase, BanOneUserByIdUseCase]
 const queries = [FindAllUsersUseCase]
@@ -20,6 +21,7 @@ const queries = [FindAllUsersUseCase]
   controllers: [UsersController],
   imports: [DatabaseModule, CqrsModule, LikesModule],
   providers: [
+    LoggerModule,
     ...usersProviders,
     UsersService,
     UsersRepo,

@@ -15,6 +15,7 @@ import { LikeUseCase } from './application/use-cases/Like';
 import { postsProviders } from './infrastructure/posts.providers';
 import { PostsRepo } from './infrastructure/posts.repo';
 import { PostsMongoose } from './infrastructure/posts.repositoryMongo';
+import { LoggerModule } from '../../helpers/logger/logger.module';
 
 const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase]
 const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdUseCase]
@@ -23,6 +24,7 @@ const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdU
   controllers: [PostsController],
   imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule)],
   providers: [
+    LoggerModule,
     ...postsProviders,
     PostsService,
     PostsRepo,

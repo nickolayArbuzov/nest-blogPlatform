@@ -6,7 +6,6 @@ import { JWTAuthGuard } from '../../../helpers/guards/jwt.guard';
 import {AuthService} from "../application/auth.service";
 import { PasswordRecoveryDto, AuthDto, RegistrationConfirmationDto, RegistrationDto, RegistrationEmailResendingDto, NewPasswordDto } from '../dto/auth.dto';
 import { CookieGuard } from '../../../helpers/guards/cookie.guard';
-import { LoggerRepo } from '../../../helpers/logger/infrastructure/logger.repo';
 import { GetAuthMeQuery } from '../application/use-cases/GetAuthMe';
 import { LogoutCommand } from '../application/use-cases/Logout';
 import { RegistrationEmailResendingCommand } from '../application/use-cases/RegistrationEmailResending';
@@ -23,7 +22,6 @@ export class AuthController {
 
     constructor(
         private authService: AuthService,
-        private loggerRepo: LoggerRepo,
         private commandBus: CommandBus,
         private queryBus: QueryBus,
     ) {}
@@ -56,7 +54,6 @@ export class AuthController {
                 maxAge: 24*60*60*1000,
             }
         );
-        this.loggerRepo.createLog({path: req.path, comment: 'login', token: result.refreshToken, date: new Date().toISOString()})    
         return { accessToken: result.accessToken };
     }
 
@@ -75,7 +72,6 @@ export class AuthController {
                 maxAge: 24*60*60*1000,
             }
         );
-        this.loggerRepo.createLog({path: req.path, comment: 'after-refresh', token: result.refreshToken, date: new Date().toISOString()})
         return { accessToken: result.accessToken };
     }
 

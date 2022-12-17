@@ -11,6 +11,7 @@ import { BlogIsExistRule } from './custom-validators/customValidateBlog';
 import { bloggerUserProviders } from './infrastructure/blogger-user.providers';
 import { BloggerUserRepo } from './infrastructure/blogger-user.repo';
 import { BloggerUserMongoose } from './infrastructure/blogger-user.repositoryMongoose';
+import { LoggerModule } from '../../../helpers/logger/logger.module';
 
 const commands = [BanUserByIdUseCase]
 const queries = [FindAllBannedUsersByBlogIdUseCase]
@@ -19,6 +20,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
   controllers: [BloggerUserController],
   imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
   providers: [
+    LoggerModule,
     ...bloggerUserProviders,
     BloggerUserRepo,
     BloggerUserMongoose,

@@ -16,7 +16,7 @@ export class FindOneBlogByIdUseCase {
 
   async execute(query: FindOneBlogByIdQuery){
     const blog = await this.blogsRepo.findOneBlogById(query.id)
-    if(blog){
+    if(blog && !blog.banInfo.isBanned){
       return {
         id: blog._id,
         name: blog.name,

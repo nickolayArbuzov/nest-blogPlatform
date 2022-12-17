@@ -13,6 +13,7 @@ import { BlogIsExistRule } from './custom-validators/customValidateBlog';
 import { blogsProviders } from '../../shared/collections/Blog/blog.providers';
 import { BlogsRepo } from './infrastructure/blogs.repo';
 import { BlogsMongoose } from './infrastructure/blogs.repositoryMongoose';
+import { LoggerModule } from '../../helpers/logger/logger.module';
 
 const commands = []
 const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdUseCase]
@@ -21,6 +22,7 @@ const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdU
   controllers: [BlogsController],
   imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
   providers: [
+    LoggerModule,
     ...blogsProviders,
     BlogsService,
     BlogsRepo,
