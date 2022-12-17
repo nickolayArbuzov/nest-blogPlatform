@@ -7,7 +7,9 @@ import { ExtractUserFromToken } from '../../../helpers/guards/extractUserFromTok
 import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
 import { FindPostsByBlogIdQuery } from '../application/use-cases/FindPostsByBlogId';
 import { FindOneBlogByIdQuery } from '../application/use-cases/FindOneBlogById';
+import { Logger } from '../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('blogs')
 export class BlogsController {
     constructor(

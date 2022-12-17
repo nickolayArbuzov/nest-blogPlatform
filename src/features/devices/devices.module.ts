@@ -18,7 +18,7 @@ const queries = [FindAllDevicesByCurrentUserIdUseCase]
 
 @Module({
   controllers: [DevicesController],
-  imports: [LoggerModule, DatabaseModule, JwtModule, CqrsModule],
+  imports: [LoggerModule, DatabaseModule, JwtModule, CqrsModule, LoggerModule],
   providers: [
     ...devicesProviders,
     DevicesService,

@@ -8,7 +8,6 @@ import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
 import { BanBlogDto } from '../../../../shared/dto/ban.dto';
 import { Logger } from '../../../../helpers/guards/logger.guard';
 
-
 @UseGuards(BasicAuthGuard, Logger)
 @Controller('sa/blogs')
 export class BlogsController {

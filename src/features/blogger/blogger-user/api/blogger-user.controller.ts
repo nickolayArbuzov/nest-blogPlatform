@@ -5,8 +5,9 @@ import { BanUserBlogDto } from '../../../../shared/dto/ban.dto';
 import { JWTAuthGuard } from '../../../../helpers/guards/jwt.guard';
 import { BanUserByIdCommand } from '../application/use-cases/BanUserById';
 import { FindAllBannedUsersByBlogIdQuery } from '../application/use-cases/FindAllBannedUsersByBlogId';
+import { Logger } from '../../../../helpers/guards/logger.guard';
 
-
+@UseGuards(Logger)
 @Controller('blogger/users')
 export class BloggerUserController {
     constructor(

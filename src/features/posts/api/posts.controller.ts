@@ -14,7 +14,9 @@ import { FindCommentsByPostIdQuery } from '../application/use-cases/FindComments
 import { CreateOneCommentByPostIdCommand } from '../application/use-cases/CreateOneCommentByPostId';
 import { FindAllPostsQuery } from '../application/use-cases/FindAllPosts';
 import { FindOnePostByIdQuery } from '../application/use-cases/FindOnePostById';
+import { Logger } from '../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('posts')
 export class PostsController {
     constructor(

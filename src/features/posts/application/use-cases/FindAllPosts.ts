@@ -27,7 +27,6 @@ export class FindAllPostsUseCase {
         sortDirection: query.queryParams.sortDirection === 'asc' ? query.queryParams.sortDirection : queryDefault.sortDirection,
       }
       const posts = await this.postsRepo.findAllPosts(queryParams)
-      console.log('posts', posts)
       const items = []
       for await (const p of posts.items) {
         const extendedLikesInfo = await this.likesRepo.getLikesInfoForPost(p.id.toString(), query.userId)

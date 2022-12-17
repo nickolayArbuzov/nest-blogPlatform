@@ -28,9 +28,8 @@ const queries = [FindAllBlogsUseCase, FindAllCommentsForUsersBlogsUseCase]
 
 @Module({
   controllers: [BloggerController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
+  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...blogsProviders,
     BloggerService,
     BloggerRepo,

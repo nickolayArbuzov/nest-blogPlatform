@@ -8,7 +8,9 @@ import { DeleteOneUserByIdCommand } from '../application/use-cases/DeleteOneUser
 import { FindAllUsersQuery } from '../application/use-cases/FindAllUsers';
 import { BanOneUserByIdCommand } from '../application/use-cases/BanOneUserById';
 import { BanUserDto } from '../../../../shared/dto/ban.dto';
+import { Logger } from '../../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('sa/users')
 export class UsersController {
     constructor(

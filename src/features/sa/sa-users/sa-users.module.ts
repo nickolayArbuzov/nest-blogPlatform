@@ -19,9 +19,8 @@ const queries = [FindAllUsersUseCase]
 
 @Module({
   controllers: [UsersController],
-  imports: [DatabaseModule, CqrsModule, LikesModule],
+  imports: [DatabaseModule, CqrsModule, LikesModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...usersProviders,
     UsersService,
     UsersRepo,

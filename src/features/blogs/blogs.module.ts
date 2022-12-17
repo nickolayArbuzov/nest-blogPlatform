@@ -20,9 +20,8 @@ const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdU
 
 @Module({
   controllers: [BlogsController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
+  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...blogsProviders,
     BlogsService,
     BlogsRepo,

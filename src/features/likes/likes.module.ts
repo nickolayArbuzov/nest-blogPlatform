@@ -7,9 +7,8 @@ import { LoggerModule } from '../../helpers/logger/logger.module';
 
 @Module({
   controllers: [],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...likesProviders,
     LikesRepo,
     LikesMongoose,

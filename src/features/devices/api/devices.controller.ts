@@ -6,7 +6,9 @@ import { DevicesService } from '../application/devices.service';
 import { DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceCommand } from '../application/use-cases/DeleteAllDeviceByCurrentUserIdExceptCurrentDevice';
 import { DeleteOneDeviceByIdCommand } from '../application/use-cases/DeleteOneDeviceById';
 import { FindAllDevicesByCurrentUserIdQuery } from '../application/use-cases/FindAllDevicesByCurrentUserId';
+import { Logger } from '../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('security')
 export class DevicesController {
     constructor(

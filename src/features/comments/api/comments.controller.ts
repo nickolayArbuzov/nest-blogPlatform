@@ -10,7 +10,9 @@ import { FindOneCommentByIdQuery } from '../application/use-cases/FindOneComment
 import { DeleteOneCommentByIdCommand } from '../application/use-cases/DeleteOneCommentById';
 import { UpdateOneCommentByIdCommand } from '../application/use-cases/UpdateOneCommentById';
 import { LikeCommand } from '../application/use-cases/Like';
+import { Logger } from '../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('comments')
 export class CommentsController {
     constructor(

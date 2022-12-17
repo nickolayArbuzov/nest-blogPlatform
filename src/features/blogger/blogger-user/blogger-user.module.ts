@@ -18,9 +18,8 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
   controllers: [BloggerUserController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
+  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...bloggerUserProviders,
     BloggerUserRepo,
     BloggerUserMongoose,

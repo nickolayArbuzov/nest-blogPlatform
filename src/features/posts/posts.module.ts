@@ -22,9 +22,8 @@ const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdU
 
 @Module({
   controllers: [PostsController],
-  imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule)],
+  imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), LoggerModule],
   providers: [
-    LoggerModule,
     ...postsProviders,
     PostsService,
     PostsRepo,

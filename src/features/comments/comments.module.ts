@@ -20,9 +20,8 @@ const queries = [FindOneCommentByIdUseCase]
 
 @Module({
   controllers: [CommentsController],
-  imports: [DatabaseModule, LikesModule, CqrsModule, SAUsersModule],
+  imports: [DatabaseModule, LikesModule, CqrsModule, SAUsersModule, LoggerModule],
   providers: [
-    LoggerModule,
     ...commentsProviders,
     CommentsService,
     CommentsRepo,

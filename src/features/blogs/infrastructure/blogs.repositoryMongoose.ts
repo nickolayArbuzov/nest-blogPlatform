@@ -18,7 +18,6 @@ export class BlogsMongoose {
       .sort({[query.sortBy] : query.sortDirection})
     
     const totalCount = await this.Blog.countDocuments({"name": {$regex: query.searchNameTerm, $options : 'i'}});
-    console.log('blogs', blogs)
     return {
       pagesCount: Math.ceil(totalCount/+query.pageSize),
       page: +query.pageNumber,

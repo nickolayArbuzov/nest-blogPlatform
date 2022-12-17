@@ -15,8 +15,9 @@ import { RefreshTokensCommand } from '../application/use-cases/RefreshTokens';
 import { LoginCommand } from '../application/use-cases/Login';
 import { NewPasswordCommand } from '../application/use-cases/NewPassword';
 import { PasswordRecoveryCommand } from '../application/use-cases/PasswordRecovery';
+import { Logger } from '../../../helpers/guards/logger.guard';
 
-
+@UseGuards(Logger)
 @Controller('auth')
 export class AuthController {
 

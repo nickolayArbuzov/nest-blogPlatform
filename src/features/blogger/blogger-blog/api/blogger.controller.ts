@@ -13,7 +13,9 @@ import { DeleteOnePostOverBlogCommand } from '../application/use-cases/DeleteOne
 import { FindAllBlogsQuery } from '../application/use-cases/FindAllBlogs';
 import { CreateOneBlogCommand } from '../application/use-cases/CreateOneBlog';
 import { FindAllCommentsForUsersBlogsQuery } from '../application/use-cases/FindAllCommentsForUsersBlogs';
+import { Logger } from '../../../../helpers/guards/logger.guard';
 
+@UseGuards(Logger)
 @Controller('blogger/blogs')
 export class BloggerController {
     constructor(
