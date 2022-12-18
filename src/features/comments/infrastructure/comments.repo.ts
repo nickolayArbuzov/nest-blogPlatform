@@ -29,4 +29,8 @@ export class CommentsRepo {
   async createCommentFromPost(newComment: Comment){
     return await this.commentsMongoose.createCommentFromPost(newComment)
   }
+
+  async findCommentsByBloggerId(queryParams: QueryBlogDto, bloggerId: string){
+    return await this.commentsMongoose.findCommentsByBloggerId(queryParams, bloggerId)
+  }
 }

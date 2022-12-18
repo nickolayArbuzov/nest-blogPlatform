@@ -25,8 +25,8 @@ export class BloggerController {
 
     @UseGuards(JWTAuthGuard)
     @Get('comments')
-    async findAllCommentsForUsersBlogs(@Req() req: Request){
-        return await this.commandBus.execute(new FindAllCommentsForUsersBlogsQuery(req.user.userId))
+    async findAllCommentsForUsersBlogs(@Query() query: QueryBlogDto, @Req() req: Request){
+        return await this.queryBus.execute(new FindAllCommentsForUsersBlogsQuery(query, req.user.userId))
     }
 
     @UseGuards(JWTAuthGuard)

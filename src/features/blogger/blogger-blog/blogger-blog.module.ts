@@ -19,6 +19,7 @@ import { BloggerRepo } from './infrastructure/blogger.repo';
 import { BloggerMongoose } from './infrastructure/blogger.repositoryMongoose';
 import { FindAllCommentsForUsersBlogsUseCase } from './application/use-cases/FindAllCommentsForUsersBlogs';
 import { LoggerModule } from '../../../helpers/logger/logger.module';
+import { CommentsModule } from '../../comments/comments.module';
 
 const commands = [
   DeleteOneBlogByIdUseCase, CreateOneBlogUseCase, CreateOnePostForBlogIdUseCase, 
@@ -28,7 +29,7 @@ const queries = [FindAllBlogsUseCase, FindAllCommentsForUsersBlogsUseCase]
 
 @Module({
   controllers: [BloggerController],
-  imports: [DatabaseModule, forwardRef(() => PostsModule), LikesModule, CqrsModule, LoggerModule],
+  imports: [DatabaseModule, forwardRef(() => PostsModule), LikesModule, CqrsModule, LoggerModule, CommentsModule],
   providers: [
     ...blogsProviders,
     BloggerService,

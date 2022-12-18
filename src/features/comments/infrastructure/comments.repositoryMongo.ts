@@ -74,4 +74,31 @@ export class CommentsMongoose {
     return await this.Comment.create(newComment)
   }
 
+  async findCommentsByBloggerId(query: QueryBlogDto, bloggerId: string){
+
+    const comments = await this.Comment
+      .find({blogOwnerUserId: bloggerId})
+      .skip((+query.pageNumber - 1) * +query.pageSize)
+      .limit(+query.pageSize)
+      .sort({[query.sortBy] : query.sortDirection})
+    
+    const totalCount = await this.Comment.countDocuments({blogOwnerUserId: bloggerId});
+    
+    return {
+      pagesCount: Math.ceil(totalCount/+query.pageSize),
+      page: +query.pageNumber,
+      pageSize: +query.pageSize,
+      totalCount: totalCount,
+      items: comments.map(i => {
+        return {
+          id: i._id,
+          content: i.content,
+          createdAt: i.createdAt,
+          commentatorInfo: i.commentatorInfo,
+          postInfo: i.postInfo,
+        }
+      }),
+    }
+  }
+
 }

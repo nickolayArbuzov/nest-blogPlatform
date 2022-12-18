@@ -196,6 +196,10 @@ describe('AppController', () => {
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .send(constants.createComment).expect(201)
       constants.variables.setCommentId3(comment3.body.id)
+
+      const comments = await request(server).get(`/blogger/blogs/comments`)
+        .set('Authorization', `Bearer ${constants.variables.accessToken}`)
+
     })
 
   });
