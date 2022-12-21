@@ -72,6 +72,10 @@ describe('AppController', () => {
       await request(server).post('/auth/logout').set('Cookie', constants.variables.cookieAfter).expect(204);
     });
 
+    it('should return 401 if try to login with incorrect creds', async () => {
+      const login = await request(server).post('/auth/login').send(constants.incorrectLoginUser).expect(401)
+    });
+
     it('should try to registration if creds is exists', async () => {
       const login = await request(server).post('/auth/registration').send(constants.incorrectRegistartionUser)
       expect(login.body).toStrictEqual({errorsMessages: [

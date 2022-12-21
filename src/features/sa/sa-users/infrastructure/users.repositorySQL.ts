@@ -197,7 +197,7 @@ export class UsersSQL {
       `,
       [code]
     )
-    return user[0] ? user[0] : null
+    return user[0] && !user[0].isActivated ? user[0] : null
   }
 
   async findOneForCustomDecoratorCheckMail(email: string) {
@@ -209,7 +209,7 @@ export class UsersSQL {
       `,
       [email]
     )
-    return user[0] ? user[0] : null
+    return user[0] && !user[0].isActivated ? user[0] : null
   }
 
   async registrationConfirmation(code: string) {

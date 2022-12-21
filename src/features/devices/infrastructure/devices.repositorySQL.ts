@@ -33,29 +33,13 @@ export class DevicesSQL {
   }
 
   async deleteAllDeviceByCurrentUserIdExceptCurrentDevice(deviceId: string, userId: string){
-    console.log('deviceId', deviceId)
-    console.log('userId', userId)
-    const pre = await this.db.query(
-      `
-        select * from devices
-      `
-    )
-    console.log('pre', pre)
-    await this.db.query(
+    return await this.db.query(
       `
         delete from devices
-        where ("userId" = $2 and "deviceId" <> $1)
+        where "userId" = $2 and "deviceId" <> $1
       `,
       [deviceId, userId]
     )
-    const after = await this.db.query(
-      `
-        select * from devices
-      `
-    )
-    console.log('after', after)
-
-    return 
   }
 
   async deleteOneDeviceById(deviceId: string, userId: string){
