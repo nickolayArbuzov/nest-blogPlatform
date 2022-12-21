@@ -194,7 +194,7 @@ export class UsersSQL {
   async findOneForCustomDecoratorByCode(code: string) {
     const user = await this.db.query(
       `
-        select id
+        select id, "isActivated"
         from users
         where code = $1
       `,
@@ -206,7 +206,7 @@ export class UsersSQL {
   async findOneForCustomDecoratorCheckMail(email: string) {
     const user = await this.db.query(
       `
-        select id
+        select id, "isActivated"
         from users
         where email = $1
       `,
