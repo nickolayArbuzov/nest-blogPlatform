@@ -26,7 +26,6 @@ export class CommentsController {
     @Put(':id/like-status')
     async like(@Param('id') id: string, @Body() likeDto: CreateLikeDto, @Req() req: Request){
         return await this.commandBus.execute(new LikeCommand(id, likeDto.likeStatus, req.user))
-        return await this.commentsService.like(id, likeDto.likeStatus, req.user)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -34,7 +33,6 @@ export class CommentsController {
     @Put(':id')
     async updateOneCommentById(@Param('id') id: string, @Body() commentDto: UpdateCommentDto, @Req() req: Request){
         return await this.commandBus.execute(new UpdateOneCommentByIdCommand(id, commentDto, req.user.userId))
-        return await this.commentsService.updateOneCommentById(id, commentDto, req.user.userId)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -42,13 +40,11 @@ export class CommentsController {
     @Delete(':id')
     async deleteOneCommentById(@Param('id') id: string, @Req() req: Request){
         return await this.commandBus.execute(new DeleteOneCommentByIdCommand(id, req.user?.userId))
-        return await this.commentsService.deleteOneCommentById(id, req.user.userId)
     }
     
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOneCommentById(@Param('id') id: string, @Req() req: Request){
         return await this.queryBus.execute(new FindOneCommentByIdQuery(id, req.user?.userId))
-        return await this.commentsService.findOneCommentById(id, req.user?.userId)
     }
 }

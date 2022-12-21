@@ -14,6 +14,7 @@ import { LikesModule } from './features/likes/likes.module';
 import { BloggerBlogModule } from './features/blogger/blogger-blog/blogger-blog.module';
 import { SABlogsModule } from './features/sa/sa-blogs/sa-blogs.module';
 import { BloggerUserModule } from './features/blogger/blogger-user/blogger-user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   controllers: [AppController],
@@ -22,6 +23,16 @@ import { BloggerUserModule } from './features/blogger/blogger-user/blogger-user.
   ],
   imports: [
     ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: Number(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASS,
+      database: process.env.POSTGRES_DB,
+      autoLoadEntities: false,
+      synchronize: false,
+    }),
     DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
@@ -38,3 +49,20 @@ import { BloggerUserModule } from './features/blogger/blogger-user/blogger-user.
 })
 export class AppModule {}
 
+/*TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => {
+    switch (process.env.USE_DATABASE){
+      case 'RawSql':
+        return configService.get<TypeOrmModuleOptions>('RawSqlHerokuConfig');
+        break;
+      case 'TypeOrm':
+        return configService.get<TypeOrmModuleOptions>('TypeOrmHerokuConfig');
+        break;
+      default:
+        return configService.get<TypeOrmModuleOptions>('TypeOrmHerokuConfig');
+        break;
+    }
+  },
+  inject: [ConfigService],
+}),*/

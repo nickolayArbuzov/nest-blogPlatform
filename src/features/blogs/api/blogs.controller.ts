@@ -26,13 +26,11 @@ export class BlogsController {
     @Get(':id/posts')
     async findPostsByBlogId(@Query() query: QueryBlogDto, @Param('id') id: string, @Req() req: Request){
         return await this.queryBus.execute(new FindPostsByBlogIdQuery(query, id, req.user?.userId))
-        return this.blogsService.findPostsByBlogId(query, id, req.user?.userId)
     }
 
     @Get(':id')
     async findOneBlogById(@Param('id') id: string){
         return await this.queryBus.execute(new FindOneBlogByIdQuery(id))
-        return this.blogsService.findOneBlogById(id)
     }
     
 }

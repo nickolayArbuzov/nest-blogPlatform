@@ -4,6 +4,7 @@ import { likesProviders } from './infrastructure/like.providers';
 import { LikesRepo } from './infrastructure/like.repo';
 import { LikesMongoose } from './infrastructure/like.repositoryMongo';
 import { LoggerModule } from '../../helpers/logger/logger.module';
+import { LikesSQL } from './infrastructure/like.repositorySQL';
 
 @Module({
   controllers: [],
@@ -12,6 +13,7 @@ import { LoggerModule } from '../../helpers/logger/logger.module';
     ...likesProviders,
     LikesRepo,
     LikesMongoose,
+    LikesSQL,
   ],
   exports: [
     LikesRepo,

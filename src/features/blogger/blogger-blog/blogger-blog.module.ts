@@ -20,6 +20,7 @@ import { BloggerMongoose } from './infrastructure/blogger.repositoryMongoose';
 import { FindAllCommentsForUsersBlogsUseCase } from './application/use-cases/FindAllCommentsForUsersBlogs';
 import { LoggerModule } from '../../../helpers/logger/logger.module';
 import { CommentsModule } from '../../comments/comments.module';
+import { BloggerSQL } from './infrastructure/blogger.repositorySQL';
 
 const commands = [
   DeleteOneBlogByIdUseCase, CreateOneBlogUseCase, CreateOnePostForBlogIdUseCase, 
@@ -35,6 +36,7 @@ const queries = [FindAllBlogsUseCase, FindAllCommentsForUsersBlogsUseCase]
     BloggerService,
     BloggerRepo,
     BloggerMongoose,
+    BloggerSQL,
     BlogIsExistRule,
     JwtService,
     ...commands,

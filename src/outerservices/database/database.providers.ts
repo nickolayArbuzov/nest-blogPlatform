@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { DataSource } from 'typeorm';
 import * as config from '../../config/database'
 
 export const databaseProviders = [

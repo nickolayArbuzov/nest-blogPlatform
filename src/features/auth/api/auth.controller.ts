@@ -31,20 +31,17 @@ export class AuthController {
     @Post('password-recovery')
     async passwordRecovery(passwordRecoveryDto: PasswordRecoveryDto){
         return await this.commandBus.execute(new PasswordRecoveryCommand(passwordRecoveryDto))
-        return this.authService.passwordRecovery(passwordRecoveryDto)
     }
 
     @HttpCode(204)
     @Post('new-password')
     async newPassword(newPasswordDto: NewPasswordDto){
         return await this.commandBus.execute(new NewPasswordCommand(newPasswordDto))
-        return this.authService.newPassword(newPasswordDto)
     }
 
     @HttpCode(200)
     @Post('login')
     async login(@Body() authDto: AuthDto, @Req() req: Request, @Res({ passthrough: true }) res: Response){
-        //const result = await this.authService.login(authDto, req.ip, req.headers['user-agent'] || '')
         const result = await this.commandBus.execute(new LoginCommand(authDto, req.ip, req.headers['user-agent'] || ''))
         res.cookie(
             'refreshToken', 
@@ -62,7 +59,6 @@ export class AuthController {
     @UseGuards(CookieGuard)
     @Post('refresh-token')
     async refreshTokens(@Req() req: Request, @Res({ passthrough: true }) res: Response){
-        //const result = await this.authService.refreshTokens(req.cookies.refreshToken)
         const result = await this.commandBus.execute(new RefreshTokensCommand(req.cookies.refreshToken))
         res.cookie(
             'refreshToken', 
@@ -80,21 +76,18 @@ export class AuthController {
     @Post('registration-confirmation')
     async registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
         return await this.commandBus.execute(new RegistrationConfirmationCommand(registrationConfirmationDto))
-        return this.authService.registrationConfirmation(registrationConfirmationDto)
     }
 
     @HttpCode(204)
     @Post('registration')
     async registration(@Body() registrationDto: RegistrationDto){
         return await this.commandBus.execute(new RegistrationCommand(registrationDto))
-        return this.authService.registration(registrationDto)
     }
 
     @HttpCode(204)
     @Post('registration-email-resending')
     async registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
         return await this.commandBus.execute(new RegistrationEmailResendingCommand(registrationEmailResendingDto))
-        return this.authService.registrationEmailResending(registrationEmailResendingDto)
     }
 
     @HttpCode(204)
@@ -102,7 +95,6 @@ export class AuthController {
     @Post('logout')
     async logout(@Req() req: Request){
         return await this.commandBus.execute(new LogoutCommand(req.cookies.refreshToken))
-        return this.authService.logout(req.cookies.refreshToken)
     }
 
     @HttpCode(200)
@@ -110,7 +102,6 @@ export class AuthController {
     @Get('me')
     async getAuthMe(@Req() req: Request){
         return await this.queryBus.execute(new GetAuthMeQuery(req.user.userId))
-        return this.authService.authMe(req.user.userId)
     }
 
 }

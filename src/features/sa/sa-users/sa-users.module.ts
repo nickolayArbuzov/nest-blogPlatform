@@ -13,6 +13,7 @@ import { UsersRepo } from './infrastructure/users.repo';
 import { UsersMongoose } from './infrastructure/users.repositoryMongoose';
 import { LikesModule } from '../../likes/likes.module';
 import { LoggerModule } from '../../../helpers/logger/logger.module';
+import { UsersSQL } from './infrastructure/users.repositorySQL';
 
 const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase, BanOneUserByIdUseCase]
 const queries = [FindAllUsersUseCase]
@@ -25,6 +26,7 @@ const queries = [FindAllUsersUseCase]
     UsersService,
     UsersRepo,
     UsersMongoose,
+    UsersSQL,
     UserMailIsExistRule,
     UserLoginIsExistRule,
     UserCodeIsConfirmedRule,

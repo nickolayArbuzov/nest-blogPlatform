@@ -12,6 +12,7 @@ import { FindAllDevicesByCurrentUserIdUseCase } from './application/use-cases/Fi
 import { DeleteOneDeviceByIdUseCase } from './application/use-cases/DeleteOneDeviceById';
 import { DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase } from './application/use-cases/DeleteAllDeviceByCurrentUserIdExceptCurrentDevice';
 import { CqrsModule } from '@nestjs/cqrs';
+import { DevicesSQL } from './infrastructure/devices.repositorySQL';
 
 const commands = [DeleteOneDeviceByIdUseCase, DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase]
 const queries = [FindAllDevicesByCurrentUserIdUseCase]
@@ -24,6 +25,7 @@ const queries = [FindAllDevicesByCurrentUserIdUseCase]
     DevicesService,
     DevicesRepo,
     DevicesMongoose,
+    DevicesSQL,
     JWT,
     ...commands,
     ...queries,

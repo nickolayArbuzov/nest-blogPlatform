@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { BanInfo, User } from '../domain/entitites/user';
 import { UserModel } from '../domain/entitites/user.interface';
+import { IRepositoryInterface } from './repo.interface';
 
 @Injectable()
 export class UsersMongoose {

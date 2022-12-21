@@ -26,6 +26,7 @@ export class LoginUseCase {
 
     async execute(command: LoginCommand){
       const auth = await this.usersRepo.findByLoginOrEmail(command.dto.loginOrEmail)
+
       if (!auth || auth.banInfo.isBanned === true){
         throw new HttpException('Auth not found', HttpStatus.UNAUTHORIZED);
       }

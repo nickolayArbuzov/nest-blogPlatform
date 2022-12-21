@@ -17,6 +17,7 @@ import { PostsRepo } from './infrastructure/posts.repo';
 import { PostsMongoose } from './infrastructure/posts.repositoryMongo';
 import { LoggerModule } from '../../helpers/logger/logger.module';
 import { BloggerUserModule } from '../blogger/blogger-user/blogger-user.module';
+import { PostsSQL } from './infrastructure/posts.repositorySQL';
 
 const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase]
 const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdUseCase]
@@ -29,6 +30,7 @@ const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdU
     PostsService,
     PostsRepo,
     PostsMongoose,
+    PostsSQL,
     JwtService,
     ...commands,
     ...queries,

@@ -13,6 +13,7 @@ import { BindBlogWithUserUseCase } from './application/use-cases/BindBlogWithUse
 import { BanOneBlogByIdUseCase } from './application/use-cases/BanOneBlogById';
 import { FindAllBlogsUseCase } from './application/use-cases/FindAllBlogs';
 import { LoggerModule } from '../../../helpers/logger/logger.module';
+import { BlogsSQL } from './infrastructure/blogs.repositorySQL';
 
 const commands = [BindBlogWithUserUseCase, BanOneBlogByIdUseCase]
 const queries = [FindAllBlogsUseCase]
@@ -25,6 +26,7 @@ const queries = [FindAllBlogsUseCase]
     BlogsService,
     BlogsRepo,
     BlogsMongoose,
+    BlogsSQL,
     JwtService,
     ...commands,
     ...queries,

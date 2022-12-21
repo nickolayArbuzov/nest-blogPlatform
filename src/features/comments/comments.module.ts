@@ -14,6 +14,7 @@ import { FindOneCommentByIdUseCase } from './application/use-cases/FindOneCommen
 import { CqrsModule } from '@nestjs/cqrs';
 import { SAUsersModule } from '../sa/sa-users/sa-users.module';
 import { LoggerModule } from '../../helpers/logger/logger.module';
+import { CommentsSQL } from './infrastructure/comments.repositorySQL';
 
 const commands = [LikeUseCase, UpdateOneCommentByIdUseCase, DeleteOneCommentByIdUseCase]
 const queries = [FindOneCommentByIdUseCase]
@@ -26,6 +27,7 @@ const queries = [FindOneCommentByIdUseCase]
     CommentsService,
     CommentsRepo,
     CommentsMongoose,
+    CommentsSQL,
     JwtService,
     ...commands,
     ...queries,

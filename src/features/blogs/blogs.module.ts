@@ -14,6 +14,7 @@ import { blogsProviders } from '../../shared/collections/Blog/blog.providers';
 import { BlogsRepo } from './infrastructure/blogs.repo';
 import { BlogsMongoose } from './infrastructure/blogs.repositoryMongoose';
 import { LoggerModule } from '../../helpers/logger/logger.module';
+import { BlogsSQL } from './infrastructure/blogs.repositorySQL';
 
 const commands = []
 const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdUseCase]
@@ -26,6 +27,7 @@ const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdU
     BlogsService,
     BlogsRepo,
     BlogsMongoose,
+    BlogsSQL,
     BlogIsExistRule,
     JwtService,
     ...commands,

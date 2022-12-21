@@ -51,7 +51,7 @@ describe('AppController', () => {
     })
 
     it('should create new user, registration other user and login for get tokens', async () => {
-      await request(server).post('/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
+      const res = await request(server).post('/sa/users').send(constants.createUser1).set('Authorization', 'Basic YWRtaW46cXdlcnR5');
       await request(server).post('/auth/registration').send(constants.correctRegistartionUser)
 
       const login = await request(server).post('/auth/login').set('user-agent', 'Mozilla').send(constants.correctLoginUser)
@@ -88,7 +88,7 @@ describe('AppController', () => {
     it('should return devices by userId', async () => {
       const res = await request(server).get('/security/devices').set('Cookie', constants.variables.cookie)
       expect(res.body.length).toBe(4)
-      constants.variables.setDeviceId(res.body[3].deviceId)
+      constants.variables.setDeviceId(res.body[2].deviceId)
       expect(res.body[0]).toStrictEqual({
         ip: expect.any(String),
         title: expect.any(String),

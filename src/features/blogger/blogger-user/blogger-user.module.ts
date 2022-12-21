@@ -14,6 +14,7 @@ import { BloggerUserMongoose } from './infrastructure/blogger-user.repositoryMon
 import { LoggerModule } from '../../../helpers/logger/logger.module';
 import { SAUsersModule } from '../../sa/sa-users/sa-users.module';
 import { BloggerBlogModule } from '../blogger-blog/blogger-blog.module';
+import { BloggerUserSQL } from './infrastructure/blogger-user.repositorySQL';
 
 const commands = [BanUserByIdUseCase]
 const queries = [FindAllBannedUsersByBlogIdUseCase]
@@ -25,6 +26,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
     ...bloggerUserProviders,
     BloggerUserRepo,
     BloggerUserMongoose,
+    BloggerUserSQL,
     BlogIsExistRule,
     JwtService,
     ...commands,

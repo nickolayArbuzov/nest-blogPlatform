@@ -30,14 +30,12 @@ export class PostsController {
     @Put(':id/like-status')
     async like(@Param('id') id: string, @Body() likeDto: CreateLikeDto, @Req() req: Request){
         return await this.commandBus.execute(new LikeCommand(id, likeDto.likeStatus, req.user))
-        return await this.postsService.like(id, likeDto.likeStatus, req.user)
     }
 
     @UseGuards(ExtractUserFromToken)
     @Get(':id/comments')
     async findCommentsByPostId(@Param('id') id: string, @Query() query: QueryBlogDto, @Req() req: Request){
         return await this.queryBus.execute(new FindCommentsByPostIdQuery(id, query, req.user?.userId))
-        return await this.postsService.findCommentsByPostId(id, query, req.user?.userId)
     }
 
     @UseGuards(JWTAuthGuard)
@@ -50,14 +48,12 @@ export class PostsController {
     @Get()
     async findAllPosts(@Query() query: QueryBlogDto, @Req() req: Request){
         return await this.queryBus.execute(new FindAllPostsQuery(query, req.user?.userId))
-        return await this.postsService.findAllPosts(query, req.user?.userId)
     }
 
     @UseGuards(ExtractUserFromToken)
     @Get(':id')
     async findOnePostById(@Param('id') id: string, @Req() req: Request){
         return await this.queryBus.execute(new FindOnePostByIdQuery(id, req.user?.userId))
-        return await this.postsService.findOnePostById(id, req.user?.userId)
     }
 
 }
