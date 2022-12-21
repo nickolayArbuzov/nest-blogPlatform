@@ -1,4 +1,4 @@
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -22,17 +22,36 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AppService,
   ],
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASS,
-      database: process.env.POSTGRES_DB,
-      autoLoadEntities: false,
-      synchronize: false,
-    }),
+    ConfigModule.forRoot({isGlobal: true}),
+    TypeOrmModule.forRootAsync({inject: [ConfigService], useFactory: (configService: ConfigService) => {
+      const host = configService.get('POSTGRES_HOST')
+      const port = +configService.get('POSTGRES_PORT')
+      const username = configService.get('POSTGRES_USER')
+      const password = configService.get('POSTGRES_PASS')
+      const database = configService.get('POSTGRES_DB')
+      console.log('host', host)
+      return {
+        type: 'postgres',
+        host,
+        port,
+        username,
+        password,
+        database,
+        autoLoadEntities: false,
+        synchronize: false,
+      }
+    }}),
+    // TypeOrmModule.forRootAsync(() => {
+    //   return { 
+    //   type: 'postgres',
+    //   host: process.env.POSTGRES_HOST,
+    //   port: Number(process.env.POSTGRES_PORT),
+    //   username: process.env.POSTGRES_USER,
+    //   password: process.env.POSTGRES_PASS,
+    //   database: process.env.POSTGRES_DB,
+    //   autoLoadEntities: false,
+    //   synchronize: false,}
+    //   }),
     DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
