@@ -24,34 +24,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRootAsync({inject: [ConfigService], useFactory: (configService: ConfigService) => {
-      const host = configService.get('POSTGRES_HOST')
-      const port = +configService.get('POSTGRES_PORT')
-      const username = configService.get('POSTGRES_USER')
-      const password = configService.get('POSTGRES_PASS')
-      const database = configService.get('POSTGRES_DB')
-      console.log('host', host)
       return {
         type: 'postgres',
-        host,
-        port,
-        username,
-        password,
-        database,
+        host: configService.get('POSTGRES_HOST'),
+        port: +configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASS'),
+        database: configService.get('POSTGRES_DB'),
         autoLoadEntities: false,
         synchronize: false,
       }
     }}),
-    // TypeOrmModule.forRootAsync(() => {
-    //   return { 
-    //   type: 'postgres',
-    //   host: process.env.POSTGRES_HOST,
-    //   port: Number(process.env.POSTGRES_PORT),
-    //   username: process.env.POSTGRES_USER,
-    //   password: process.env.POSTGRES_PASS,
-    //   database: process.env.POSTGRES_DB,
-    //   autoLoadEntities: false,
-    //   synchronize: false,}
-    //   }),
     DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
@@ -68,20 +51,3 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 })
 export class AppModule {}
 
-/*TypeOrmModule.forRootAsync({
-  imports: [ConfigModule],
-  useFactory: (configService: ConfigService) => {
-    switch (process.env.USE_DATABASE){
-      case 'RawSql':
-        return configService.get<TypeOrmModuleOptions>('RawSqlHerokuConfig');
-        break;
-      case 'TypeOrm':
-        return configService.get<TypeOrmModuleOptions>('TypeOrmHerokuConfig');
-        break;
-      default:
-        return configService.get<TypeOrmModuleOptions>('TypeOrmHerokuConfig');
-        break;
-    }
-  },
-  inject: [ConfigService],
-}),*/
