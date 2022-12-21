@@ -132,6 +132,10 @@ const incorrectLoginUser = {
     loginOrEmail: 'login-1',
     password: "password-10",
 }
+const notExistLoginUser = {
+    loginOrEmail: 'login-10',
+    password: "password-10",
+}
 
 const createComment = {
     content: 'content-content-content'
@@ -282,7 +286,7 @@ export {
 
     correctRegistartionUser, incorrectRegistartionUser,
 
-    correctLoginUser, correctLoginUser2, correctLoginUser3, correctLoginUser4, incorrectLoginUser,
+    correctLoginUser, correctLoginUser2, correctLoginUser3, correctLoginUser4, incorrectLoginUser, notExistLoginUser,
 
     createComment, updateComment, incorrectCreateComment,
 

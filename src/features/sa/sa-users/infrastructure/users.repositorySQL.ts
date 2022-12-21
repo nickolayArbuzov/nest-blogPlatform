@@ -140,15 +140,18 @@ export class UsersSQL {
       `,
       [loginOrEmail]
     )
-
-    return {
-      passwordSalt: user[0].passwordSalt,
-      passwordHash: user[0].passwordHash,
-      id: user[0].id,
-      login: user[0].login,
-      banInfo: {
-        isBanned: user[0].isBanned,
-      },
+    if(user[0]) {
+      return {
+        passwordSalt: user[0].passwordSalt,
+        passwordHash: user[0].passwordHash,
+        id: user[0].id,
+        login: user[0].login,
+        banInfo: {
+          isBanned: user[0].isBanned,
+        },
+      }
+    } else {
+      return null
     }
   }
 

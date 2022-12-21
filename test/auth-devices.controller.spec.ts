@@ -7,7 +7,7 @@ import { HttpExceptionFilter } from '../src/helpers/filters/http-exeption.filter
 import { AppModule } from '../src/app.module'
 import * as constants from './constants';
 
-
+jest.setTimeout(60000)
 describe('AppController', () => {
   let app: INestApplication
   let server: any
@@ -73,7 +73,8 @@ describe('AppController', () => {
     });
 
     it('should return 401 if try to login with incorrect creds', async () => {
-      const login = await request(server).post('/auth/login').send(constants.incorrectLoginUser).expect(401)
+      await request(server).post('/auth/login').send(constants.incorrectLoginUser).expect(401)
+      await request(server).post('/auth/login').send(constants.notExistLoginUser).expect(401)
     });
 
     it('should try to registration if creds is exists', async () => {

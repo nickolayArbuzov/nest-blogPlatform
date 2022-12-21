@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from '../src/helpers/filters/http-exeption.filter
 import { AppModule } from '../src/app.module'
 import * as constants from './constants';
 
-
+jest.setTimeout(60000)
 describe('AppController', () => {
   let app: INestApplication
   let server: any
