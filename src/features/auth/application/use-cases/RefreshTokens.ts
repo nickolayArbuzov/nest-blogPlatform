@@ -22,11 +22,11 @@ export class RefreshTokensUseCase {
         const device = await this.devicesRepo.findOneDeviceByRefreshTokenData(refresh.deviceId, refresh.issuedAt)
         if(device) {
           const issuedAt = new Date().getTime()
-          const expiresAt = new Date().getTime() + 20000
+          const expiresAt = new Date().getTime() + 600000
           const payloadAccess = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
           const payloadRefresh = {userId: device.userId, deviceId: device.deviceId, issuedAt: issuedAt}
-          const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
-          const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
+          const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '5m'})
+          const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '10m'})
           await this.devicesRepo.updateDevice(device.deviceId.toString(), issuedAt, expiresAt)
           return {
             accessToken,
