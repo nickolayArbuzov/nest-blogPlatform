@@ -33,6 +33,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: configService.get('POSTGRES_DB'),
         autoLoadEntities: false,
         synchronize: false,
+        poolSize: 5,
+        extra: {
+          connectionLimit: 5,
+          max: 5,
+          connectionTimeoutMillis: 1000,
+        },
       }
     }}),
     DatabaseModule,
