@@ -32,7 +32,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.get('POSTGRES_PASS'),
         database: configService.get('POSTGRES_DB'),
         autoLoadEntities: false,
-        synchronize: false,
+        synchronize: true,
         poolSize: 5,
         extra: {
           connectionLimit: 5,
