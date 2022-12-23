@@ -104,7 +104,7 @@ describe('AppController', () => {
     });
 
     it('should return 404 if post to trying update not found', async () => {
-      await request(server).put(`/posts/${constants.variables.incorrectAnyEntityId}`).send({...constants.updatePost, blogId: constants.variables.blogId}).expect(404);
+      await request(server).put(`/posts/${constants.variables.incorrectAnyUUID}`).send({...constants.updatePost, blogId: constants.variables.blogId}).expect(404);
     });
 
     it('should return 400 and errors if data for update post is not valid', async () => {
@@ -143,7 +143,7 @@ describe('AppController', () => {
     });
 
     it('should return status 404 if finding post not found', async () => {
-      await request(server).get(`/posts/${constants.variables.incorrectAnyEntityId}`).expect(404)
+      await request(server).get(`/posts/${constants.variables.incorrectAnyUUID}`).expect(404)
     });
 
     it('should return status 204 if deleting post', async () => {
@@ -151,7 +151,7 @@ describe('AppController', () => {
     });
 
     it('should return status 404 if deleting post not found', async () => {
-      await request(server).delete(`/posts/${constants.variables.incorrectAnyEntityId}`).expect(404)
+      await request(server).delete(`/posts/${constants.variables.incorrectAnyUUID}`).expect(404)
     });
 
   });

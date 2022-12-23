@@ -42,8 +42,13 @@ export class AllDataService {
     await this.Like.deleteMany()
     await this.BloggerUser.deleteMany()
     await this.db.query(`
-      delete from users;
+      delete from "bloggerUser";
+      delete from blogs;
+      delete from comments;
       delete from devices;
+      delete from likes;
+      delete from posts;
+      delete from users;
     `);
   }
   

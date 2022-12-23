@@ -43,7 +43,7 @@ describe('AppController', () => {
     app.close()
   })
 
-  describe('comment-like-controller', () => {
+  describe('ban-flow-controller', () => {
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
@@ -171,7 +171,7 @@ describe('AppController', () => {
 
     it('should check 404 or 403 if ban or unban directed to not exists user or foreign blog', async () => {
       await request(server)
-        .put(`/blogger/users/${constants.variables.incorrectAnyEntityId}/ban`)
+        .put(`/blogger/users/${constants.variables.incorrectAnyUUID}/ban`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.blogId})
         .expect(404)
@@ -179,13 +179,13 @@ describe('AppController', () => {
       await request(server)
         .put(`/blogger/users/${constants.variables.userId2}/ban`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
-        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.incorrectAnyEntityId})
+        .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.incorrectAnyUUID})
         .expect(404)
     })
 
     it('should return 404 if blog for display banned users not found', async () => {
       await request(server)
-        .get(`/blogger/users/blog/${constants.variables.incorrectAnyEntityId}`)
+        .get(`/blogger/users/blog/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .send({isBanned: true, banReason: "stringstringstringst", blogId: constants.variables.blogId})
         .expect(404)

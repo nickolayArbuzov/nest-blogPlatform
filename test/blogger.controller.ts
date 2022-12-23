@@ -45,7 +45,7 @@ describe('AppController', () => {
     app.close()
   })
 
-  describe('blog-controller', () => {
+  describe('blogger-controller', () => {
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
@@ -140,6 +140,10 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
 
       expect(blogs.body.items[0]).toStrictEqual({
+        banInfo: {
+          banDate: null,
+          isBanned: false,
+        },
         blogOwnerInfo: {
           userId: expect.any(String),
           userLogin: expect.any(String),
@@ -171,12 +175,12 @@ describe('AppController', () => {
     });
 
     it('should return 404 if post of blog to delete or update is not exist', async () => {
-      await request(server).put(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyEntityId}`)
+      await request(server).put(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .send(constants.updatePost)
         .expect(404);
 
-      await request(server).delete(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyEntityId}`)
+      await request(server).delete(`/blogger/blogs/${constants.variables.blogId}/posts/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .expect(404);
     });
@@ -215,12 +219,12 @@ describe('AppController', () => {
     });
 
     it('should return 404 if blog to delete or update is not exist', async () => {
-      await request(server).put(`/blogger/blogs/${constants.variables.incorrectAnyEntityId}`)
+      await request(server).put(`/blogger/blogs/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .send(constants.updateBlog)
         .expect(404);
 
-      await request(server).delete(`/blogger/blogs/${constants.variables.incorrectAnyEntityId}`)
+      await request(server).delete(`/blogger/blogs/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
         .expect(404);
     });

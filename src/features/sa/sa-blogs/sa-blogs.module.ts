@@ -5,7 +5,6 @@ import { DatabaseModule } from '../../../outerservices/database/database.module'
 import { LikesModule } from '../../likes/likes.module';
 import { PostsModule } from '../../posts/posts.module';
 import { BlogsController } from './api/blogs.controller';
-import { BlogsService } from './application/blogs.service';
 import { blogsProviders } from '../../../shared/collections/Blog/blog.providers';
 import { BlogsRepo } from './infrastructure/blogs.repo';
 import { BlogsMongoose } from './infrastructure/blogs.repositoryMongoose';
@@ -23,7 +22,6 @@ const queries = [FindAllBlogsUseCase]
   imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule, LoggerModule],
   providers: [
     ...blogsProviders,
-    BlogsService,
     BlogsRepo,
     BlogsMongoose,
     BlogsSQL,

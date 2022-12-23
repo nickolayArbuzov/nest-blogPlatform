@@ -20,6 +20,7 @@ export class CreateOnePostForBlogIdUseCase {
   ) {}
 
   async execute(command: CreateOnePostForBlogIdCommand){
+
     const blog = await this.bloggerRepo.findOneBlogById(command.id)
     if(!blog){
       throw new HttpException('Blog not found', HttpStatus.NOT_FOUND)
