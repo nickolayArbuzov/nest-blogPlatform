@@ -110,5 +110,4 @@ export class BloggerUserSQL {
     )
     return bannedPosition[0]
   }
-
 }
