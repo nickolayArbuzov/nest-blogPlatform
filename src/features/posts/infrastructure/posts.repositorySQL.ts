@@ -17,20 +17,20 @@ export class PostsSQL {
       `
         select id, title, "shortDescription", content, "blogId", "blogName", "createdAt"
         from posts
-        where lower(name) like $3 ${id ? 'and id = $4' : ''}
+        ${id ? 'where id = $3' : ''}
         order by ${orderByWithDirection} 
         limit $2
         offset $1
       `,
-      [(+query.pageNumber-1) * +query.pageSize, query.pageSize, `%${query.searchNameTerm.toLocaleLowerCase()}%`, id]
+      [(+query.pageNumber-1) * +query.pageSize, query.pageSize, id]
     )
     const totalCount = await this.db.query(
       `
         select count(*) 
         from posts
-        where lower(name) like $1 and id like $2
+        ${id ? 'where id = $4' : ''}
       `,
-      [`%${query.searchNameTerm.toLocaleLowerCase()}%`, `%${id}%`]
+      [id]
     )
 
     return {
