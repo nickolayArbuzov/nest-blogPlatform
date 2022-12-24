@@ -82,6 +82,7 @@ export class CommentsSQL {
       `,
       [commentId]
     )
+    console.log('comment', comment)
     return {
       id: comment[0].id,
       content: comment[0].content,

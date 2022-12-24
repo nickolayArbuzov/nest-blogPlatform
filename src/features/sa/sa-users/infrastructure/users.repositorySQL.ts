@@ -163,6 +163,7 @@ export class UsersSQL {
       `,
       [userId]
     )
+    console.log('user', user)
     return {
       id: user[0].id,
       banInfo: {
