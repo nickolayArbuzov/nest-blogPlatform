@@ -23,6 +23,7 @@ export class FindOneCommentByIdUseCase {
     const comment = await this.commentsRepo.findOneCommentById(command.commentId)
     console.log('comment', comment)
     const user = await this.usersRepo.findOneUserById(comment.userId.toString())
+    console.log('user', user)
     if(!comment || user.banInfo.isBanned === true) {
       throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
     } else {
