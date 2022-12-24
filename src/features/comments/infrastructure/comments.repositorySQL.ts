@@ -91,7 +91,7 @@ export class CommentsSQL {
         insert into comments
         ("blogOwnerUserId", content, "createdAt", "commentatorUserId", "commentatorUserLogin", "postId", "postTitle", "blogId", "blogName")
         values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        returning id, "blogOwnerUserId", content, "createdAt", "userId", "userLogin", "postId", "postTitle", "blogId", "blogName"
+        returning id, "blogOwnerUserId", content, "createdAt", "commentatorUserId", "commentatorUserLogin", "postId", "postTitle", "blogId", "blogName"
       `, 
       [
         newComment.blogOwnerUserId, newComment.content, newComment.createdAt, newComment.commentatorInfo.userId, newComment.commentatorInfo.userLogin, 
