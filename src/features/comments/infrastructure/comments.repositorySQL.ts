@@ -17,7 +17,7 @@ export class CommentsSQL {
       `
         select id, content, "commentatorUserId", "commentatorUserLogin", "createdAt"
         from comments
-        where postId = $3
+        where "postId" = $3
         order by ${orderByWithDirection} 
         limit $2
         offset $1
@@ -28,7 +28,7 @@ export class CommentsSQL {
       `
         select count(*) 
         from comments
-        where postId = $1
+        where "postId" = $1
       `,
       [postId]
     )
@@ -123,7 +123,7 @@ export class CommentsSQL {
       `
         select id, content, "commentatorUserId", "commentatorUserLogin", "createdAt"
         from comments
-        where blogOwnerUserId = $3
+        where "blogOwnerUserId" = $3
         order by ${orderByWithDirection} 
         limit $2
         offset $1
@@ -134,7 +134,7 @@ export class CommentsSQL {
       `
         select count(*) 
         from comments
-        where blogOwnerUserId = $1
+        where "blogOwnerUserId" = $1
       `,
       [bloggerId]
     )
