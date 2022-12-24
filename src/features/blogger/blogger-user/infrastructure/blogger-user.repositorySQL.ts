@@ -69,7 +69,6 @@ export class BloggerUserSQL {
         `,
         [(+query.pageNumber-1) * +query.pageSize, query.pageSize, `%${query.searchEmailTerm.toLocaleLowerCase()}%`, `%${query.searchLoginTerm.toLocaleLowerCase()}%`]
       )
-
       totalCount = await this.db.query(
         `
           select count(*) 
