@@ -33,7 +33,7 @@ export class LikesSQL {
     return await this.db.query(
       `
         update likes
-        set "likeStatus" = $4
+        set status = $4
         where "userId" = $1 and "postId" = $2 and "commentId" = $3
       `,
       [userId, postId, commentId, likeStatus]
@@ -43,7 +43,7 @@ export class LikesSQL {
     return await this.db.query(
       `
         insert into likes
-        ("userId", bannes, login, "postId", "commentId", "addedAt", status)
+        ("userId", banned, login, "postId", "commentId", "addedAt", status)
         values($1, $2, $3, $4, $5, $6, $7)
       `,
       [like.userId, like.banned, like.login, like.postId, like.commentId, like.addedAt, like.status]
