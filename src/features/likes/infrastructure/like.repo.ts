@@ -1,23 +1,24 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Like } from '../domain/entitites/like';
 import { LikesMongoose } from './like.repositoryMongo';
+import { LikesSQL } from './like.repositorySQL';
 
 @Injectable()
 export class LikesRepo {
-  constructor(private likesMongoose: LikesMongoose) {}
+  constructor(private likesRepo: LikesSQL) {}
 
   async like(user: {userId: string, userLogin: string}, likeStatus: string, postId: string | null, commentId: string | null) {
-    const likePosition = await this.likesMongoose.findOne(user.userId, postId ? postId : null, commentId ? commentId : null)
+    const likePosition = await this.likesRepo.findOne(user.userId, postId ? postId : null, commentId ? commentId : null)
     if(likePosition) {
         if(likeStatus === 'None') {
-            await this.likesMongoose.deleteOne(user.userId, postId ? postId : null, commentId ? commentId : null)
+            await this.likesRepo.deleteOne(user.userId, postId ? postId : null, commentId ? commentId : null)
         }
         if(likeStatus !== likePosition.status) {
-            await this.likesMongoose.updateOne(user.userId, postId ? postId : null, commentId ? commentId : null, likeStatus)
+            await this.likesRepo.updateOne(user.userId, postId ? postId : null, commentId ? commentId : null, likeStatus)
         }
     } 
     if(!likePosition && likeStatus !== 'None') {
-        await this.likesMongoose.insertOne({
+        await this.likesRepo.insertOne({
             userId: user.userId,
             banned: false,
             login: user.userLogin,
@@ -31,11 +32,11 @@ export class LikesRepo {
   }
 
   async updateBannedStatusInLikes(userId: string, banned: boolean){
-    return this.likesMongoose.updateBannedStatusInLikes(userId, banned)
+    return this.likesRepo.updateBannedStatusInLikes(userId, banned)
   }
 
   async getLikesInfoForComment(commentId: string, userId: string) {
-      const likeInfo = await this.likesMongoose.getLikesInfoForComment(commentId)
+      const likeInfo = await this.likesRepo.getLikesInfoForComment(commentId)
       return {
           dislikesCount: likeInfo.filter(li => li.commentId === commentId && li.status === 'Dislike').length,
           likesCount: likeInfo.filter(li => li.commentId === commentId && li.status === 'Like').length, 
@@ -44,7 +45,7 @@ export class LikesRepo {
   }
 
   async getLikesInfoForPost(postId: string, userId: string) {
-    const likeInfo = await this.likesMongoose.getLikesInfoForPost(postId)
+    const likeInfo = await this.likesRepo.getLikesInfoForPost(postId)
     return {
         dislikesCount: likeInfo.filter(li => li.postId === postId && li.status === 'Dislike').length,
         likesCount: likeInfo.filter(li => li.postId === postId && li.status === 'Like').length, 

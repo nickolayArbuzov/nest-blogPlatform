@@ -20,7 +20,6 @@ export class BlogsController {
     @Get()
     async findAllBlogs(@Query() query: QueryBlogDto){
         const blogs = await this.queryBus.execute(new FindAllBlogsQuery(query))
-        console.log('blogs', blogs)
         return blogs
     }
 
