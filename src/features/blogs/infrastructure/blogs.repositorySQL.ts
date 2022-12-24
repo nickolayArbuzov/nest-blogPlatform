@@ -32,13 +32,13 @@ export class BlogsSQL {
     )
 
     return {
-      pagesCount: Math.ceil(totalCount/+query.pageSize),
+      pagesCount: Math.ceil(+totalCount[0].count/+query.pageSize),
       page: +query.pageNumber,
       pageSize: +query.pageSize,
-      totalCount: totalCount,
+      totalCount: +totalCount[0].count,
       items: blogs.map(i => {
         return {
-          id: i._id, 
+          id: i.id, 
           name: i.name, 
           description: i.description,
           websiteUrl: i.websiteUrl,

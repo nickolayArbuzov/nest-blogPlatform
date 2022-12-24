@@ -3,7 +3,6 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { BanInfo, User } from '../domain/entitites/user';
-import { IRepositoryInterface } from './repo.interface';
 
 @Injectable()
 export class UsersSQL {

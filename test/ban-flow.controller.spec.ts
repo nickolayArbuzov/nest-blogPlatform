@@ -16,6 +16,7 @@ describe('AppController', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
     app.useGlobalPipes(new ValidationPipe({
     stopAtFirstError: true,

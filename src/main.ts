@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import cookieParser = require('cookie-parser');
+import { DataSource } from 'typeorm';
 import { AppModule } from './app.module';
 import * as config from './config/root';
 import { HttpExceptionFilter } from './helpers/filters/http-exeption.filter';
