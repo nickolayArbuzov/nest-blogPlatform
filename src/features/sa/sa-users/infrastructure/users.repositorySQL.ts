@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { BanInfo, User } from '../domain/entitites/user';
 
