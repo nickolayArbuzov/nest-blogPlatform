@@ -86,6 +86,7 @@ export class CommentsSQL {
   }
 
   async createCommentFromPost(newComment: Comment){
+
     const createComment = await this.db.query(
       `
         insert into comments
@@ -105,8 +106,8 @@ export class CommentsSQL {
       content: createComment[0].content,
       createdAt: createComment[0].createdAt,
       commentatorInfo: {
-        userId: createComment[0].userId,
-        userLogin: createComment[0].userLogin,
+        userId: createComment[0].commentatorUserId,
+        userLogin: createComment[0].commentatorUserLogin,
       },
       postInfo: {
         id: createComment[0].postId,
