@@ -82,7 +82,18 @@ export class CommentsSQL {
       `,
       [commentId]
     )
-    return comment
+    return {
+      id: comment[0].id,
+      content: comment[0].content,
+      userId: comment[0].commentatorUserId,
+      userLogin: comment[0].commentatorUserId,
+      createdAt: comment[0].createdAt,
+      likesInfo: {
+        likesCount: 0,
+        dislikesCount: 0,
+        myStatus: "None",
+      }
+    }
   }
 
   async createCommentFromPost(newComment: Comment){
