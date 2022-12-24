@@ -32,7 +32,7 @@ export class LikesSQL {
   async updateOne(userId: string, postId: string | null, commentId: string | null, likeStatus: string){
     return await this.db.query(
       `
-        update comments
+        update likes
         set "likeStatus" = $4
         where "userId" = $1 and "postId" = $2 and "commentId" = $3
       `,
