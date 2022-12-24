@@ -19,7 +19,9 @@ export class BlogsController {
 
     @Get()
     async findAllBlogs(@Query() query: QueryBlogDto){
-        return await this.queryBus.execute(new FindAllBlogsQuery(query))
+        const blogs = await this.queryBus.execute(new FindAllBlogsQuery(query))
+        console.log('blogs', blogs)
+        return blogs
     }
 
     @UseGuards(ExtractUserFromToken)
