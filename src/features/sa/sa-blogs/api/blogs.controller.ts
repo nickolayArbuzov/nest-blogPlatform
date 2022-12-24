@@ -19,7 +19,9 @@ export class BlogsController {
     @HttpCode(204)
     @Put(':id/ban')
     async banOneBlogById(@Param('id') id: string, @Body() banBlogDto: BanBlogDto){
-        return await this.commandBus.execute(new BanOneBlogByIdCommand(id, banBlogDto))
+        const b = await this.commandBus.execute(new BanOneBlogByIdCommand(id, banBlogDto))
+        console.log('b', b)
+        return b
     }
 
     @Put(':id/bind-with-user/:userId')
