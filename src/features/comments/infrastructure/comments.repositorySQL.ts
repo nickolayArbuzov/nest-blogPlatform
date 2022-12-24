@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { createComment } from 'test/constants';
 import { DataSource } from 'typeorm';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 import { Comment } from '../domain/entitites/comments'
