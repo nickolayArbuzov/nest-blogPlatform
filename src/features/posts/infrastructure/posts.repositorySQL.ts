@@ -28,7 +28,7 @@ export class PostsSQL {
       `
         select count(*) 
         from posts
-        ${id ? 'where id = $4' : ''}
+        ${id ? 'where id = $1' : ''}
       `,
       [id]
     )
