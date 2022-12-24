@@ -83,7 +83,15 @@ export class PostsSQL {
       `,
       [id]
     )
-    return post[0]
+    return {
+      _id: post[0].id,
+      title: post[0].title,
+      shortDescription: post[0].shortDescription,
+      content: post[0].content,
+      blogId: post[0].blogId,
+      blogName: post[0].blogName,
+      createdAt: post[0].createdAt,
+    }
   }
 
   async updateOnePostById(id: string, updatePost: UpdatePostDefaultDto){
