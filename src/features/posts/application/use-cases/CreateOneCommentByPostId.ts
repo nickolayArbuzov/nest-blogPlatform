@@ -49,9 +49,9 @@ export class CreateOneCommentByPostIdUseCase {
           blogName: post.blogName.toString(),
         },
       }
-    
+      console.log('comment', comment)
       const createdComment = await this.commentsRepo.createCommentFromPost(comment)
-      
+      console.log('createdComment', createdComment)
       return {
         id: createdComment._id,
         content: createdComment.content,
