@@ -83,14 +83,18 @@ export class PostsSQL {
       `,
       [id]
     )
-    return {
-      _id: post[0].id,
-      title: post[0].title,
-      shortDescription: post[0].shortDescription,
-      content: post[0].content,
-      blogId: post[0].blogId,
-      blogName: post[0].blogName,
-      createdAt: post[0].createdAt,
+    if(post[0]){
+      return {
+        _id: post[0].id,
+        title: post[0].title,
+        shortDescription: post[0].shortDescription,
+        content: post[0].content,
+        blogId: post[0].blogId,
+        blogName: post[0].blogName,
+        createdAt: post[0].createdAt,
+      }
+    } else {
+      return null
     }
   }
 
