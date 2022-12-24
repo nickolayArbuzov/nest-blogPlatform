@@ -163,7 +163,12 @@ export class UsersSQL {
       `,
       [userId]
     )
-    return user[0]
+    return {
+      id: user[0].id,
+      banInfo: {
+        isBanned: user[0].isBanned,
+      },
+    }
   }
 
   async findOneForCustomDecoratorByLogin(login: string) {
