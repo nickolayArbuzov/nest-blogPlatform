@@ -81,10 +81,10 @@ export class BloggerUserSQL {
     }
 
     return {    
-      pagesCount: bannedUsers.length ? Math.ceil(totalCount/+query.pageSize) : 0,
+      pagesCount: bannedUsers.length ? Math.ceil(+totalCount[0].count/+query.pageSize) : 0,
       page: +query.pageNumber,
       pageSize: +query.pageSize,
-      totalCount: bannedUsers.length ? totalCount : 0,
+      totalCount: bannedUsers.length ? +totalCount[0].count : 0,
       items: bannedUsers.length ? users.map(i => {
           return {
             id: i.id, 
