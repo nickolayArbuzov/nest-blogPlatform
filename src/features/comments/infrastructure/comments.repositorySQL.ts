@@ -82,7 +82,6 @@ export class CommentsSQL {
       `,
       [commentId]
     )
-    console.log('comment', comment)
     return {
       id: comment[0].id,
       content: comment[0].content,
@@ -110,7 +109,8 @@ export class CommentsSQL {
         newComment.postInfo.id, newComment.postInfo.title, newComment.postInfo.blogId, newComment.postInfo.blogName
       ]
     )
-
+    console.log('newComment', newComment)
+    console.log('createComment', createComment)
     return {
       _id: createComment[0].id,
       blogOwnerUserId: createComment[0].blogOwnerUserId,
