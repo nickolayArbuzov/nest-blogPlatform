@@ -21,8 +21,7 @@ export class FindOneCommentByIdUseCase {
 
   async execute(command: FindOneCommentByIdQuery){
     const comment = await this.commentsRepo.findOneCommentById(command.commentId)
-    console.log('comment', comment)
-    const user = await this.usersRepo.findOneUserById(comment.userId.toString())
+    const user = await this.usersRepo.findOneUserById(comment?.userId.toString())
     if(!comment || user.banInfo.isBanned === true) {
       throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
     } else {
