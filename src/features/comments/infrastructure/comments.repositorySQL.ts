@@ -42,8 +42,8 @@ export class CommentsSQL {
         return {
           id: i.id,
           content: i.content,
-          userId: i.commentatorInfo.userId,
-          userLogin: i.commentatorInfo.userLogin,
+          userId: i.commentatorUserId,
+          userLogin: i.commentatorUserLogin,
           createdAt: i.createdAt,
         }
       }),
@@ -82,17 +82,21 @@ export class CommentsSQL {
       `,
       [commentId]
     )
-    return {
-      id: comment[0].id,
-      content: comment[0].content,
-      userId: comment[0].commentatorUserId,
-      userLogin: comment[0].commentatorUserId,
-      createdAt: comment[0].createdAt,
-      likesInfo: {
-        likesCount: 0,
-        dislikesCount: 0,
-        myStatus: "None",
+    if(comment[0]){
+      return {
+        id: comment[0].id,
+        content: comment[0].content,
+        userId: comment[0].commentatorUserId,
+        userLogin: comment[0].commentatorUserId,
+        createdAt: comment[0].createdAt,
+        likesInfo: {
+          likesCount: 0,
+          dislikesCount: 0,
+          myStatus: "None",
+        }
       }
+    } else {
+      return null
     }
   }
 
