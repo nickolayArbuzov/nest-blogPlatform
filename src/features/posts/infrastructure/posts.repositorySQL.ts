@@ -13,16 +13,17 @@ export class PostsSQL {
 
   async findAllPosts(query: QueryBlogDto, id: string){
     const orderByWithDirection = `"${query.sortBy}" ${query.sortDirection}`
+    const whereStatment = id ? `where id = ${id}` : ''
     const posts = await this.db.query(
       `
         select id, title, "shortDescription", content, "blogId", "blogName", "createdAt"
         from posts
-        ${id ? 'where id = $3' : ''}
+        ${whereStatment}
         order by ${orderByWithDirection} 
         limit $2
         offset $1
       `,
-      [(+query.pageNumber-1) * +query.pageSize, query.pageSize, id]
+      [(+query.pageNumber-1) * +query.pageSize, query.pageSize]
     )
     const totalCount = await this.db.query(
       `
