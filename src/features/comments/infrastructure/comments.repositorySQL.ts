@@ -87,7 +87,7 @@ export class CommentsSQL {
         id: comment[0].id,
         content: comment[0].content,
         userId: comment[0].commentatorUserId,
-        userLogin: comment[0].commentatorUserId,
+        userLogin: comment[0].commentatorUserLogin,
         createdAt: comment[0].createdAt,
         likesInfo: {
           likesCount: 0,

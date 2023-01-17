@@ -9,5 +9,4 @@ export class CreateCommentDto {
     readonly content: string;
 }
 
-
 export class UpdateCommentDto extends CreateCommentDto {}

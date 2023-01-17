@@ -326,15 +326,15 @@ describe('AppController', () => {
 
     // check some other standart validation
     it('should return 404 for creating like by incorrect comment', async () => {
-        await request(server).put(`/comments/${constants.variables.incorrectAnyEntityId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like).expect(404)
+        await request(server).put(`/comments/${constants.variables.incorrectAnyUUID}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like).expect(404)
     })
 
     it('should return 400 for creating like by incorrect input-data', async () => {
-        await request(server).put(`/comments/${constants.variables.incorrectAnyEntityId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send().expect(400)
+        await request(server).put(`/comments/${constants.variables.incorrectAnyUUID}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send().expect(400)
     })
 
     it('should return 401 for creating like without auth', async () => {
-        await request(server).put(`/comments/${constants.variables.incorrectAnyEntityId}/like-status`).send(constants.like).expect(401)
+        await request(server).put(`/comments/${constants.variables.incorrectAnyUUID}/like-status`).send(constants.like).expect(401)
     })
 
   });
