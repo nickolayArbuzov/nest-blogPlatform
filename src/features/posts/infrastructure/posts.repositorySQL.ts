@@ -14,14 +14,6 @@ export class PostsSQL {
   async findAllPosts(query: QueryBlogDto, id: string){
     const orderByWithDirection = `"${query.sortBy}" ${query.sortDirection}`
     const whereStatment = id ? `where id = ${id}` : ''
-    console.log(`
-    select id, title, "shortDescription", content, "blogId", "blogName", "createdAt"
-    from posts
-    ${whereStatment}
-    order by ${orderByWithDirection} 
-    limit ${query.pageSize}
-    offset ${(+query.pageNumber-1) * +query.pageSize}
-  `)
     const posts = await this.db.query(
       `
         select id, title, "shortDescription", content, "blogId", "blogName", "createdAt"

@@ -46,6 +46,7 @@ describe('AppController', () => {
   describe('comment-like-controller', () => {
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
+      const user = await request(server).get('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5')
     })
 
     it('should seed start data', async () => {

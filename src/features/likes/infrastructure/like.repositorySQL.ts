@@ -14,17 +14,17 @@ export class LikesSQL {
       `
         select * 
         from likes
-        where "userId" = $1 and "postId" = $2 and "commentId" = $3
+        where "userId" = $1 and ("postId" = $2 or "commentId" = $3)
       `,
       [userId, postId, commentId]
     )
-    return like
+    return like[0]
   }
   async deleteOne(userId: string, postId: string | null, commentId: string | null){
     return await this.db.query(
       `
         delete from likes
-        where "userId" = $1 and "postId" = $2 and "commentId" = $3
+        where "userId" = $1 and ("postId" = $2 or "commentId" = $3)
       `,
       [userId, postId, commentId]
     )
@@ -34,7 +34,7 @@ export class LikesSQL {
       `
         update likes
         set status = $4
-        where "userId" = $1 and "postId" = $2 and "commentId" = $3
+        where "userId" = $1 and ("postId" = $2 or "commentId" = $3)
       `,
       [userId, postId, commentId, likeStatus]
     )
