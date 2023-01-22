@@ -200,7 +200,26 @@ describe('AppController', () => {
 
       const comments = await request(server).get(`/blogger/blogs/comments`)
         .set('Authorization', `Bearer ${constants.variables.accessToken}`)
-
+      expect(comments.body.items[0]).toStrictEqual({
+            id: expect.any(String),
+            content: expect.any(String),
+            createdAt: expect.any(String),
+            commentatorInfo: {
+              userId: expect.any(String),
+              userLogin: expect.any(String),
+            },
+            likesInfo: {
+              likesCount: 0, 
+              dislikesCount: 0,
+              myStatus: expect.any(String),
+            },
+            postInfo: {
+              blogId: expect.any(String),
+              blogName: expect.any(String),
+              title: expect.any(String),
+              id: expect.any(String),
+            }
+          })
     })
 
   });

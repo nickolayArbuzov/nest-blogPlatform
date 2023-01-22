@@ -135,7 +135,7 @@ export class CommentsSQL {
     const orderByWithDirection = `"${query.sortBy}" ${query.sortDirection}`
     const comments = await this.db.query(
       `
-        select id, content, "commentatorUserId", "commentatorUserLogin", "createdAt"
+        select *
         from comments
         where "blogOwnerUserId" = $3
         order by ${orderByWithDirection} 
@@ -162,9 +162,17 @@ export class CommentsSQL {
         return {
           id: i.id,
           content: i.content,
-          userId: i.commentatorUserId,
-          userLogin: i.commentatorUserLogin,
           createdAt: i.createdAt,
+          commentatorInfo: {
+            userId: i.commentatorUserId,
+            userLogin: i.commentatorUserLogin,
+          },
+          postInfo: {
+            blogId: i.blogId,
+            blogName: i.blogName,
+            id: i.postId,
+            title: i.postTitle,
+          },
         }
       }),
     }
