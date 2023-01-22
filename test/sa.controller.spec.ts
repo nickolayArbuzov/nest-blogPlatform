@@ -166,11 +166,13 @@ describe('AppController', () => {
       expect(users.body.totalCount).toBe(2)
       expect(users.body.items.length).toBe(2)
       expect(users.body.items[0].login).toBe('login-3')
+
+      expect(users.body).toStrictEqual(0)
     });
 
     it('should return full array of users with default-pagination-sorting', async () => {
       const users = await request(server)
-        .get('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5').set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .get('/sa/users').set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(200)
 
       expect(users.body.pagesCount).toBe(1)
@@ -182,7 +184,7 @@ describe('AppController', () => {
     });
 
     it('should return status 404 if finding user not found', async () => {
-      await request(server).get(`/sa/users/${constants.variables.incorrectAnyEntityId}`)
+      await request(server).get(`/sa/users/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(404)
     });

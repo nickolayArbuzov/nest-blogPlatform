@@ -129,35 +129,11 @@ describe('AppController', () => {
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
             .send(constants.ban);
 
-        const commentForFirstUserAfterBan = await request(server).get(`/comments/${constants.variables.commentId}`)
-            .set('Authorization', `Bearer ${constants.variables.accessToken}`)
-        expect(commentForFirstUserAfterBan.body).toStrictEqual({
-            id: expect.any(String),
-            content: expect.any(String),
-            userId: expect.any(String),
-            userLogin: expect.any(String),
-            createdAt: expect.any(String),
-            likesInfo: {
-                likesCount: 0,
-                dislikesCount: 0,
-                myStatus: "None",
-            }
-        })
+        await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken}`).expect(404)
 
-        const commentForSecondUserAfterBan = await request(server).get(`/comments/${constants.variables.commentId}`)
-            .set('Authorization', `Bearer ${constants.variables.accessToken2}`)
-        expect(commentForSecondUserAfterBan.body).toStrictEqual({
-            id: expect.any(String),
-            content: expect.any(String),
-            userId: expect.any(String),
-            userLogin: expect.any(String),
-            createdAt: expect.any(String),
-            likesInfo: {
-                likesCount: 0,
-                dislikesCount: 0,
-                myStatus: "None",
-            }
-        })
+        await request(server).get(`/comments/${constants.variables.commentId}`)
+            .set('Authorization', `Bearer ${constants.variables.accessToken2}`).expect(404)
 
         await request(server).put(`/sa/users/${constants.variables.userId}/ban`)
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')

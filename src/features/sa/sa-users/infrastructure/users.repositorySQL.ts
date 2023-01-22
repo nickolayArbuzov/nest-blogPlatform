@@ -45,7 +45,7 @@ export class UsersSQL {
       `,
       [`%${query.searchEmailTerm.toLocaleLowerCase()}%`, `%${query.searchLoginTerm.toLocaleLowerCase()}%`]
     )
-
+    console.log('users', users)
     return {
       pagesCount: Math.ceil(+totalCount[0].count/+query.pageSize),
       page: +query.pageNumber,
