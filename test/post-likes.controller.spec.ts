@@ -68,11 +68,11 @@ describe('AppController', () => {
         constants.variables.setAccessToken4(auth4.body.accessToken)
 
         // create one blog
-        const blog = await request(server).post('/blogs').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createBlog1)
+        const blog = await request(server).post('/blogger/blogs').set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createBlog1)
         constants.variables.setBlogId(blog.body.id)
 
         // create two posts for this blog and get postId's
-        const post1 = await request(server).post(`/blogs/${constants.variables.blogId}/posts`).set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createPost1)
+        const post1 = await request(server).post(`/blogger/blogs/${constants.variables.blogId}/posts`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createPost1)
         constants.variables.setPostId(post1.body.id)
         expect(post1.body).toStrictEqual(
             {
@@ -91,7 +91,7 @@ describe('AppController', () => {
                 }
             }
           )
-        const post2 = await request(server).post(`/blogs/${constants.variables.blogId}/posts`).set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.createPost2)
+        const post2 = await request(server).post(`/blogger/blogs/${constants.variables.blogId}/posts`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createPost2)
         constants.variables.setPostId2(post2.body.id)
         // create two comments for one of the post and get commentId's
         const comment1 = await request(server).post(`/posts/${constants.variables.postId}/comments`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.createComment)
@@ -525,15 +525,15 @@ describe('AppController', () => {
 
     // check some other standart validation
     it('should return 404 for creating like by incorrect post', async () => {
-        await request(server).put(`/posts/${constants.variables.incorrectAnyEntityId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like).expect(404)
+        await request(server).put(`/posts/${constants.variables.incorrectAnyUUID}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like).expect(404)
     })
 
     it('should return 400 for creating like by incorrect input-data', async () => {
-        await request(server).put(`/posts/${constants.variables.incorrectAnyEntityId}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send().expect(400)
+        await request(server).put(`/posts/${constants.variables.incorrectAnyUUID}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send().expect(400)
     })
 
     it('should return 401 for creating like without auth', async () => {
-        await request(server).put(`/posts/${constants.variables.incorrectAnyEntityId}/like-status`).send(constants.like).expect(401)
+        await request(server).put(`/posts/${constants.variables.incorrectAnyUUID}/like-status`).send(constants.like).expect(401)
     })
 
   })

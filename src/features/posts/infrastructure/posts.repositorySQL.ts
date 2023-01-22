@@ -13,7 +13,7 @@ export class PostsSQL {
 
   async findAllPosts(query: QueryBlogDto, id: string){
     const orderByWithDirection = `"${query.sortBy}" ${query.sortDirection}`
-    const whereStatment = id ? `where id = ${id}` : ''
+    const whereStatment = id ? `where "blogId" = ${"'"+id+"'"}` : ''
     const posts = await this.db.query(
       `
         select id, title, "shortDescription", content, "blogId", "blogName", "createdAt"
@@ -29,19 +29,18 @@ export class PostsSQL {
       `
         select count(*) 
         from posts
-        ${id ? 'where id = $1' : ''}
+        ${whereStatment}
       `,
-      [id]
     )
 
     return {
-      pagesCount: Math.ceil(totalCount/+query.pageSize),
+      pagesCount: Math.ceil(+totalCount[0].count/+query.pageSize),
       page: +query.pageNumber,
       pageSize: +query.pageSize,
-      totalCount: totalCount,
+      totalCount: +totalCount[0].count,
       items: posts.map(i => {
         return {
-          id: i._id, 
+          id: i.id, 
           title: i.title, 
           shortDescription: i.shortDescription,
           content: i.content,
