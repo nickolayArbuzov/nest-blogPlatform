@@ -27,21 +27,21 @@ export class AuthController {
         private queryBus: QueryBus,
     ) {}
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(204)
     @Post('password-recovery')
     async passwordRecovery(passwordRecoveryDto: PasswordRecoveryDto){
         return await this.commandBus.execute(new PasswordRecoveryCommand(passwordRecoveryDto))
     }
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(204)
     @Post('new-password')
     async newPassword(newPasswordDto: NewPasswordDto){
         return await this.commandBus.execute(new NewPasswordCommand(newPasswordDto))
     }
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(200)
     @Post('login')
     async login(@Body() authDto: AuthDto, @Req() req: Request, @Res({ passthrough: true }) res: Response){
@@ -75,21 +75,21 @@ export class AuthController {
         return { accessToken: result.accessToken };
     }
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(204)
     @Post('registration-confirmation')
     async registrationConfirmation(@Body() registrationConfirmationDto: RegistrationConfirmationDto){
         return await this.commandBus.execute(new RegistrationConfirmationCommand(registrationConfirmationDto))
     }
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(204)
     @Post('registration')
     async registration(@Body() registrationDto: RegistrationDto){
         return await this.commandBus.execute(new RegistrationCommand(registrationDto))
     }
 
-    //@UseGuards(AttemptsGuard)
+    @UseGuards(AttemptsGuard)
     @HttpCode(204)
     @Post('registration-email-resending')
     async registrationEmailResending(@Body() registrationEmailResendingDto: RegistrationEmailResendingDto){
