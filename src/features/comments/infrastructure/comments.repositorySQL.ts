@@ -152,7 +152,7 @@ export class CommentsSQL {
       `,
       [bloggerId]
     )
-
+    console.log('comments', comments)
     return {
       pagesCount: Math.ceil(+totalCount[0].count/+query.pageSize),
       page: +query.pageNumber,
