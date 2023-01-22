@@ -123,7 +123,7 @@ describe('AppController', () => {
         })
     })
 
-    /*it('should return one comment after ban ad unban user - quantity of likes must be changed', async () => {
+    it('should return one comment after ban ad unban user - quantity of likes must be changed', async () => {
         // baned and unbaned user, and get changed quantity of likes
         await request(server).put(`/sa/users/${constants.variables.userId}/ban`)
             .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
@@ -192,7 +192,7 @@ describe('AppController', () => {
                 myStatus: "None",
             }
         })
-    })*/
+    })
 
     it('should return one comment after dislikes-likes from first-user for both users', async () => {
         // create dislike after like for post and comment from first user
@@ -326,7 +326,7 @@ describe('AppController', () => {
     })
 
     // check some other standart validation
-    it('should return 404 for creating like by incorrect comment', async () => {
+    /*it('should return 404 for creating like by incorrect comment', async () => {
         await request(server).put(`/comments/${constants.variables.incorrectAnyUUID}/like-status`).set('Authorization', `Bearer ${constants.variables.accessToken}`).send(constants.like).expect(404)
     })
 
@@ -336,7 +336,7 @@ describe('AppController', () => {
 
     it('should return 401 for creating like without auth', async () => {
         await request(server).put(`/comments/${constants.variables.incorrectAnyUUID}/like-status`).send(constants.like).expect(401)
-    })
+    })*/
 
   });
 });

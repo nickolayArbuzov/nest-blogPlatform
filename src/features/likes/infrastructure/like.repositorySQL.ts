@@ -54,7 +54,7 @@ export class LikesSQL {
       `
         select *
         from likes
-        where "commentId" = $1
+        where "commentId" = $1 and banned = false
       `,
       [commentId]
     )
@@ -65,7 +65,7 @@ export class LikesSQL {
       `
         select *
         from likes
-        where "postId" = $1
+        where "postId" = $1 and banned = false
       `,
       [postId]
     )
