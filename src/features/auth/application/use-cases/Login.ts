@@ -39,13 +39,13 @@ export class LoginUseCase {
           title: command.deviceName, 
           deviceId: deviceId,
           issuedAt: new Date().getTime(),
-          expiresAt: new Date().getTime() + 20000,
+          expiresAt: new Date().getTime() + 600000,
           userId: auth.id!.toString(),
         }
         const payloadAccess = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
         const payloadRefresh = {userId: auth?.id?.toString() ? auth?.id?.toString() : '', userLogin: auth.login, deviceId: device.deviceId, issuedAt: device.issuedAt}
-        const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '10s'})
-        const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '20s'})
+        const accessToken = this.jwtService.sign(payloadAccess, {expiresIn: '5m'})
+        const refreshToken = this.jwtService.sign(payloadRefresh, {expiresIn: '10m'})
         await this.devicesRepo.createDevice(device)
         return {
           accessToken,
